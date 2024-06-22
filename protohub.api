@@ -1,0 +1,94 @@
+syntax = "v1"
+
+@server (
+	middleware: Auth
+)
+service protohub-api {
+	@handler UserLogin
+	post /user/login (LoginRequest) returns (LoginReply)
+
+	@handler UserDetail
+	get /user/detail (UserDetailRequest) returns (UserDetailReply)
+
+	@handler RefreshAuthorization
+	get /refresh/authorization (RefreshAuthorizationRequest) returns (RefreshAuthorizationReply)
+}
+
+service protohub-api {
+	@handler UserRegister
+	post /user/register (UserRegisterRequest) returns (UserRegisterReply)
+
+	// 验证码发送
+	@handler MailCodeSendRegister
+	post /mail/code/send/register (MailCodeSendRequest) returns (MailCodeSendReply)
+
+	@handler FileUploadHandler
+	post /upload (FileUploadRequest)
+
+	@handler FileDownloadHandler
+	get /download (FileDownloadRequest)
+}
+
+type UserRegisterRequest {
+	// 用户名
+	Name string `json:"name"`
+	// 密码
+	Password string `json:"password"`
+	// 邮箱
+	Email string `json:"email"`
+	// 验证码
+	Code string `json:"code"`
+}
+
+type UserRegisterReply {}
+
+// https://blog.csdn.net/weixin_43734095/article/details/124927942
+type LoginRequest {
+	Name     string `json:"name"`
+	Password string `json:"password"`
+}
+
+type LoginReply {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refresh_token"`
+}
+
+type RefreshAuthorizationRequest {}
+
+type RefreshAuthorizationReply {
+	Token        string `json:"token"`
+	RefreshToken string `json:"refresh_token"`
+}
+
+type UserDetailRequest {
+	Identity string `json:"identity"`
+}
+
+type UserDetailReply {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
+type MailCodeSendRequest {
+	Email string `json:"email"`
+}
+
+type MailCodeSendReply {
+	Code string `json:"code"`
+}
+
+type FileUploadRequest {
+	FileName string
+	FileData []byte
+}
+
+type FileDownloadResponse {
+	Identity string `json:"identity"`
+	Ext      string `json:"ext"`
+	Name     string `json:"name"`
+}
+
+type FileDownloadRequest {
+	FileName string
+}
+
