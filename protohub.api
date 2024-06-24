@@ -2,11 +2,9 @@ syntax = "v1"
 
 @server (
 	middleware: Auth
+	group:      user
 )
 service protohub-api {
-	@handler UserLogin
-	post /user/login (LoginRequest) returns (LoginReply)
-
 	@handler UserDetail
 	get /user/detail (UserDetailRequest) returns (UserDetailReply)
 
@@ -14,14 +12,25 @@ service protohub-api {
 	get /refresh/authorization (RefreshAuthorizationRequest) returns (RefreshAuthorizationReply)
 }
 
+@server (
+	group: user
+)
 service protohub-api {
+	@handler UserLogin
+	post /user/login (LoginRequest) returns (LoginReply)
+
 	@handler UserRegister
 	post /user/register (UserRegisterRequest) returns (UserRegisterReply)
 
 	// 验证码发送
 	@handler MailCodeSendRegister
 	post /mail/code/send/register (MailCodeSendRequest) returns (MailCodeSendReply)
+}
 
+@server (
+	group: file
+)
+service protohub-api {
 	@handler FileUploadHandler
 	post /upload (FileUploadRequest)
 

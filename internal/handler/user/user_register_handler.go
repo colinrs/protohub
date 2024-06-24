@@ -1,4 +1,4 @@
-package handler
+package user
 
 import (
 	"net/http"
@@ -9,16 +9,16 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func RefreshAuthorizationHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func UserRegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.RefreshAuthorizationRequest
+		var req types.UserRegisterRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := logic.NewRefreshAuthorizationLogic(r.Context(), svcCtx)
-		resp, err := l.RefreshAuthorization(&req)
+		l := logic.NewUserRegisterLogic(r.Context(), svcCtx)
+		resp, err := l.UserRegister(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

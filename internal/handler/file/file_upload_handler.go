@@ -1,4 +1,4 @@
-package handler
+package file
 
 import (
 	"net/http"
@@ -9,20 +9,20 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func UserDetailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func FileUploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.UserDetailRequest
+		var req types.FileUploadRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := logic.NewUserDetailLogic(r.Context(), svcCtx)
-		resp, err := l.UserDetail(&req)
+		l := logic.NewFileUploadLogic(r.Context(), svcCtx)
+		err := l.FileUpload(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			httpx.Ok(w)
 		}
 	}
 }

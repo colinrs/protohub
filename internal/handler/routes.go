@@ -4,6 +4,8 @@ package handler
 import (
 	"net/http"
 
+	file "github.com/colinrs/protohub/internal/handler/file"
+	user "github.com/colinrs/protohub/internal/handler/user"
 	"github.com/colinrs/protohub/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -11,23 +13,33 @@ import (
 
 func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/download",
+				Handler: file.FileDownloadHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/upload",
+				Handler: file.FileUploadHandler(serverCtx),
+			},
+		},
+	)
+
+	server.AddRoutes(
 		rest.WithMiddlewares(
 			[]rest.Middleware{serverCtx.Auth},
 			[]rest.Route{
 				{
 					Method:  http.MethodGet,
 					Path:    "/refresh/authorization",
-					Handler: RefreshAuthorizationHandler(serverCtx),
+					Handler: user.RefreshAuthorizationHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodGet,
 					Path:    "/user/detail",
-					Handler: UserDetailHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/user/login",
-					Handler: UserLoginHandler(serverCtx),
+					Handler: user.UserDetailHandler(serverCtx),
 				},
 			}...,
 		),
@@ -36,24 +48,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodGet,
-				Path:    "/download",
-				Handler: FileDownloadHandler(serverCtx),
-			},
-			{
 				Method:  http.MethodPost,
 				Path:    "/mail/code/send/register",
-				Handler: MailCodeSendRegisterHandler(serverCtx),
+				Handler: user.MailCodeSendRegisterHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/upload",
-				Handler: FileUploadHandler(serverCtx),
+				Path:    "/user/login",
+				Handler: user.UserLoginHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/user/register",
-				Handler: UserRegisterHandler(serverCtx),
+				Handler: user.UserRegisterHandler(serverCtx),
 			},
 		},
 	)
