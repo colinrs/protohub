@@ -1,9 +1,9 @@
 package user
 
 import (
+	"github.com/colinrs/protohub/internal/logic/user"
 	"net/http"
 
-	"github.com/colinrs/protohub/internal/logic"
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/colinrs/protohub/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -17,7 +17,7 @@ func UserDetailHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := logic.NewUserDetailLogic(r.Context(), svcCtx)
+		l := user.NewUserDetailLogic(r.Context(), svcCtx)
 		resp, err := l.UserDetail(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

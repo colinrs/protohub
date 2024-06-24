@@ -1,9 +1,9 @@
 package file
 
 import (
+	"github.com/colinrs/protohub/internal/logic/file"
 	"net/http"
 
-	"github.com/colinrs/protohub/internal/logic"
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/colinrs/protohub/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -17,7 +17,7 @@ func FileDownloadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := logic.NewFileDownloadLogic(r.Context(), svcCtx)
+		l := file.NewFileDownloadLogic(r.Context(), svcCtx)
 		err := l.FileDownload(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
