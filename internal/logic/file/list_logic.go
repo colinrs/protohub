@@ -1,4 +1,4 @@
-package user
+package file
 
 import (
 	"context"
@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type RefreshAuthorizationLogic struct {
+type ListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewRefreshAuthorizationLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RefreshAuthorizationLogic {
-	return &RefreshAuthorizationLogic{
+func NewListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListLogic {
+	return &ListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *RefreshAuthorizationLogic) RefreshAuthorization(req *types.RefreshAuthorizationRequest) (resp *types.RefreshAuthorizationResponse, err error) {
+func (l *ListLogic) List(req *types.FileListRequest) (resp *types.FileListResponse, err error) {
 	// todo: add your logic here and delete this line
 
 	return

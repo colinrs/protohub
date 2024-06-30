@@ -1,3 +1,14 @@
 Name: protohub-api
 Host: 0.0.0.0
 Port: 8888
+
+Database:
+  Host: 127.0.0.1
+  Port: 3306
+  UserName: root
+  Password: "123456"
+  Database: protohub
+  MaxIdleConn: 5
+  MaxOpenConn: 10
+  ConnMaxLifeTime: 1800
+

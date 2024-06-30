@@ -6,6 +6,7 @@ GOCTL := goctl
 # 设置go模块环境变量
 export GO111MODULE := on
 
+
 # 格式化API定义文件
 format:
 	$(GOCTL) api format --dir ./
@@ -15,6 +16,10 @@ gen-go-api:
 	$(GOCTL) api go --api $(PROJECT_NAME) --dir ./ --style=go_zero
 
 
+build:
+	mkdir -p bin
+	rm -rf bin/*
+	go build -o bin/protohub protohub.go
 # 默认目标
 all: format gen-go-api
 

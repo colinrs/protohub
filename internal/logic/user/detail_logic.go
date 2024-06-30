@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type UserRegisterLogic struct {
+type DetailLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewUserRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UserRegisterLogic {
-	return &UserRegisterLogic{
+func NewDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DetailLogic {
+	return &DetailLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *UserRegisterLogic) UserRegister(req *types.UserRegisterRequest) (resp *types.UserRegisterReply, err error) {
+func (l *DetailLogic) Detail(req *types.UserDetailRequest) (resp *types.UserDetailResponse, err error) {
 	// todo: add your logic here and delete this line
 
 	return

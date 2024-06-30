@@ -1,0 +1,7 @@
+gfcli:
+  gen:
+    dao:
+    - link:     "mysql:root:12345678@tcp(127.0.0.1:3306)/protohub"
+      path:   "./my-app"
+      tables:   "pb_file_table,user_table"
+      jsonCase: "CamelLower"

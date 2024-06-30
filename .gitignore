@@ -38,6 +38,7 @@ coverage.txt
 cover.out
 .idea
 .idea/*
+bin
 
 vendor
 *.sh

@@ -16,15 +16,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodGet,
+				Path:    "/detail",
+				Handler: file.DetailHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
 				Path:    "/download",
-				Handler: file.FileDownloadHandler(serverCtx),
+				Handler: file.DownloadHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/list",
+				Handler: file.ListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/upload",
-				Handler: file.FileUploadHandler(serverCtx),
+				Handler: file.UploadHandler(serverCtx),
 			},
 		},
+		rest.WithPrefix("/api/v1/file"),
 	)
 
 	server.AddRoutes(
@@ -33,20 +44,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Route{
 				{
 					Method:  http.MethodGet,
-					Path:    "/refresh/authorization",
-					Handler: user.RefreshAuthorizationHandler(serverCtx),
+					Path:    "/detail",
+					Handler: user.DetailHandler(serverCtx),
 				},
 				{
 					Method:  http.MethodGet,
-					Path:    "/user/detail",
-					Handler: user.UserDetailHandler(serverCtx),
+					Path:    "/refresh/authorization",
+					Handler: user.RefreshAuthorizationHandler(serverCtx),
 				},
 			}...,
 		),
+		rest.WithPrefix("/api/v1/user"),
 	)
 
 	server.AddRoutes(
 		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/login",
+				Handler: user.LoginHandler(serverCtx),
+			},
 			{
 				Method:  http.MethodPost,
 				Path:    "/mail/code/send/register",
@@ -54,14 +71,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/user/login",
-				Handler: user.UserLoginHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/register",
-				Handler: user.UserRegisterHandler(serverCtx),
+				Path:    "/register",
+				Handler: user.RegisterHandler(serverCtx),
 			},
 		},
+		rest.WithPrefix("/api/v1/user"),
 	)
 }

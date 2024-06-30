@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type FileUploadLogic struct {
+type DetailLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewFileUploadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileUploadLogic {
-	return &FileUploadLogic{
+func NewDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DetailLogic {
+	return &DetailLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *FileUploadLogic) FileUpload(req *types.FileUploadRequest) error {
+func (l *DetailLogic) Detail(req *types.FileDetailRequest) (resp *types.FileDetailResponse, err error) {
 	// todo: add your logic here and delete this line
 
-	return nil
+	return
 }

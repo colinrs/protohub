@@ -1,41 +1,50 @@
 syntax = "v1"
 
 @server (
+	prefix:     /api/v1/user
 	middleware: Auth
 	group:      user
 )
 service protohub-api {
-	@handler UserDetail
-	get /user/detail (UserDetailRequest) returns (UserDetailReply)
+	@handler Detail
+	get /detail (UserDetailRequest) returns (UserDetailResponse)
 
 	@handler RefreshAuthorization
-	get /refresh/authorization (RefreshAuthorizationRequest) returns (RefreshAuthorizationReply)
+	get /refresh/authorization (RefreshAuthorizationRequest) returns (RefreshAuthorizationResponse)
 }
 
 @server (
-	group: user
+	prefix: /api/v1/user
+	group:  user
 )
 service protohub-api {
-	@handler UserLogin
-	post /user/login (LoginRequest) returns (LoginReply)
+	@handler Login
+	post /login (LoginRequest) returns (LoginResponse)
 
-	@handler UserRegister
-	post /user/register (UserRegisterRequest) returns (UserRegisterReply)
+	@handler Register
+	post /register (UserRegisterRequest) returns (UserRegisterResponse)
 
 	// 验证码发送
 	@handler MailCodeSendRegister
-	post /mail/code/send/register (MailCodeSendRequest) returns (MailCodeSendReply)
+	post /mail/code/send/register (MailCodeSendRequest) returns (MailCodeSendResponse)
 }
 
 @server (
-	group: file
+	prefix: /api/v1/file
+	group:  file
 )
 service protohub-api {
-	@handler FileUploadHandler
-	post /upload (FileUploadRequest)
+	@handler UploadHandler
+	post /upload (FileUploadRequest) returns (FileUploadResponse)
 
-	@handler FileDownloadHandler
+	@handler DownloadHandler
 	get /download (FileDownloadRequest)
+
+	@handler List
+	get /list (FileListRequest) returns (FileListResponse)
+
+	@handler Detail
+	get /detail (FileDetailRequest) returns (FileDetailResponse)
 }
 
 type UserRegisterRequest {
@@ -49,7 +58,7 @@ type UserRegisterRequest {
 	Code string `json:"code"`
 }
 
-type UserRegisterReply {}
+type UserRegisterResponse {}
 
 // https://blog.csdn.net/weixin_43734095/article/details/124927942
 type LoginRequest {
@@ -57,47 +66,83 @@ type LoginRequest {
 	Password string `json:"password"`
 }
 
-type LoginReply {
+type LoginResponse {
 	Token        string `json:"token"`
 	RefreshToken string `json:"refresh_token"`
 }
 
 type RefreshAuthorizationRequest {}
 
-type RefreshAuthorizationReply {
+type RefreshAuthorizationResponse {
 	Token        string `json:"token"`
 	RefreshToken string `json:"refresh_token"`
 }
 
 type UserDetailRequest {
-	Identity string `json:"identity"`
+	Identity string `form:"identity"`
 }
 
-type UserDetailReply {
+type UserDetailResponse {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
 
 type MailCodeSendRequest {
-	Email string `json:"email"`
+	Email string `form:"identity"`
 }
 
-type MailCodeSendReply {
+type MailCodeSendResponse {
 	Code string `json:"code"`
 }
 
 type FileUploadRequest {
-	FileName string
-	FileData []byte
+	ProjectName string `form:"project_name"`
+	ServiceName string `form:"service_name"`
+	Branch      string `form:"branch"`
+	FileName    string `form:"file_name"`
+	Creator     string `form:"creator"`
 }
 
-type FileDownloadResponse {
-	Identity string `json:"identity"`
-	Ext      string `json:"ext"`
-	Name     string `json:"name"`
-}
+type FileUploadResponse {}
 
 type FileDownloadRequest {
-	FileName string
+	FileID string `json:"file_id"`
+}
+
+type FileDownloadResponse {}
+
+type FileListRequest {
+	ProjectName string `form:"project_name"`
+	ServiceName string `form:"service_name"`
+}
+
+type FileListData {
+	ProjectName string `json:"project_name"`
+	ServiceName string `json:"service_name"`
+	Branch      string `json:"branch"`
+	FileName    string `json:"file_name"`
+	FileID      int    `json:"file_id"`
+	Creator     string `json:"creator"`
+	UpdateAt    string `json:"update_at"`
+}
+
+type FileListResponse {
+	List  []*FileListData `json:"list"`
+	Total int             `json:"total"`
+}
+
+type FileDetailRequest {
+	FileID int `form:"file_id"`
+}
+
+type FileDetailResponse {
+	ProjectName string `json:"project_name"`
+	ServiceName string `json:"service_name"`
+	Branch      string `json:"branch"`
+	FileName    string `json:"file_name"`
+	FileID      int    `json:"file_id"`
+	Content     string `json:"content"`
+	creator     string `json:"creator"`
+	UpdateAt    string `json:"update_at"`
 }
 
