@@ -56,6 +56,7 @@ func (l *UploadLogic) Upload(req *types.FileUploadRequest, r *http.Request) (res
 			ServiceName: req.ServiceName,
 			Branch:      req.Branch,
 			Creator:     req.Creator,
+			FileName:    req.FileName,
 			Sign:        md5Value,
 		}
 		err = l.fileRepository.CreateFileWithContent(pbFilePO, fileContent)

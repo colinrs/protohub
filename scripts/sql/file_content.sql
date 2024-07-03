@@ -1,6 +1,7 @@
 CREATE TABLE `file_content_table` (
                         `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 
+                        `file_name` varchar(100) NOT NULL,
                         `file_content` mediumtext default null,
                         `creator` varchar(100) NOT NULL,
 

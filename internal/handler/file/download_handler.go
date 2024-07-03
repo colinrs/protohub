@@ -18,11 +18,16 @@ func DownloadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 
 		l := file.NewDownloadLogic(r.Context(), svcCtx)
-		err := l.Download(&req)
+		fileContentTableModel, err := l.Download(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
-		} else {
-			httpx.Ok(w)
+			return
 		}
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/octet-stream")
+		w.Header().Set("Content-Disposition", "attachment; filename="+fileContentTableModel.FileName) // 用来指定下载下来的文件名
+		w.Header().Set("Content-Transfer-Encoding", "binary")
+		_, _ = w.Write([]byte(fileContentTableModel.FileContent))
+		httpx.OkJsonCtx(r.Context(), w, nil)
 	}
 }
