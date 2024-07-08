@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type MailCodeSendRegisterLogic struct {
+type UpdateUserProfileLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewMailCodeSendRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MailCodeSendRegisterLogic {
-	return &MailCodeSendRegisterLogic{
+func NewUpdateUserProfileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateUserProfileLogic {
+	return &UpdateUserProfileLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *MailCodeSendRegisterLogic) MailCodeSendRegister(req *types.MailCodeSendRequest) (resp *types.MailCodeSendResponse, err error) {
+func (l *UpdateUserProfileLogic) UpdateUserProfile(req *types.UpdateUserProfileRequest) (resp *types.UpdateUserProfileResponse, err error) {
 	// todo: add your logic here and delete this line
 
 	return

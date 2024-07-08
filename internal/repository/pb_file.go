@@ -21,7 +21,7 @@ type FileRepository interface {
 	FindById(id uint) (*models.PbFileTableModel, error)
 	FindContentById(id uint) (*models.FileContentTableModel, error)
 	List(offset, limit int) ([]*models.PbFileTableModel, error)
-	Count() (int64, error)
+	Count(query *FileListQuery) (int64, error)
 }
 
 // pbFileTableRepositoryImpl 实现仓库接口
@@ -29,6 +29,8 @@ type pbFileTableRepositoryImpl struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+
+	db *gorm.DB
 }
 
 func NewFileRepository(ctx context.Context, svcCtx *svc.ServiceContext) FileRepository {
@@ -36,6 +38,7 @@ func NewFileRepository(ctx context.Context, svcCtx *svc.ServiceContext) FileRepo
 		ctx:    ctx,
 		Logger: logx.WithContext(ctx),
 		svcCtx: svcCtx,
+		db:     svcCtx.DB.WithContext(ctx),
 	}
 }
 
@@ -48,7 +51,7 @@ type FileListQuery struct {
 func (repo *pbFileTableRepositoryImpl) QueryFileList(query *FileListQuery, offset, limit int) (
 	[]*models.PbFileTableModel, error) {
 	fileList := make([]*models.PbFileTableModel, 0)
-	err := repo.svcCtx.DB.Where(repo.buildFileListQuery(query)).
+	err := repo.db.Where(repo.buildFileListQuery(query)).
 		Offset(offset).Limit(limit).Find(&fileList).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
@@ -75,7 +78,7 @@ func (repo *pbFileTableRepositoryImpl) buildFileListQuery(query *FileListQuery) 
 
 // Create 创建记录
 func (repo *pbFileTableRepositoryImpl) Create(data *models.PbFileTableModel) error {
-	return repo.svcCtx.DB.Save(data).Error
+	return repo.db.Save(data).Error
 }
 
 func (repo *pbFileTableRepositoryImpl) CreateFileWithContent(pbFilePO *models.PbFileTableModel, content []byte) error {
@@ -84,7 +87,7 @@ func (repo *pbFileTableRepositoryImpl) CreateFileWithContent(pbFilePO *models.Pb
 		FileContent: string(content),
 		Creator:     pbFilePO.Creator,
 	}
-	err := repo.svcCtx.DB.Transaction(func(tx *gorm.DB) error {
+	err := repo.db.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Save(&fileContentPO).Error; err != nil {
 			repo.Logger.Errorf("create file content err", err.Error())
 			return err
@@ -107,16 +110,16 @@ func (repo *pbFileTableRepositoryImpl) CreateFileWithContent(pbFilePO *models.Pb
 // Update 更新记录
 func (repo *pbFileTableRepositoryImpl) Update(id uint, data *models.PbFileTableModel) error {
 	var record *models.PbFileTableModel
-	if err := repo.svcCtx.DB.Where("id = ?", id).First(&record).Error; err != nil {
+	if err := repo.db.Where("id = ?", id).First(&record).Error; err != nil {
 		return err
 	}
 	data.ID = id
-	return repo.svcCtx.DB.Save(&data).Error
+	return repo.db.Save(&data).Error
 }
 
 // UpdateFileContent 更新记录
 func (repo *pbFileTableRepositoryImpl) UpdateFileContent(data *models.FileContentTableModel) error {
-	if err := repo.svcCtx.DB.Save(data).Error; err != nil {
+	if err := repo.db.Save(data).Error; err != nil {
 		return err
 	}
 	return nil
@@ -125,7 +128,7 @@ func (repo *pbFileTableRepositoryImpl) UpdateFileContent(data *models.FileConten
 // Delete 删除记录
 func (repo *pbFileTableRepositoryImpl) Delete(id uint) error {
 	var record *models.PbFileTableModel
-	if err := repo.svcCtx.DB.Where("id = ?", id).Delete(&record).Error; err != nil {
+	if err := repo.db.Where("id = ?", id).Delete(&record).Error; err != nil {
 		return err
 	}
 	return nil
@@ -134,7 +137,7 @@ func (repo *pbFileTableRepositoryImpl) Delete(id uint) error {
 // FindById 通过ID查找记录
 func (repo *pbFileTableRepositoryImpl) FindById(id uint) (*models.PbFileTableModel, error) {
 	var record *models.PbFileTableModel
-	if err := repo.svcCtx.DB.Where("id = ?", id).First(&record).Error; err != nil {
+	if err := repo.db.Where("file_id = ?", id).First(&record).Error; err != nil {
 		return nil, err
 	}
 	return record, nil
@@ -142,7 +145,7 @@ func (repo *pbFileTableRepositoryImpl) FindById(id uint) (*models.PbFileTableMod
 
 func (repo *pbFileTableRepositoryImpl) FindContentById(id uint) (*models.FileContentTableModel, error) {
 	var record *models.FileContentTableModel
-	if err := repo.svcCtx.DB.Where("id = ?", id).First(&record).Error; err != nil {
+	if err := repo.db.Where("id = ?", id).First(&record).Error; err != nil {
 		return nil, err
 	}
 	return record, nil
@@ -151,15 +154,15 @@ func (repo *pbFileTableRepositoryImpl) FindContentById(id uint) (*models.FileCon
 // List ...
 func (repo *pbFileTableRepositoryImpl) List(offset, limit int) ([]*models.PbFileTableModel, error) {
 	var records []*models.PbFileTableModel
-	if err := repo.svcCtx.DB.Offset(offset).Limit(limit).Find(&records).Error; err != nil {
+	if err := repo.db.Offset(offset).Limit(limit).Find(&records).Error; err != nil {
 		return nil, err
 	}
 	return records, nil
 }
 
-func (repo *pbFileTableRepositoryImpl) Count() (int64, error) {
+func (repo *pbFileTableRepositoryImpl) Count(query *FileListQuery) (int64, error) {
 	var count int64
-	if err := repo.svcCtx.DB.Count(&count).Error; err != nil {
+	if err := repo.db.Model(models.PbFileTableModel{}).Where(repo.buildFileListQuery(query)).Count(&count).Error; err != nil {
 		return 0, err
 	}
 	return count, nil

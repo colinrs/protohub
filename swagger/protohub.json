@@ -1,0 +1,2078 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/file/detail": {
+      "get": {
+        "operationId": "Detail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileDetailResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "file_id",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "file"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/file/download": {
+      "get": {
+        "operationId": "DownloadHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "file_id",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "file"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/file/list": {
+      "get": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileListResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": "10"
+          },
+          {
+            "name": "project_name",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "service_name",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "file"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/file/upload": {
+      "post": {
+        "operationId": "UploadHandler",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FileUploadResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " user  ===================================, file  ===================================",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FileUploadRequest"
+            }
+          }
+        ],
+        "tags": [
+          "file"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ]
+      }
+    },
+    "/api/v1/public/user/login": {
+      "post": {
+        "operationId": "login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "publicuser"
+        ]
+      }
+    },
+    "/api/v1/public/user/login_by_email": {
+      "post": {
+        "operationId": "loginByEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " Log in by email request | 邮箱登录参数",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginByEmailRequest"
+            }
+          }
+        ],
+        "tags": [
+          "publicuser"
+        ]
+      }
+    },
+    "/api/v1/public/user/login_by_sms": {
+      "post": {
+        "operationId": "loginBySms",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " Log in by SMS request | 短信登录参数",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginBySmsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "publicuser"
+        ]
+      }
+    },
+    "/api/v1/public/user/register": {
+      "post": {
+        "operationId": "register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "publicuser"
+        ]
+      }
+    },
+    "/api/v1/public/user/register_by_email": {
+      "post": {
+        "operationId": "registerByEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterByEmailRequest"
+            }
+          }
+        ],
+        "tags": [
+          "publicuser"
+        ]
+      }
+    },
+    "/api/v1/public/user/register_by_sms": {
+      "post": {
+        "operationId": "registerBySms",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " Register by SMS request | 短信注册参数",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterBySmsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "publicuser"
+        ]
+      }
+    },
+    "/api/v1/public/user/reset_password_by_email": {
+      "post": {
+        "operationId": "resetPasswordByEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " Reset password by email request | 通过邮箱重置密码请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordByEmailRequest"
+            }
+          }
+        ],
+        "tags": [
+          "publicuser"
+        ]
+      }
+    },
+    "/api/v1/public/user/reset_password_by_sms": {
+      "post": {
+        "operationId": "resetPasswordBySms",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " Reset password by SMS request | 通过短信重置密码请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordBySmsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "publicuser"
+        ]
+      }
+    },
+    "/api/v1/role": {
+      "get": {
+        "operationId": "getRoleById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetRoleByIdResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "role"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/role/create": {
+      "post": {
+        "operationId": "createRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateRoleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/role/delete": {
+      "post": {
+        "operationId": "deleteRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteRoleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/role/list": {
+      "get": {
+        "operationId": "getRoleList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetRoleListResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": "1"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32",
+            "default": "10"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "role"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/role/update": {
+      "post": {
+        "operationId": "updateRole",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateRoleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "role"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user": {
+      "get": {
+        "operationId": "getUserById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetUserByIDResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/access_token": {
+      "get": {
+        "operationId": "accessToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AccessTokenResponse"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/change_password": {
+      "post": {
+        "operationId": "changePassword",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChangePasswordRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/create": {
+      "post": {
+        "operationId": "createUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/delete": {
+      "post": {
+        "operationId": "deleteUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " Basic UUID array request | 基础UUID数组参数请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteUsersByIDsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/info": {
+      "get": {
+        "operationId": "getUserInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetUserInfoResponse"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/list": {
+      "post": {
+        "operationId": "getUserList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UserListResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/logout": {
+      "get": {
+        "operationId": "logout",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/perm": {
+      "get": {
+        "operationId": "getUserPermCode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetPermCodeResponse"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/profile": {
+      "get": {
+        "operationId": "getUserProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetUserProfileResponse"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "updateUserProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UpdateUserProfileResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserProfileRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/refresh_token": {
+      "get": {
+        "operationId": "refreshToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/RefreshTokenResponse"
+            }
+          }
+        },
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/api/v1/user/update": {
+      "post": {
+        "operationId": "updateUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AccessTokenResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "expired_at": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AccessTokenResponse",
+      "required": [
+        "token",
+        "expired_at"
+      ]
+    },
+    "BaseIDInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "BaseIDInfo"
+    },
+    "BaseUUIDInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "BaseUUIDInfo"
+    },
+    "ChangePasswordRequest": {
+      "type": "object",
+      "properties": {
+        "old_password": {
+          "type": "string"
+        },
+        "new_password": {
+          "type": "string"
+        }
+      },
+      "title": "ChangePasswordRequest",
+      "required": [
+        "old_password",
+        "new_password"
+      ]
+    },
+    "CreateRoleRequest": {
+      "type": "object",
+      "properties": {
+        "": {
+          "$ref": "#/definitions/BaseIDInfo"
+        },
+        "trans": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "default_router": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "CreateRoleRequest"
+    },
+    "CreateUserRequest": {
+      "type": "object",
+      "properties": {
+        "": {
+          "$ref": "#/definitions/BaseUUIDInfo"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "home_path": {
+          "type": "string"
+        },
+        "role_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "department_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "position_id": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "CreateUserRequest"
+    },
+    "DeleteRoleRequest": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "DeleteRoleRequest"
+    },
+    "DeleteUsersByIDsRequest": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "DeleteUsersByIDsRequest",
+      "required": [
+        "ids"
+      ]
+    },
+    "FileDetailRequest": {
+      "type": "object",
+      "properties": {
+        "file_id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "FileDetailRequest",
+      "required": [
+        "file_id"
+      ]
+    },
+    "FileDetailResponse": {
+      "type": "object",
+      "properties": {
+        "project_name": {
+          "type": "string"
+        },
+        "service_name": {
+          "type": "string"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "file_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "content": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "update_at": {
+          "type": "string"
+        }
+      },
+      "title": "FileDetailResponse",
+      "required": [
+        "project_name",
+        "service_name",
+        "branch",
+        "file_name",
+        "file_id",
+        "content",
+        "creator",
+        "update_at"
+      ]
+    },
+    "FileDownloadRequest": {
+      "type": "object",
+      "properties": {
+        "file_id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "FileDownloadRequest",
+      "required": [
+        "file_id"
+      ]
+    },
+    "FileDownloadResponse": {
+      "type": "object",
+      "title": "FileDownloadResponse"
+    },
+    "FileListData": {
+      "type": "object",
+      "properties": {
+        "project_name": {
+          "type": "string"
+        },
+        "service_name": {
+          "type": "string"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "file_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "update_at": {
+          "type": "string"
+        }
+      },
+      "title": "FileListData",
+      "required": [
+        "project_name",
+        "service_name",
+        "branch",
+        "file_name",
+        "file_id",
+        "creator",
+        "update_at"
+      ]
+    },
+    "FileListRequest": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32",
+          "default": "10"
+        },
+        "project_name": {
+          "type": "string"
+        },
+        "service_name": {
+          "type": "string"
+        }
+      },
+      "title": "FileListRequest",
+      "required": [
+        "project_name",
+        "service_name"
+      ]
+    },
+    "FileListResponse": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FileListData"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "FileListResponse",
+      "required": [
+        "list",
+        "total"
+      ]
+    },
+    "FileUploadRequest": {
+      "type": "object",
+      "properties": {
+        "project_name": {
+          "type": "string"
+        },
+        "service_name": {
+          "type": "string"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        }
+      },
+      "title": "FileUploadRequest",
+      "required": [
+        "project_name",
+        "service_name",
+        "branch",
+        "file_name",
+        "creator"
+      ]
+    },
+    "FileUploadResponse": {
+      "type": "object",
+      "title": "FileUploadResponse"
+    },
+    "GetPermCodeResponse": {
+      "type": "object",
+      "properties": {
+        "list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "GetPermCodeResponse",
+      "required": [
+        "list"
+      ]
+    },
+    "GetRoleByIdRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetRoleByIdRequest",
+      "required": [
+        "id"
+      ]
+    },
+    "GetRoleByIdResponse": {
+      "type": "object",
+      "properties": {
+        "": {
+          "$ref": "#/definitions/BaseIDInfo"
+        },
+        "trans": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "default_router": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetRoleByIdResponse"
+    },
+    "GetRoleListRequest": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32",
+          "default": "10"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "GetRoleListRequest"
+    },
+    "GetRoleListResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RoleInfo"
+          }
+        }
+      },
+      "title": "GetRoleListResponse",
+      "required": [
+        "total",
+        "list"
+      ]
+    },
+    "GetUserByIDRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "title": "GetUserByIDRequest",
+      "required": [
+        "id"
+      ]
+    },
+    "GetUserByIDResponse": {
+      "type": "object",
+      "properties": {
+        "": {
+          "$ref": "#/definitions/BaseUUIDInfo"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "home_path": {
+          "type": "string"
+        },
+        "role_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "department_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "position_id": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "GetUserByIDResponse"
+    },
+    "GetUserInfoResponse": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "home_path": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "role_name": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "department_name": {
+          "type": "string"
+        }
+      },
+      "title": "GetUserInfoResponse",
+      "required": [
+        "user_id",
+        "username",
+        "nickname",
+        "avatar",
+        "home_path",
+        "desc",
+        "role_name"
+      ]
+    },
+    "GetUserProfileResponse": {
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "GetUserProfileResponse",
+      "required": [
+        "nickname",
+        "avatar",
+        "mobile",
+        "email"
+      ]
+    },
+    "IDsReq": {
+      "type": "object",
+      "properties": {
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "IDsReq",
+      "required": [
+        "ids"
+      ]
+    },
+    "LoginByEmailRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "captcha": {
+          "type": "string"
+        }
+      },
+      "title": "LoginByEmailRequest",
+      "required": [
+        "email"
+      ]
+    },
+    "LoginBySmsRequest": {
+      "type": "object",
+      "properties": {
+        "phone_number": {
+          "type": "string"
+        },
+        "captcha": {
+          "type": "string"
+        }
+      },
+      "title": "LoginBySmsRequest",
+      "required": [
+        "phone_number"
+      ]
+    },
+    "LoginInfo": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "expire": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "LoginInfo",
+      "required": [
+        "user_id",
+        "token",
+        "expire"
+      ]
+    },
+    "LoginRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "captcha_id": {
+          "type": "string"
+        },
+        "captcha": {
+          "type": "string"
+        }
+      },
+      "title": "LoginRequest",
+      "required": [
+        "username",
+        "password",
+        "captcha_id",
+        "captcha"
+      ]
+    },
+    "LoginResponse": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "expire": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "LoginResponse",
+      "required": [
+        "user_id",
+        "token",
+        "expire"
+      ]
+    },
+    "PageLimit": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32",
+          "default": "10"
+        }
+      },
+      "title": "PageLimit"
+    },
+    "RefreshTokenResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "expired_at": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "RefreshTokenResponse",
+      "required": [
+        "token",
+        "expired_at"
+      ]
+    },
+    "RegisterByEmailRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "captcha": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "RegisterByEmailRequest",
+      "required": [
+        "username",
+        "password",
+        "captcha",
+        "email"
+      ]
+    },
+    "RegisterBySmsRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "captcha": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        }
+      },
+      "title": "RegisterBySmsRequest",
+      "required": [
+        "username",
+        "password",
+        "captcha",
+        "phone_number"
+      ]
+    },
+    "RegisterRequest": {
+      "type": "object",
+      "properties": {
+        "user_name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "captcha_id": {
+          "type": "string"
+        },
+        "captcha": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "RegisterRequest",
+      "required": [
+        "user_name",
+        "password",
+        "captcha_id",
+        "captcha",
+        "email"
+      ]
+    },
+    "ResetPasswordByEmailRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "captcha": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "ResetPasswordByEmailRequest",
+      "required": [
+        "email",
+        "captcha",
+        "password"
+      ]
+    },
+    "ResetPasswordBySmsRequest": {
+      "type": "object",
+      "properties": {
+        "phone_number": {
+          "type": "string"
+        },
+        "captcha": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "title": "ResetPasswordBySmsRequest",
+      "required": [
+        "phone_number",
+        "captcha",
+        "password"
+      ]
+    },
+    "RoleInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "trans": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "default_router": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "RoleInfo"
+    },
+    "RoleInfoResp": {
+      "type": "object",
+      "properties": {
+        "": {
+          "$ref": "#/definitions/BaseIDInfo"
+        },
+        "trans": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "default_router": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "RoleInfoResp"
+    },
+    "RoleInfoSimple": {
+      "type": "object",
+      "properties": {
+        "roleName": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "title": "RoleInfoSimple",
+      "required": [
+        "roleName",
+        "value"
+      ]
+    },
+    "UpdateRoleRequest": {
+      "type": "object",
+      "properties": {
+        "": {
+          "$ref": "#/definitions/BaseIDInfo"
+        },
+        "trans": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "default_router": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "UpdateRoleRequest"
+    },
+    "UpdateUserProfileRequest": {
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateUserProfileRequest",
+      "required": [
+        "nickname",
+        "avatar",
+        "mobile",
+        "email"
+      ]
+    },
+    "UpdateUserProfileResponse": {
+      "type": "object",
+      "properties": {
+        "nickname": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "UpdateUserProfileResponse",
+      "required": [
+        "nickname",
+        "avatar",
+        "mobile",
+        "email"
+      ]
+    },
+    "UpdateUserRequest": {
+      "type": "object",
+      "properties": {
+        "": {
+          "$ref": "#/definitions/BaseUUIDInfo"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "home_path": {
+          "type": "string"
+        },
+        "role_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "department_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "position_id": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "UpdateUserRequest"
+    },
+    "UserInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "username": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "home_path": {
+          "type": "string"
+        },
+        "role_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "department_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "position_id": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "UserInfo"
+    },
+    "UserListRequest": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32",
+          "default": "1"
+        },
+        "page_size": {
+          "type": "integer",
+          "format": "int32",
+          "default": "10"
+        },
+        "username": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "department_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "position_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UserListRequest"
+    },
+    "UserListResponse": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UserInfo"
+          }
+        }
+      },
+      "title": "UserListResponse",
+      "required": [
+        "total",
+        "list"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

@@ -14,6 +14,7 @@ format:
 # 生成Go API代码
 gen-go-api:
 	$(GOCTL) api go --api $(PROJECT_NAME) --dir ./ --style=go_zero
+	$(GOCTL) api plugin -plugin goctl-swagger="swagger -filename protohub.json" -api $(PROJECT_NAME) -dir swagger
 
 
 build:

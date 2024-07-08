@@ -9,22 +9,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type DetailLogic struct {
+type DeleteUserLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DetailLogic {
-	return &DetailLogic{
+func NewDeleteUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteUserLogic {
+	return &DeleteUserLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *DetailLogic) Detail(req *types.UserDetailRequest) (resp *types.UserDetailResponse, err error) {
+func (l *DeleteUserLogic) DeleteUser(req *types.DeleteUsersByIDsRequest) error {
 	// todo: add your logic here and delete this line
 
-	return
+	return nil
 }
