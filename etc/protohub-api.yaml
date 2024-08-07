@@ -2,6 +2,10 @@ Name: protohub-api
 Host: 0.0.0.0
 Port: 8888
 
+Auth:
+  AccessSecret: "12121212122"
+  AccessExpire: 69
+
 Database:
   Host: 127.0.0.1
   Port: 3306

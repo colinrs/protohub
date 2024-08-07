@@ -3,8 +3,6 @@ package response
 import (
 	"context"
 	"errors"
-	"net/http"
-
 	"github.com/colinrs/protohub/pkg/code"
 )
 
@@ -19,14 +17,14 @@ func ErrHandle(ctx context.Context, err error) (int, any) {
 	var v *code.Err
 	switch {
 	case errors.As(err, &v):
-		return http.StatusOK, Response[any]{
+		return v.GetHTTPCode(), Response[any]{
 			Code:   v.GetCode(),
 			Msg:    v.Error(),
 			Data:   nil,
 			Errors: v.GetErrors(),
 		}
 	default:
-		return http.StatusOK, Response[any]{
+		return code.UnknownErr.GetHTTPCode(), Response[any]{
 			Code:   code.UnknownErr.GetCode(),
 			Msg:    code.UnknownErr.Error(),
 			Data:   nil,

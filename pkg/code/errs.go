@@ -1,9 +1,12 @@
 package code
 
+import "net/http"
+
 type Err struct {
-	Code   int      `json:"code"`
-	Msg    string   `json:"msg"`
-	Errors []*Error `json:"errors,omitempty"`
+	HTTPCode int      `json:"http_code"`
+	Code     int      `json:"code"`
+	Msg      string   `json:"msg"`
+	Errors   []*Error `json:"errors,omitempty"`
 }
 
 func (e *Err) Error() string {
@@ -12,6 +15,10 @@ func (e *Err) Error() string {
 
 func (e *Err) GetCode() int {
 	return e.Code
+}
+
+func (e *Err) GetHTTPCode() int {
+	return e.HTTPCode
 }
 
 func (e *Err) GetMsg() string {
@@ -38,4 +45,45 @@ func (e *Error) Error() string {
 
 func (e *Error) GetCode() int {
 	return e.Code
+}
+
+type Option func(e *Err)
+
+func WithHTTPCode(httpCode int) Option {
+	return func(e *Err) {
+		e.HTTPCode = httpCode
+	}
+}
+
+func WithCode(code int) Option {
+	return func(e *Err) {
+		e.Code = code
+	}
+}
+
+func WithMsg(msg string) Option {
+	return func(e *Err) {
+		e.Msg = msg
+	}
+}
+
+func WithErrors(errs ...*Error) Option {
+	return func(e *Err) {
+		for _, item := range errs {
+			e.Errors = append(e.Errors, item)
+		}
+	}
+}
+
+func NewErr(options ...Option) *Err {
+	e := &Err{
+		HTTPCode: http.StatusOK,
+		Code:     0,
+		Msg:      "",
+		Errors:   nil,
+	}
+	for _, option := range options {
+		option(e)
+	}
+	return e
 }
