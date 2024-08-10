@@ -3,18 +3,14 @@ package repository
 import (
 	"context"
 
-	"gorm.io/gorm"
-
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/zeromicro/go-zero/core/logx"
+
+	"gorm.io/gorm"
 )
 
 type RoleRepository interface {
 	CreateRole(req *CreateRoleRequest) error
-	FindById(id uint) (*Role, error)
-	FindByName(name string) (*Role, error)
-	List(offset, limit int) ([]*Role, error)
-	Count() (int64, error)
 }
 
 type roleRepositoryImpl struct {
@@ -31,4 +27,8 @@ func NewRoleRepository(ctx context.Context, svcCtx *svc.ServiceContext) RoleRepo
 		svcCtx: svcCtx,
 		db:     svcCtx.DB.WithContext(ctx),
 	}
+}
+
+func (r *roleRepositoryImpl) CreateRole(req *CreateRoleRequest) error {
+	return nil
 }

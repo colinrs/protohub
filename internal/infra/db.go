@@ -33,6 +33,9 @@ func Database(mysqlConfig *DBConfig) (*gorm.DB, error) {
 	logx.Info("connect to mysql %s", dsn)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: gormLogger.Default.LogMode(gormLogger.Info),
+		Plugins: map[string]gorm.Plugin{
+			metricsName: NewGormMetricsPlugin(),
+		},
 	})
 	if err != nil {
 		logx.Errorf("conect db err:%v", err)
