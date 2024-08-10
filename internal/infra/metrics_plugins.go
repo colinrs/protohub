@@ -65,18 +65,71 @@ func (p *GormMetricsPlugin) Name() string {
 }
 
 func (p *GormMetricsPlugin) Initialize(db *gorm.DB) error {
-	callbacks := []string{"create", "query", "update", "delete", "row"}
-	for _, callback := range callbacks {
-		err := db.Callback().Query().Before(fmt.Sprintf("gorm:%s", callback)).
-			Register(fmt.Sprintf("%s:before_%s", metricsName, callback), p.before)
-		if err != nil {
-			return err
-		}
-		err = db.Callback().Query().After(fmt.Sprintf("gorm:%s", callback)).
-			Register(fmt.Sprintf("%s:after_%s", metricsName, callback), p.after)
-		if err != nil {
-			return err
-		}
+	createCallbacksName := "create"
+	err := db.Callback().Create().Before(fmt.Sprintf("gorm:%s", createCallbacksName)).
+		Register(fmt.Sprintf("%s:before_%s", metricsName, createCallbacksName), p.before)
+	if err != nil {
+		return err
+	}
+	err = db.Callback().Create().After(fmt.Sprintf("gorm:%s", createCallbacksName)).
+		Register(fmt.Sprintf("%s:after_%s", metricsName, createCallbacksName), p.after)
+	if err != nil {
+		return err
+	}
+	queryCallbacksName := "query"
+	err = db.Callback().Query().Before(fmt.Sprintf("gorm:%s", queryCallbacksName)).
+		Register(fmt.Sprintf("%s:before_%s", metricsName, queryCallbacksName), p.before)
+	if err != nil {
+		return err
+	}
+	err = db.Callback().Query().After(fmt.Sprintf("gorm:%s", queryCallbacksName)).
+		Register(fmt.Sprintf("%s:after_%s", metricsName, queryCallbacksName), p.after)
+	if err != nil {
+		return err
+	}
+	updateCallbacksName := "update"
+	err = db.Callback().Update().Before(fmt.Sprintf("gorm:%s", updateCallbacksName)).
+		Register(fmt.Sprintf("%s:before_%s", metricsName, updateCallbacksName), p.before)
+	if err != nil {
+		return err
+	}
+	err = db.Callback().Update().After(fmt.Sprintf("gorm:%s", updateCallbacksName)).
+		Register(fmt.Sprintf("%s:after_%s", metricsName, updateCallbacksName), p.after)
+	if err != nil {
+		return err
+	}
+	deleteCallbacksName := "delete"
+	err = db.Callback().Delete().Before(fmt.Sprintf("gorm:%s", deleteCallbacksName)).
+		Register(fmt.Sprintf("%s:before_%s", metricsName, deleteCallbacksName), p.before)
+	if err != nil {
+		return err
+	}
+	err = db.Callback().Delete().After(fmt.Sprintf("gorm:%s", deleteCallbacksName)).
+		Register(fmt.Sprintf("%s:after_%s", metricsName, deleteCallbacksName), p.after)
+	if err != nil {
+		return err
+	}
+	rowCallbacksName := "row"
+	err = db.Callback().Row().Before(fmt.Sprintf("gorm:%s", rowCallbacksName)).
+		Register(fmt.Sprintf("%s:before_%s", metricsName, rowCallbacksName), p.before)
+	if err != nil {
+		return err
+	}
+	err = db.Callback().Row().After(fmt.Sprintf("gorm:%s", rowCallbacksName)).
+		Register(fmt.Sprintf("%s:after_%s", metricsName, rowCallbacksName), p.after)
+	if err != nil {
+		return err
+	}
+	rawCallbacksName := "raw"
+	err = db.Callback().Raw().Before(fmt.Sprintf("gorm:%s", rawCallbacksName)).
+		Register(fmt.Sprintf("%s:before_%s", metricsName, rawCallbacksName), p.before)
+	if err != nil {
+		return err
+	}
+	err = db.Callback().Raw().After(fmt.Sprintf("gorm:%s", rawCallbacksName)).
+		Register(fmt.Sprintf("%s:after_%s", metricsName, rawCallbacksName), p.after)
+	if err != nil {
+		return err
 	}
 	return nil
 }
