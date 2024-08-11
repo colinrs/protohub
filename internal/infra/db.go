@@ -34,7 +34,7 @@ func Database(mysqlConfig *DBConfig) (*gorm.DB, error) {
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: gormLogger.Default.LogMode(gormLogger.Info),
 		Plugins: map[string]gorm.Plugin{
-			metricsName: NewGormMetricsPlugin(),
+			metricsName: NewGormMetricsPlugin(WithDataBaseName(mysqlConfig.Database)),
 		},
 	})
 	if err != nil {

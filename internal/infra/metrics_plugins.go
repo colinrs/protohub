@@ -31,10 +31,15 @@ type GormMetricsPlugin struct {
 	queryCounter     metric.CounterVec
 	errorCounter     metric.CounterVec
 	latencyHistogram metric.HistogramVec
+
+	tableNameRewriter func(string) string
+	dataBaseName      string
 }
 
-func NewGormMetricsPlugin() *GormMetricsPlugin {
-	return &GormMetricsPlugin{
+type GormMetricsOption func(*GormMetricsPlugin)
+
+func NewGormMetricsPlugin(options ...GormMetricsOption) *GormMetricsPlugin {
+	g := &GormMetricsPlugin{
 		queryCounter: metric.NewCounterVec(&metric.CounterVecOpts{
 			Namespace: gormClientNamespace,
 			Subsystem: "requests",
@@ -57,7 +62,15 @@ func NewGormMetricsPlugin() *GormMetricsPlugin {
 			Labels:    []string{"db", "table", "operation"},
 			Buckets:   []float64{0.25, 0.5, 1, 2, 5, 10, 25, 50, 100, 250, 500, 1000, 2000, 5000, 10000, 15000},
 		}),
+		tableNameRewriter: func(s string) string {
+			return s
+		},
+		dataBaseName: "",
 	}
+	for _, option := range options {
+		option(g)
+	}
+	return g
 }
 
 func (p *GormMetricsPlugin) Name() string {
@@ -154,8 +167,10 @@ func (p *GormMetricsPlugin) after(db *gorm.DB) {
 
 	operation := matchOperationCommand(db.Statement.SQL.String())
 	dbName := db.Name()
-	tableName := db.Statement.Table
-
+	if p.dataBaseName != "" {
+		dbName = p.dataBaseName
+	}
+	tableName := p.tableNameRewriter(db.Statement.Table)
 	p.queryCounter.Inc(dbName, tableName, operation)
 	p.latencyHistogram.ObserveFloat(float64(duration.Milliseconds()), dbName, tableName, operation)
 
@@ -181,4 +196,16 @@ func matchOperationCommand(sql string) string {
 
 func (p *GormMetricsPlugin) TranslateError(err error) error {
 	return err
+}
+
+func WithTableNameRewriter(rewriter func(string) string) GormMetricsOption {
+	return func(p *GormMetricsPlugin) {
+		p.tableNameRewriter = rewriter
+	}
+}
+
+func WithDataBaseName(name string) GormMetricsOption {
+	return func(p *GormMetricsPlugin) {
+		p.dataBaseName = name
+	}
 }
