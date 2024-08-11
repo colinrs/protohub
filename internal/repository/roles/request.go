@@ -1,4 +1,4 @@
-package repository
+package roles
 
 type CreateRoleRequest struct {
 }

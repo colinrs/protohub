@@ -3,7 +3,7 @@ package file
 import (
 	"context"
 	"github.com/colinrs/protohub/internal/models"
-	"github.com/colinrs/protohub/internal/repository"
+	"github.com/colinrs/protohub/internal/repository/files"
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/colinrs/protohub/internal/types"
 
@@ -14,7 +14,7 @@ type DownloadLogic struct {
 	logx.Logger
 	ctx            context.Context
 	svcCtx         *svc.ServiceContext
-	fileRepository repository.FileRepository
+	fileRepository files.FileRepository
 }
 
 func NewDownloadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DownloadLogic {
@@ -22,7 +22,7 @@ func NewDownloadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Download
 		Logger:         logx.WithContext(ctx),
 		ctx:            ctx,
 		svcCtx:         svcCtx,
-		fileRepository: repository.NewFileRepository(ctx, svcCtx),
+		fileRepository: files.NewFileRepository(ctx, svcCtx),
 	}
 }
 

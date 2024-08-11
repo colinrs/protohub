@@ -1,13 +1,13 @@
-package repository
+package files
 
 import (
 	"context"
-	"gorm.io/gorm"
 
 	"github.com/colinrs/protohub/internal/models"
 	"github.com/colinrs/protohub/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/logx"
+	"gorm.io/gorm"
 )
 
 type FileRepository interface {

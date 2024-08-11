@@ -2,7 +2,7 @@ package file
 
 import (
 	"context"
-	"github.com/colinrs/protohub/internal/repository"
+	"github.com/colinrs/protohub/internal/repository/files"
 	"github.com/colinrs/protohub/pkg/utils"
 
 	"github.com/colinrs/protohub/internal/svc"
@@ -16,7 +16,7 @@ type DetailLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 
-	fileRepository repository.FileRepository
+	fileRepository files.FileRepository
 }
 
 func NewDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DetailLogic {
@@ -25,7 +25,7 @@ func NewDetailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DetailLogi
 		ctx:    ctx,
 		svcCtx: svcCtx,
 
-		fileRepository: repository.NewFileRepository(ctx, svcCtx),
+		fileRepository: files.NewFileRepository(ctx, svcCtx),
 	}
 }
 

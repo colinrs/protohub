@@ -1,8 +1,7 @@
-package repository
+package roles
 
 import (
 	"context"
-
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/zeromicro/go-zero/core/logx"
 
@@ -10,7 +9,8 @@ import (
 )
 
 type RoleRepository interface {
-	CreateRole(req *CreateRoleRequest) error
+	CreateRole(req *CreateRoleRequest) (*CreateRoleResponse, error)
+	FindRole(req *FindRoleRequest) (*FindRoleResponse, error)
 }
 
 type roleRepositoryImpl struct {
@@ -29,6 +29,10 @@ func NewRoleRepository(ctx context.Context, svcCtx *svc.ServiceContext) RoleRepo
 	}
 }
 
-func (r *roleRepositoryImpl) CreateRole(req *CreateRoleRequest) error {
-	return nil
+func (r *roleRepositoryImpl) CreateRole(req *CreateRoleRequest) (*CreateRoleResponse, error) {
+	return nil, nil
+}
+
+func (r *roleRepositoryImpl) FindRole(req *FindRoleRequest) (*FindRoleResponse, error) {
+	return nil, nil
 }
