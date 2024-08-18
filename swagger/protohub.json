@@ -376,11 +376,6 @@
         ],
         "consumes": [
           "multipart/form-data"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -405,11 +400,6 @@
         ],
         "tags": [
           "role"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -434,11 +424,6 @@
         ],
         "tags": [
           "role"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -482,11 +467,6 @@
         ],
         "consumes": [
           "multipart/form-data"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -511,11 +491,6 @@
         ],
         "tags": [
           "role"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -543,11 +518,6 @@
         ],
         "consumes": [
           "multipart/form-data"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -564,11 +534,6 @@
         },
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -593,11 +558,6 @@
         ],
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -622,11 +582,6 @@
         ],
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -652,11 +607,6 @@
         ],
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -673,11 +623,6 @@
         },
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -704,11 +649,6 @@
         ],
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -723,11 +663,6 @@
         },
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -744,11 +679,6 @@
         },
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -765,11 +695,6 @@
         },
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       },
       "post": {
@@ -794,11 +719,6 @@
         ],
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -815,11 +735,6 @@
         },
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     },
@@ -844,11 +759,6 @@
         ],
         "tags": [
           "user"
-        ],
-        "security": [
-          {
-            "apiKey": []
-          }
         ]
       }
     }
@@ -925,34 +835,17 @@
     "CreateRoleRequest": {
       "type": "object",
       "properties": {
-        "": {
-          "$ref": "#/definitions/BaseIDInfo"
-        },
-        "trans": {
-          "type": "string"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int32"
-        },
         "name": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        },
-        "default_router": {
           "type": "string"
         },
         "remark": {
           "type": "string"
-        },
-        "sort": {
-          "type": "integer",
-          "format": "int32"
         }
       },
-      "title": "CreateRoleRequest"
+      "title": "CreateRoleRequest",
+      "required": [
+        "name"
+      ]
     },
     "CreateUserRequest": {
       "type": "object",

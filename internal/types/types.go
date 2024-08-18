@@ -24,7 +24,8 @@ type ChangePasswordRequest struct {
 }
 
 type CreateRoleRequest struct {
-	RoleInfo
+	Name   string `json:"name" validate:"max=30"`
+	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
 }
 
 type CreateUserRequest struct {

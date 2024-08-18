@@ -1,6 +1,8 @@
-package roles
+package repository
 
 type CreateRoleRequest struct {
+	Name   string
+	Remark string
 }
 
 type CreateRoleResponse struct {

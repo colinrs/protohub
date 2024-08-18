@@ -2,7 +2,7 @@ package file
 
 import (
 	"context"
-	"github.com/colinrs/protohub/internal/repository/files"
+	"github.com/colinrs/protohub/internal/repository"
 	"io"
 	"net/http"
 
@@ -20,7 +20,7 @@ type UploadLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 
-	fileRepository files.FileRepository
+	fileRepository repository.FileRepository
 }
 
 func NewUploadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UploadLogic {
@@ -28,12 +28,12 @@ func NewUploadLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UploadLogi
 		Logger:         logx.WithContext(ctx),
 		ctx:            ctx,
 		svcCtx:         svcCtx,
-		fileRepository: files.NewFileRepository(ctx, svcCtx),
+		fileRepository: repository.NewFileRepository(ctx, svcCtx),
 	}
 }
 
 func (l *UploadLogic) Upload(req *types.FileUploadRequest, r *http.Request) (resp *types.FileUploadResponse, err error) {
-	query := &files.FileListQuery{
+	query := &repository.FileListQuery{
 		ProjectName: req.ProjectName,
 		ServiceName: req.ServiceName,
 		Branch:      req.Branch,

@@ -2,8 +2,7 @@ package file
 
 import (
 	"context"
-	"github.com/colinrs/protohub/internal/repository/files"
-
+	"github.com/colinrs/protohub/internal/repository"
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/colinrs/protohub/internal/types"
 	"github.com/colinrs/protohub/pkg/utils"
@@ -16,7 +15,7 @@ type ListLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 
-	fileRepository files.FileRepository
+	fileRepository repository.FileRepository
 }
 
 func NewListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListLogic {
@@ -25,12 +24,12 @@ func NewListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ListLogic {
 		ctx:    ctx,
 		svcCtx: svcCtx,
 
-		fileRepository: files.NewFileRepository(ctx, svcCtx),
+		fileRepository: repository.NewFileRepository(ctx, svcCtx),
 	}
 }
 
 func (l *ListLogic) List(req *types.FileListRequest) (resp *types.FileListResponse, err error) {
-	query := &files.FileListQuery{
+	query := &repository.FileListQuery{
 		ProjectName: req.ProjectName,
 		ServiceName: req.ServiceName,
 	}

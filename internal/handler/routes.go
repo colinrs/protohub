@@ -87,112 +87,104 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.Authority},
-			[]rest.Route{
-				{
-					Method:  http.MethodGet,
-					Path:    "/role",
-					Handler: role.GetRoleByIdHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/role/create",
-					Handler: role.CreateRoleHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/role/delete",
-					Handler: role.DeleteRoleHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/role/list",
-					Handler: role.GetRoleListHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/role/update",
-					Handler: role.UpdateRoleHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/role",
+				Handler: role.GetRoleByIdHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/role/create",
+				Handler: role.CreateRoleHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/role/delete",
+				Handler: role.DeleteRoleHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/role/list",
+				Handler: role.GetRoleListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/role/update",
+				Handler: role.UpdateRoleHandler(serverCtx),
+			},
+		},
 		rest.WithPrefix("/api/v1"),
 	)
 
 	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.Authority},
-			[]rest.Route{
-				{
-					Method:  http.MethodGet,
-					Path:    "/user",
-					Handler: user.GetUserByIdHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/user/access_token",
-					Handler: user.AccessTokenHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/user/change_password",
-					Handler: user.ChangePasswordHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/user/create",
-					Handler: user.CreateUserHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/user/delete",
-					Handler: user.DeleteUserHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/user/info",
-					Handler: user.GetUserInfoHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/user/list",
-					Handler: user.GetUserListHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/user/logout",
-					Handler: user.LogoutHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/user/perm",
-					Handler: user.GetUserPermCodeHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/user/profile",
-					Handler: user.GetUserProfileHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/user/profile",
-					Handler: user.UpdateUserProfileHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodGet,
-					Path:    "/user/refresh_token",
-					Handler: user.RefreshTokenHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/user/update",
-					Handler: user.UpdateUserHandler(serverCtx),
-				},
-			}...,
-		),
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/user",
+				Handler: user.GetUserByIdHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/access_token",
+				Handler: user.AccessTokenHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/change_password",
+				Handler: user.ChangePasswordHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/create",
+				Handler: user.CreateUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/delete",
+				Handler: user.DeleteUserHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/info",
+				Handler: user.GetUserInfoHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/list",
+				Handler: user.GetUserListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/logout",
+				Handler: user.LogoutHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/perm",
+				Handler: user.GetUserPermCodeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/profile",
+				Handler: user.GetUserProfileHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/profile",
+				Handler: user.UpdateUserProfileHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/refresh_token",
+				Handler: user.RefreshTokenHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/update",
+				Handler: user.UpdateUserHandler(serverCtx),
+			},
+		},
 		rest.WithPrefix("/api/v1"),
 	)
 }
