@@ -98,22 +98,37 @@ type GetPermCodeResponse struct {
 	List []string `json:"list"`
 }
 
-type GetRoleByIdRequest struct {
-	ID uint64 `form:"id"`
+type GetRoleByCodeRequest struct {
+	Code string `form:"code"`
 }
 
-type GetRoleByIdResponse struct {
-	RoleInfo
+type GetRoleByCodeResponse struct {
+	ID     uint32 `json:"id,omitempty"`
+	Status uint32 `json:"status,omitempty"`
+	Name   string `json:"name,omitempty"`
+	Code   string `json:"code,omitempty"`
+	Remark string `json:"remark,omitempty"`
+	Sort   uint32 `json:"sort,omitempty"`
+}
+
+type GetRoleListData struct {
+	ID     uint32 `json:"id"`
+	Status uint32 `json:"status"`
+	Name   string `json:"name"`
+	Code   string `json:"code"`
+	Remark string `json:"remark"`
+	Sort   uint32 `json:"sort"`
 }
 
 type GetRoleListRequest struct {
 	PageLimit
 	Name string `form:"name,optional"`
+	Code string `form:"code,optional"`
 }
 
 type GetRoleListResponse struct {
-	Total int         `json:"total"`
-	List  []*RoleInfo `json:"list"`
+	Total int                `json:"total"`
+	List  []*GetRoleListData `json:"list"`
 }
 
 type GetUserByIDRequest struct {
@@ -240,7 +255,11 @@ type RoleInfoSimple struct {
 }
 
 type UpdateRoleRequest struct {
-	RoleInfo
+	ID     uint32 `json:"id"`
+	Status uint32 `json:"status,omitempty" validate:"required,oneof=1 2"`
+	Name   string `json:"name" validate:"max=30"`
+	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
+	Sort   uint32 `json:"sort,optional"`
 }
 
 type UpdateUserProfileRequest struct {

@@ -91,7 +91,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodGet,
 				Path:    "/role",
-				Handler: role.GetRoleByIdHandler(serverCtx),
+				Handler: role.GetRoleByCodeHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
@@ -99,7 +99,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: role.CreateRoleHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
+				Method:  http.MethodDelete,
 				Path:    "/role/delete",
 				Handler: role.DeleteRoleHandler(serverCtx),
 			},
@@ -109,7 +109,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: role.GetRoleListHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
+				Method:  http.MethodPut,
 				Path:    "/role/update",
 				Handler: role.UpdateRoleHandler(serverCtx),
 			},

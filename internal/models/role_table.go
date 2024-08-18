@@ -11,7 +11,7 @@ type Role struct {
 	// Status 1: normal 2: ban | 状态 1 正常 2 禁用
 	RoleStatus uint8 `gorm:"column:role_status" json:"role_status,omitempty"`
 	// Role name | 角色名
-	Name string `gorm:"column:file_name" json:"name,omitempty"`
+	Name string `gorm:"column:name" json:"name,omitempty"`
 	// Role code for permission control in front end | 角色码，用于前端权限控制
 	Code string `gorm:"column:code" json:"code,omitempty"`
 	// Remark | 备注

@@ -3,7 +3,9 @@ package response
 import (
 	"context"
 	"errors"
+
 	"github.com/colinrs/protohub/pkg/code"
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type Response[T any] struct {
@@ -14,6 +16,7 @@ type Response[T any] struct {
 }
 
 func ErrHandle(ctx context.Context, err error) (int, any) {
+	logx.WithContext(ctx).Errorf("err: %v", err)
 	var v *code.Err
 	switch {
 	case errors.As(err, &v):

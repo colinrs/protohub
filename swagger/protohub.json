@@ -353,22 +353,21 @@
     },
     "/api/v1/role": {
       "get": {
-        "operationId": "getRoleById",
+        "operationId": "getRoleByCode",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/GetRoleByIdResponse"
+              "$ref": "#/definitions/GetRoleByCodeResponse"
             }
           }
         },
         "parameters": [
           {
-            "name": "id",
+            "name": "code",
             "in": "query",
             "required": true,
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         ],
         "tags": [
@@ -404,7 +403,7 @@
       }
     },
     "/api/v1/role/delete": {
-      "post": {
+      "delete": {
         "operationId": "deleteRole",
         "responses": {
           "200": {
@@ -460,6 +459,12 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -471,7 +476,7 @@
       }
     },
     "/api/v1/role/update": {
-      "post": {
+      "put": {
         "operationId": "updateRole",
         "responses": {
           "200": {
@@ -1131,27 +1136,24 @@
         "list"
       ]
     },
-    "GetRoleByIdRequest": {
+    "GetRoleByCodeRequest": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        }
+      },
+      "title": "GetRoleByCodeRequest",
+      "required": [
+        "code"
+      ]
+    },
+    "GetRoleByCodeResponse": {
       "type": "object",
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64"
-        }
-      },
-      "title": "GetRoleByIdRequest",
-      "required": [
-        "id"
-      ]
-    },
-    "GetRoleByIdResponse": {
-      "type": "object",
-      "properties": {
-        "": {
-          "$ref": "#/definitions/BaseIDInfo"
-        },
-        "trans": {
-          "type": "string"
+          "format": "int32"
         },
         "status": {
           "type": "integer",
@@ -1163,7 +1165,31 @@
         "code": {
           "type": "string"
         },
-        "default_router": {
+        "remark": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "GetRoleByCodeResponse"
+    },
+    "GetRoleListData": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        },
+        "code": {
           "type": "string"
         },
         "remark": {
@@ -1174,7 +1200,15 @@
           "format": "int32"
         }
       },
-      "title": "GetRoleByIdResponse"
+      "title": "GetRoleListData",
+      "required": [
+        "id",
+        "status",
+        "name",
+        "code",
+        "remark",
+        "sort"
+      ]
     },
     "GetRoleListRequest": {
       "type": "object",
@@ -1191,6 +1225,9 @@
         },
         "name": {
           "type": "string"
+        },
+        "code": {
+          "type": "string"
         }
       },
       "title": "GetRoleListRequest"
@@ -1205,7 +1242,7 @@
         "list": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/RoleInfo"
+            "$ref": "#/definitions/GetRoleListData"
           }
         }
       },
@@ -1701,23 +1738,15 @@
     "UpdateRoleRequest": {
       "type": "object",
       "properties": {
-        "": {
-          "$ref": "#/definitions/BaseIDInfo"
-        },
-        "trans": {
-          "type": "string"
+        "id": {
+          "type": "integer",
+          "format": "int32"
         },
         "status": {
           "type": "integer",
           "format": "int32"
         },
         "name": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        },
-        "default_router": {
           "type": "string"
         },
         "remark": {
@@ -1728,7 +1757,11 @@
           "format": "int32"
         }
       },
-      "title": "UpdateRoleRequest"
+      "title": "UpdateRoleRequest",
+      "required": [
+        "id",
+        "name"
+      ]
     },
     "UpdateUserProfileRequest": {
       "type": "object",

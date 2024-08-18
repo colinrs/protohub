@@ -33,6 +33,11 @@ func (e *Err) GetErrors() []*Error {
 	return e.Errors
 }
 
+func (e *Err) Copy() *Err {
+	tempE := *e
+	return &tempE
+}
+
 type Error struct {
 	Attr   string `json:"attr,omitempty"`
 	Code   int    `json:"code,omitempty"`

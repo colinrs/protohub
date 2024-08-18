@@ -3,6 +3,8 @@ package role
 import (
 	"net/http"
 
+	"github.com/colinrs/protohub/pkg/httpy"
+
 	"github.com/colinrs/protohub/internal/logic/role"
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/colinrs/protohub/internal/types"
@@ -12,11 +14,10 @@ import (
 func GetRoleListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.GetRoleListRequest
-		if err := httpx.Parse(r, &req); err != nil {
+		if err := httpy.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
-
 		l := role.NewGetRoleListLogic(r.Context(), svcCtx)
 		resp, err := l.GetRoleList(&req)
 		if err != nil {

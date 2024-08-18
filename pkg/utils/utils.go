@@ -42,3 +42,15 @@ func GenerateRandomNumber(length int) (string, error) {
 func GenerateRandomNumberString(length int) (string, error) {
 	return GenerateRandomNumber(length)
 }
+
+func PageToOffsetLimit(page, pageSize int) (int, int) {
+	if page < 1 {
+		page = 1
+	}
+	if pageSize < 1 {
+		pageSize = 10
+	}
+	offset := (page - 1) * pageSize
+	limit := pageSize
+	return offset, limit
+}
