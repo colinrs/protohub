@@ -1,0 +1,95 @@
+syntax = "v1"
+
+@server (
+	group:  role
+	prefix: /api/v1
+)
+service protohub-api {
+	// Create role information | 创建角色
+	@handler createRole
+	post /role/create (CreateRoleRequest)
+
+	// Update role information | 更新角色
+	@handler updateRole
+	put /role/update (UpdateRoleRequest)
+
+	// Delete role information | 删除角色信息
+	@handler deleteRole
+	delete /role/delete (DeleteRoleRequest)
+
+	// Get role list | 获取角色列表
+	@handler getRoleList
+	get /role/list (GetRoleListRequest) returns (GetRoleListResponse)
+
+	// Get Role by Code | 通过Code获取角色
+	@handler getRoleByCode
+	get /role (GetRoleByCodeRequest) returns (GetRoleByCodeResponse)
+}
+
+type CreateRoleRequest {
+	// Name | 角色名称
+	Name   string `json:"name" validate:"max=30"`
+	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
+}
+
+type UpdateRoleRequest {
+	ID uint32 `json:"id"`
+	// Status | 状态
+	Status uint32 `json:"status,omitempty" validate:"required,oneof=1 2"`
+	// Name | 角色名称
+	Name   string `json:"name" validate:"max=30"`
+	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
+	// Sort | 排序
+	Sort uint32 `json:"sort,optional"`
+}
+
+type DeleteRoleRequest {
+	IDsReq
+}
+
+type GetRoleListRequest {
+	PageLimit
+	// Name | 角色名称
+	Name string `form:"name,optional"`
+	Code string `form:"code,optional"`
+}
+
+type GetRoleListData {
+	ID uint32 `json:"id"`
+	// Status | 状态
+	Status uint32 `json:"status"`
+	// Name | 角色名称
+	Name string `json:"name"`
+	// Role code | 角色码
+	Code string `json:"code"`
+	// Remark | 备注
+	Remark string `json:"remark"`
+	// Sort | 排序
+	Sort uint32 `json:"sort"`
+}
+
+type GetRoleListResponse {
+	Total int `json:"total"`
+	// The API list data | 角色列表数据
+	List []*GetRoleListData `json:"list"`
+}
+
+type GetRoleByCodeRequest {
+	// Role code | 角色码
+	Code string `form:"code"`
+}
+
+type GetRoleByCodeResponse {
+	ID uint32 `json:"id,omitempty"`
+	// Status | 状态
+	Status uint32 `json:"status,omitempty"`
+	// Name | 角色名称
+	Name string `json:"name,omitempty"`
+	// Role code | 角色码
+	Code string `json:"code,omitempty"`
+	// Remark | 备注
+	Remark string `json:"remark,omitempty"`
+	// Sort | 排序
+	Sort uint32 `json:"sort,omitempty"`
+}
+

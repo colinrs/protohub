@@ -1,0 +1,322 @@
+syntax = "v1"
+
+@server (
+	prefix: /api/v1/public
+	group:  publicuser
+)
+service protohub-api {
+	// Log in | 登录
+	@handler login
+	post /user/login (LoginRequest) returns (LoginResponse)
+
+	// Log in by email | 邮箱登录
+	@handler loginByEmail
+	post /user/login_by_email (LoginByEmailRequest) returns (LoginResponse)
+
+	// Log in by SMS | 短信登录
+	@handler loginBySms
+	post /user/login_by_sms (LoginBySmsRequest) returns (LoginResponse)
+
+	// Register | 注册
+	@handler register
+	post /user/register (RegisterRequest)
+
+	// Register by Email | 邮箱注册
+	@handler registerByEmail
+	post /user/register_by_email (RegisterByEmailRequest)
+
+	// Register by SMS | 短信注册
+	@handler registerBySms
+	post /user/register_by_sms (RegisterBySmsRequest)
+
+	// Reset password by Email | 通过邮箱重置密码
+	@handler resetPasswordByEmail
+	post /user/reset_password_by_email (ResetPasswordByEmailRequest)
+
+	// Reset password by Sms | 通过短信重置密码
+	@handler resetPasswordBySms
+	post /user/reset_password_by_sms (ResetPasswordBySmsRequest)
+}
+
+@server (
+	group:  user
+	prefix: /api/v1
+)
+service protohub-api {
+	// Create user information | 创建用户
+	@handler createUser
+	post /user/create (CreateUserRequest)
+
+	// Update user information | 更新用户
+	@handler updateUser
+	post /user/update (UpdateUserRequest)
+
+	// Delete user information | 删除用户信息
+	@handler deleteUser
+	post /user/delete (DeleteUsersByIDsRequest)
+
+	// Get user list | 获取用户列表
+	@handler getUserList
+	post /user/list (UserListRequest) returns (UserListResponse)
+
+	// Get User by ID | 通过ID获取用户
+	@handler getUserById
+	get /user (GetUserByIDRequest) returns (GetUserByIDResponse)
+
+	// Change Password | 修改密码
+	@handler changePassword
+	post /user/change_password (ChangePasswordRequest)
+
+	// Get user basic information | 获取用户基本信息
+	@handler getUserInfo
+	get /user/info returns (GetUserInfoResponse)
+
+	// Log out | 退出登陆
+	@handler logout
+	get /user/logout
+
+	// Refresh token | 获取刷新 token
+	@handler refreshToken
+	get /user/refresh_token returns (RefreshTokenResponse)
+
+	// Access token | 获取短期 token
+	@handler accessToken
+	get /user/access_token returns (AccessTokenResponse)
+}
+
+type CreateUserRequest {
+	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
+	Status uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+	// Username | 用户名
+	Username string `json:"username" validate:"omitempty,max=50"`
+	// Password | 密码
+	Password string `json:"password" validate:"min=6"`
+	// Description | 描述
+	Description string `json:"description,optional" validate:"omitempty,max=100"`
+	// Mobile | 手机号
+	Mobile string `json:"mobile" validate:"max=18"`
+	// Email | 邮箱
+	Email string `json:"email" validate:"email,max=80"`
+}
+
+type UpdateUserRequest {
+	UserID uint64 `json:"user_id" validate:"omitempty,min=1"`
+	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
+	Status uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+	// Username | 用户名
+	Username string `json:"username,optional" validate:"omitempty,max=50"`
+	// Description | 描述
+	Description string `json:"description,optional" validate:"omitempty,max=100"`
+	// Mobile | 手机号
+	Mobile string `json:"mobile,optional" validate:"max=18"`
+	// Email | 邮箱
+	Email string `json:"email,optional" validate:"email,max=80"`
+}
+
+// Basic UUID array request | 基础UUID数组参数请求
+type DeleteUsersByIDsRequest {
+	// Ids
+	// Required: true
+	Ids []string `json:"ids"`
+}
+
+type UserListRequest {
+	PageLimit
+	// User Name | 用户名
+	Username string `json:"username,optional" validate:"omitempty,alphanum,max=20"`
+	// User's mobile phone number | 用户的手机号码
+	Mobile string `json:"mobile,optional" validate:"omitempty,numeric,max=18"`
+	// The user's email address | 用户的邮箱
+	Email string `json:"email,optional" validate:"omitempty,email,max=100"`
+}
+
+type UserListData {
+	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
+	Status uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+	// Username | 用户名
+	Username string `json:"username" validate:"omitempty,max=50"`
+	// Description | 描述
+	Description string `json:"description,optional" validate:"omitempty,max=100"`
+	// Mobile | 手机号
+	Mobile string `json:"mobile" validate:"max=18"`
+	// Email | 邮箱
+	Email string `json:"email" validate:"email,max=80"`
+}
+
+type UserListResponse {
+	Total int `json:"total"`
+	// User list data | User列表数据
+	List []*UserListData `json:"list"`
+}
+
+// Basic UUID request | 基础UUID参数请求
+type GetUserByIDRequest {
+	Id uint64 `form:"id" validate:"len=36"`
+}
+
+type GetUserByIDResponse {
+	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
+	Status uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+	// Username | 用户名
+	Username string `json:"username" validate:"omitempty,max=50"`
+	// Description | 描述
+	Description string `json:"description,optional" validate:"omitempty,max=100"`
+	// Mobile | 手机号
+	Mobile string `json:"mobile" validate:"max=18"`
+	// Email | 邮箱
+	Email string `json:"email" validate:"email,max=80"`
+}
+
+type ChangePasswordRequest {
+	// User's old password | 用户旧密码
+	OldPassword string `json:"old_password" validate:"required,max=30"`
+	// User's new password | 用户新密码
+	NewPassword string `json:"new_password" validate:"required,max=30"`
+}
+
+type GetUserInfoResponse {
+	// The  data of user's basic information | 用户基本信息
+	// User's UUID | 用户的UUID
+	UserID uint64 `json:"user_id"`
+	// User's name | 用户名
+	Username string `json:"username"`
+	// The user's avatar path | 用户的头像路径
+	Avatar string `json:"avatar"`
+	// The description of user | 用户的描述信息
+	Description string `json:"desc"`
+	// User's Role Name | 用户的角色名称
+	RoleCode []string `json:"role_code"`
+	// Mobile | 手机号
+	Mobile string `json:"mobile"`
+	// Email | 邮箱
+	Email string `json:"email"`
+	// RoleId | 角色ID
+	RoleIds []string `json:"role_ids"`
+}
+
+// The log in information | 登陆返回的数据信息
+type LoginInfo {
+	// User's UUID | 用户的UUID
+	UserId string `json:"user_id"`
+	// Token for authorization | 验证身份的token
+	Token string `json:"token"`
+	// Expire timestamp | 过期时间戳
+	Expire uint64 `json:"expire"`
+}
+
+type RoleInfoSimple {
+	// Role name | 角色名
+	RoleName string `json:"roleName"`
+	// Role value | 角色值
+	Value string `json:"value"`
+}
+
+type LoginRequest {
+	// User Name | 用户名
+	Username string `json:"username" validate:"required,alphanum,max=20"`
+	// Password | 密码
+	Password string `json:"password" validate:"required,max=30,min=6"`
+	// Captcha ID which store in redis | 验证码编号, 存在redis中
+	CaptchaId string `json:"captcha_id"  validate:"required,len=20"`
+	// The Captcha which users input | 用户输入的验证码
+	Captcha string `json:"captcha" validate:"required,len=5"`
+}
+
+// The log in response data | 登录返回数据
+type LoginResponse {
+	// User's UUID | 用户的UUID
+	UserId string `json:"user_id"`
+	// Token for authorization | 验证身份的token
+	Token string `json:"token"`
+	// Expire timestamp | 过期时间戳
+	Expire uint64 `json:"expire"`
+}
+
+// Log in by email request | 邮箱登录参数
+type LoginByEmailRequest {
+	// The user's email address | 用户的邮箱
+	Email string `json:"email" validate:"required,email,max=100"`
+	// The Captcha which users input | 用户输入的验证码
+	Captcha string `json:"captcha,optional" validate:"omitempty,len=5"`
+}
+
+// Log in by SMS request | 短信登录参数
+type LoginBySmsRequest {
+	// The user's mobile phone number | 用户的手机号码
+	PhoneNumber string `json:"phone_number"  validate:"required,numeric,max=20"`
+	// The Captcha which users input | 用户输入的验证码
+	Captcha string `json:"captcha,optional" validate:"omitempty,len=5"`
+}
+
+type RegisterRequest {
+	// User Name | 用户名
+	Username string `json:"user_name" validate:"required,alphanum,max=20"`
+	// Password | 密码
+	Password string `json:"password" validate:"required,max=30,min=6"`
+	// Captcha ID which store in redis | 验证码编号, 存在redis中
+	CaptchaId string `json:"captcha_id" validate:"required,len=20"`
+	// The Captcha which users input | 用户输入的验证码
+	Captcha string `json:"captcha" validate:"required,len=5"`
+	// The user's email address | 用户的邮箱
+	Email string `json:"email" validate:"required,email,max=100"`
+}
+
+type RegisterByEmailRequest {
+	// User Name | 用户名
+	Username string `json:"username" validate:"required,alphanum,max=20"`
+	// Password | 密码
+	Password string `json:"password" validate:"required,max=30,min=6"`
+	// The Captcha which users input | 用户输入的验证码
+	Captcha string `json:"captcha" validate:"required,len=5"`
+	// The user's email address | 用户的邮箱
+	Email string `json:"email" validate:"required,email,max=100"`
+}
+
+// Register by SMS request | 短信注册参数
+type RegisterBySmsRequest {
+	// User Name | 用户名
+	Username string `json:"username" validate:"required,alphanum,max=20"`
+	// Password | 密码
+	Password string `json:"password" validate:"required,max=30,min=6"`
+	// The Captcha which users input | 用户输入的验证码
+	Captcha string `json:"captcha" validate:"required,len=5"`
+	// The user's mobile phone number | 用户的手机号码
+	PhoneNumber string `json:"phone_number"  validate:"required,numeric,max=20"`
+}
+
+// Reset password by email request | 通过邮箱重置密码请求
+type ResetPasswordByEmailRequest {
+	Email    string `json:"email" validate:"email"`
+	Captcha  string `json:"captcha"`
+	Password string `json:"password"`
+}
+
+// Reset password by SMS request | 通过短信重置密码请求
+type ResetPasswordBySmsRequest {
+	PhoneNumber string `json:"phone_number"`
+	Captcha     string `json:"captcha"`
+	Password    string `json:"password"`
+}
+
+type UpdateUserProfileRequest {
+	// The user's avatar path | 用户的头像路径
+	Avatar string `json:"avatar" validate:"omitempty,max=300"`
+	// User's mobile phone number | 用户的手机号码
+	Mobile string `json:"mobile" validate:"omitempty,numeric,max=18"`
+	// The user's email address | 用户的邮箱
+	Email string `json:"email" validate:"omitempty,email,max=100"`
+}
+
+// Refresh token response data | 刷新令牌响应数据
+type RefreshTokenResponse {
+	// The token information | 令牌信息
+	Token     string `json:"token"`
+	ExpiredAt int64  `json:"expired_at"`
+}
+
+type AccessTokenResponse {
+	// The token information | 令牌信息
+	Token     string `json:"token"`
+	ExpiredAt int64  `json:"expired_at"`
+}
+

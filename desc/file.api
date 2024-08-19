@@ -1,0 +1,72 @@
+syntax = "v1"
+
+@server (
+	prefix: /api/v1/file
+	group:  file
+)
+service protohub-api {
+	@handler UploadHandler
+	post /upload (FileUploadRequest) returns (FileUploadResponse)
+
+	@handler DownloadHandler
+	get /download (FileDownloadRequest)
+
+	@handler List
+	get /list (FileListRequest) returns (FileListResponse)
+
+	@handler Detail
+	get /detail (FileDetailRequest) returns (FileDetailResponse)
+}
+
+type FileUploadRequest {
+	ProjectName string `form:"project_name"`
+	ServiceName string `form:"service_name"`
+	Branch      string `form:"branch"`
+	FileName    string `form:"file_name"`
+	Creator     string `form:"creator"`
+}
+
+type FileUploadResponse {}
+
+type FileDownloadRequest {
+	FileID int `form:"file_id"`
+}
+
+type FileDownloadResponse {}
+
+type FileListRequest {
+	PageLimit
+	ProjectName string `form:"project_name"`
+	ServiceName string `form:"service_name"`
+}
+
+type FileListData {
+	ProjectName string `json:"project_name"`
+	ServiceName string `json:"service_name"`
+	Branch      string `json:"branch"`
+	FileName    string `json:"file_name"`
+	FileID      int    `json:"file_id"`
+	Creator     string `json:"creator"`
+	UpdateAt    string `json:"update_at"`
+}
+
+type FileListResponse {
+	List  []*FileListData `json:"list"`
+	Total int             `json:"total"`
+}
+
+type FileDetailRequest {
+	FileID int `form:"file_id"`
+}
+
+type FileDetailResponse {
+	ProjectName string `json:"project_name"`
+	ServiceName string `json:"service_name"`
+	Branch      string `json:"branch"`
+	FileName    string `json:"file_name"`
+	FileID      int    `json:"file_id"`
+	Content     string `json:"content"`
+	creator     string `json:"creator"`
+	UpdateAt    string `json:"update_at"`
+}
+

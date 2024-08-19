@@ -10,6 +10,7 @@ export GO111MODULE := on
 # 格式化API定义文件
 format:
 	$(GOCTL) api format --dir ./
+	$(GOCTL) api format --dir ./desc
 
 # 生成Go API代码
 gen-go-api:

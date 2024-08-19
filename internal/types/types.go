@@ -6,18 +6,6 @@ type AccessTokenResponse struct {
 	ExpiredAt int64  `json:"expired_at"`
 }
 
-type BaseIDInfo struct {
-	Id        *uint64 `json:"id,optional"`
-	CreatedAt *int64  `json:"createdAt,optional"`
-	UpdatedAt *int64  `json:"updatedAt,optional"`
-}
-
-type BaseUUIDInfo struct {
-	Id        *string `json:"id,optional"`
-	CreatedAt *int64  `json:"createdAt,optional"`
-	UpdatedAt *int64  `json:"updatedAt,optional"`
-}
-
 type ChangePasswordRequest struct {
 	OldPassword string `json:"old_password" validate:"required,max=30"`
 	NewPassword string `json:"new_password" validate:"required,max=30"`
@@ -29,7 +17,12 @@ type CreateRoleRequest struct {
 }
 
 type CreateUserRequest struct {
-	UserInfo
+	Status      uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+	Username    string `json:"username" validate:"omitempty,max=50"`
+	Password    string `json:"password" validate:"min=6"`
+	Description string `json:"description,optional" validate:"omitempty,max=100"`
+	Mobile      string `json:"mobile" validate:"max=18"`
+	Email       string `json:"email" validate:"email,max=80"`
 }
 
 type DeleteRoleRequest struct {
@@ -94,10 +87,6 @@ type FileUploadRequest struct {
 type FileUploadResponse struct {
 }
 
-type GetPermCodeResponse struct {
-	List []string `json:"list"`
-}
-
 type GetRoleByCodeRequest struct {
 	Code string `form:"code"`
 }
@@ -132,29 +121,26 @@ type GetRoleListResponse struct {
 }
 
 type GetUserByIDRequest struct {
-	Id string `form:"id" validate:"len=36"`
+	Id uint64 `form:"id" validate:"len=36"`
 }
 
 type GetUserByIDResponse struct {
-	UserInfo
+	Status      uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+	Username    string `json:"username" validate:"omitempty,max=50"`
+	Description string `json:"description,optional" validate:"omitempty,max=100"`
+	Mobile      string `json:"mobile" validate:"max=18"`
+	Email       string `json:"email" validate:"email,max=80"`
 }
 
 type GetUserInfoResponse struct {
-	UUID           *string  `json:"user_id"`
-	Username       *string  `json:"username"`
-	Nickname       *string  `json:"nickname"`
-	Avatar         *string  `json:"avatar"`
-	HomePath       *string  `json:"home_path"`
-	Description    *string  `json:"desc"`
-	RoleName       []string `json:"role_name"`
-	DepartmentName string   `json:"department_name,optional"`
-}
-
-type GetUserProfileResponse struct {
-	Nickname *string `json:"nickname" validate:"omitempty,alphanumunicode,max=10"`
-	Avatar   *string `json:"avatar" validate:"omitempty,max=300"`
-	Mobile   *string `json:"mobile" validate:"omitempty,numeric,max=18"`
-	Email    *string `json:"email" validate:"omitempty,email,max=100"`
+	UserID      uint64   `json:"user_id"`
+	Username    string   `json:"username"`
+	Avatar      string   `json:"avatar"`
+	Description string   `json:"desc"`
+	RoleCode    []string `json:"role_code"`
+	Mobile      string   `json:"mobile"`
+	Email       string   `json:"email"`
+	RoleIds     []string `json:"role_ids"`
 }
 
 type IDsReq struct {
@@ -234,21 +220,6 @@ type ResetPasswordBySmsRequest struct {
 	Password    string `json:"password"`
 }
 
-type RoleInfo struct {
-	BaseIDInfo
-	Trans         string  `json:"trans,optional"`
-	Status        *uint32 `json:"status,optional" validate:"omitempty,lt=20"`
-	Name          *string `json:"name,optional" validate:"omitempty,max=30"`
-	Code          *string `json:"code,optional" validate:"omitempty,max=20"`
-	DefaultRouter *string `json:"default_router,optional" validate:"omitempty,max=80"`
-	Remark        *string `json:"remark,optional" validate:"omitempty,max=200"`
-	Sort          *uint32 `json:"sort,optional" validate:"omitempty,lt=10000"`
-}
-
-type RoleInfoResp struct {
-	RoleInfo
-}
-
 type RoleInfoSimple struct {
 	RoleName string `json:"roleName"`
 	Value    string `json:"value"`
@@ -263,51 +234,36 @@ type UpdateRoleRequest struct {
 }
 
 type UpdateUserProfileRequest struct {
-	Nickname *string `json:"nickname" validate:"omitempty,alphanumunicode,max=10"`
-	Avatar   *string `json:"avatar" validate:"omitempty,max=300"`
-	Mobile   *string `json:"mobile" validate:"omitempty,numeric,max=18"`
-	Email    *string `json:"email" validate:"omitempty,email,max=100"`
-}
-
-type UpdateUserProfileResponse struct {
-	Nickname *string `json:"nickname" validate:"omitempty,alphanumunicode,max=10"`
-	Avatar   *string `json:"avatar" validate:"omitempty,max=300"`
-	Mobile   *string `json:"mobile" validate:"omitempty,numeric,max=18"`
-	Email    *string `json:"email" validate:"omitempty,email,max=100"`
+	Avatar string `json:"avatar" validate:"omitempty,max=300"`
+	Mobile string `json:"mobile" validate:"omitempty,numeric,max=18"`
+	Email  string `json:"email" validate:"omitempty,email,max=100"`
 }
 
 type UpdateUserRequest struct {
-	UserInfo
+	UserID      uint64 `json:"user_id" validate:"omitempty,min=1"`
+	Status      uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+	Username    string `json:"username,optional" validate:"omitempty,max=50"`
+	Description string `json:"description,optional" validate:"omitempty,max=100"`
+	Mobile      string `json:"mobile,optional" validate:"max=18"`
+	Email       string `json:"email,optional" validate:"email,max=80"`
 }
 
-type UserInfo struct {
-	BaseUUIDInfo
-	Status       *uint32  `json:"status,optional" validate:"omitempty,lt=20"`
-	Username     *string  `json:"username,optional" validate:"omitempty,max=50"`
-	Nickname     *string  `json:"nickname,optional" validate:"omitempty,max=40"`
-	Password     *string  `json:"password,optional" validate:"omitempty,min=6"`
-	Description  *string  `json:"description,optional" validate:"omitempty,max=100"`
-	HomePath     *string  `json:"home_path,optional" validate:"omitempty,max=70"`
-	RoleIds      []uint64 `json:"role_ids,optional"`
-	Mobile       *string  `json:"mobile,optional" validate:"omitempty,max=18"`
-	Email        *string  `json:"email,optional" validate:"omitempty,max=80"`
-	Avatar       *string  `json:"avatar,optional" validate:"omitempty,max=300"`
-	DepartmentId *uint64  `json:"department_id,optional"`
-	PositionIds  []uint64 `json:"position_id,optional"`
+type UserListData struct {
+	Status      uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+	Username    string `json:"username" validate:"omitempty,max=50"`
+	Description string `json:"description,optional" validate:"omitempty,max=100"`
+	Mobile      string `json:"mobile" validate:"max=18"`
+	Email       string `json:"email" validate:"email,max=80"`
 }
 
 type UserListRequest struct {
 	PageLimit
-	Username     *string  `json:"username,optional" validate:"omitempty,alphanum,max=20"`
-	Nickname     *string  `json:"nickname,optional" validate:"omitempty,alphanumunicode,max=10"`
-	Mobile       *string  `json:"mobile,optional" validate:"omitempty,numeric,max=18"`
-	Email        *string  `json:"email,optional" validate:"omitempty,email,max=100"`
-	RoleIds      []uint64 `json:"role_ids,optional"`
-	DepartmentId *uint64  `json:"department_id,optional"`
-	PositionId   *uint64  `json:"position_id,optional"`
+	Username string `json:"username,optional" validate:"omitempty,alphanum,max=20"`
+	Mobile   string `json:"mobile,optional" validate:"omitempty,numeric,max=18"`
+	Email    string `json:"email,optional" validate:"omitempty,email,max=100"`
 }
 
 type UserListResponse struct {
-	Total int         `json:"total"`
-	List  []*UserInfo `json:"list"`
+	Total int             `json:"total"`
+	List  []*UserListData `json:"list"`
 }

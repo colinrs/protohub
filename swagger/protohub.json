@@ -132,7 +132,6 @@
         "parameters": [
           {
             "name": "body",
-            "description": " user  ===================================, file  ===================================",
             "in": "body",
             "required": true,
             "schema": {
@@ -515,7 +514,8 @@
             "name": "id",
             "in": "query",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -671,62 +671,6 @@
         ]
       }
     },
-    "/api/v1/user/perm": {
-      "get": {
-        "operationId": "getUserPermCode",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/GetPermCodeResponse"
-            }
-          }
-        },
-        "tags": [
-          "user"
-        ]
-      }
-    },
-    "/api/v1/user/profile": {
-      "get": {
-        "operationId": "getUserProfile",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/GetUserProfileResponse"
-            }
-          }
-        },
-        "tags": [
-          "user"
-        ]
-      },
-      "post": {
-        "operationId": "updateUserProfile",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/UpdateUserProfileResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/UpdateUserProfileRequest"
-            }
-          }
-        ],
-        "tags": [
-          "user"
-        ]
-      }
-    },
     "/api/v1/user/refresh_token": {
       "get": {
         "operationId": "refreshToken",
@@ -786,41 +730,6 @@
         "expired_at"
       ]
     },
-    "BaseIDInfo": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "createdAt": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "updatedAt": {
-          "type": "integer",
-          "format": "int64"
-        }
-      },
-      "title": "BaseIDInfo"
-    },
-    "BaseUUIDInfo": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "updatedAt": {
-          "type": "integer",
-          "format": "int64"
-        }
-      },
-      "title": "BaseUUIDInfo"
-    },
     "ChangePasswordRequest": {
       "type": "object",
       "properties": {
@@ -855,17 +764,11 @@
     "CreateUserRequest": {
       "type": "object",
       "properties": {
-        "": {
-          "$ref": "#/definitions/BaseUUIDInfo"
-        },
         "status": {
           "type": "integer",
           "format": "int32"
         },
         "username": {
-          "type": "string"
-        },
-        "nickname": {
           "type": "string"
         },
         "password": {
@@ -874,38 +777,20 @@
         "description": {
           "type": "string"
         },
-        "home_path": {
-          "type": "string"
-        },
-        "role_ids": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
         "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "department_id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "position_id": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
         }
       },
-      "title": "CreateUserRequest"
+      "title": "CreateUserRequest",
+      "required": [
+        "username",
+        "password",
+        "mobile",
+        "email"
+      ]
     },
     "DeleteRoleRequest": {
       "type": "object",
@@ -1121,21 +1006,6 @@
       "type": "object",
       "title": "FileUploadResponse"
     },
-    "GetPermCodeResponse": {
-      "type": "object",
-      "properties": {
-        "list": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "title": "GetPermCodeResponse",
-      "required": [
-        "list"
-      ]
-    },
     "GetRoleByCodeRequest": {
       "type": "object",
       "properties": {
@@ -1256,7 +1126,8 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         }
       },
       "title": "GetUserByIDRequest",
@@ -1267,9 +1138,6 @@
     "GetUserByIDResponse": {
       "type": "object",
       "properties": {
-        "": {
-          "$ref": "#/definitions/BaseUUIDInfo"
-        },
         "status": {
           "type": "integer",
           "format": "int32"
@@ -1277,23 +1145,43 @@
         "username": {
           "type": "string"
         },
-        "nickname": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
         "description": {
           "type": "string"
         },
-        "home_path": {
+        "mobile": {
           "type": "string"
         },
-        "role_ids": {
+        "email": {
+          "type": "string"
+        }
+      },
+      "title": "GetUserByIDResponse",
+      "required": [
+        "username",
+        "mobile",
+        "email"
+      ]
+    },
+    "GetUserInfoResponse": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "role_code": {
           "type": "array",
           "items": {
-            "type": "integer",
-            "format": "int64"
+            "type": "string"
           }
         },
         "mobile": {
@@ -1302,87 +1190,23 @@
         "email": {
           "type": "string"
         },
-        "avatar": {
-          "type": "string"
-        },
-        "department_id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "position_id": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "title": "GetUserByIDResponse"
-    },
-    "GetUserInfoResponse": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "nickname": {
-          "type": "string"
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "home_path": {
-          "type": "string"
-        },
-        "desc": {
-          "type": "string"
-        },
-        "role_name": {
+        "role_ids": {
           "type": "array",
           "items": {
             "type": "string"
           }
-        },
-        "department_name": {
-          "type": "string"
         }
       },
       "title": "GetUserInfoResponse",
       "required": [
         "user_id",
         "username",
-        "nickname",
         "avatar",
-        "home_path",
         "desc",
-        "role_name"
-      ]
-    },
-    "GetUserProfileResponse": {
-      "type": "object",
-      "properties": {
-        "nickname": {
-          "type": "string"
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "mobile": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        }
-      },
-      "title": "GetUserProfileResponse",
-      "required": [
-        "nickname",
-        "avatar",
+        "role_code",
         "mobile",
-        "email"
+        "email",
+        "role_ids"
       ]
     },
     "IDsReq": {
@@ -1646,79 +1470,6 @@
         "password"
       ]
     },
-    "RoleInfo": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "createdAt": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "updatedAt": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "trans": {
-          "type": "string"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        },
-        "default_router": {
-          "type": "string"
-        },
-        "remark": {
-          "type": "string"
-        },
-        "sort": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "RoleInfo"
-    },
-    "RoleInfoResp": {
-      "type": "object",
-      "properties": {
-        "": {
-          "$ref": "#/definitions/BaseIDInfo"
-        },
-        "trans": {
-          "type": "string"
-        },
-        "status": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        },
-        "code": {
-          "type": "string"
-        },
-        "default_router": {
-          "type": "string"
-        },
-        "remark": {
-          "type": "string"
-        },
-        "sort": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "title": "RoleInfoResp"
-    },
     "RoleInfoSimple": {
       "type": "object",
       "properties": {
@@ -1766,9 +1517,6 @@
     "UpdateUserProfileRequest": {
       "type": "object",
       "properties": {
-        "nickname": {
-          "type": "string"
-        },
         "avatar": {
           "type": "string"
         },
@@ -1781,31 +1529,6 @@
       },
       "title": "UpdateUserProfileRequest",
       "required": [
-        "nickname",
-        "avatar",
-        "mobile",
-        "email"
-      ]
-    },
-    "UpdateUserProfileResponse": {
-      "type": "object",
-      "properties": {
-        "nickname": {
-          "type": "string"
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "mobile": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        }
-      },
-      "title": "UpdateUserProfileResponse",
-      "required": [
-        "nickname",
         "avatar",
         "mobile",
         "email"
@@ -1814,8 +1537,9 @@
     "UpdateUserRequest": {
       "type": "object",
       "properties": {
-        "": {
-          "$ref": "#/definitions/BaseUUIDInfo"
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
         },
         "status": {
           "type": "integer",
@@ -1824,62 +1548,24 @@
         "username": {
           "type": "string"
         },
-        "nickname": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
         "description": {
           "type": "string"
-        },
-        "home_path": {
-          "type": "string"
-        },
-        "role_ids": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
         },
         "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "department_id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "position_id": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
         }
       },
-      "title": "UpdateUserRequest"
+      "title": "UpdateUserRequest",
+      "required": [
+        "user_id"
+      ]
     },
-    "UserInfo": {
+    "UserListData": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "updatedAt": {
-          "type": "integer",
-          "format": "int64"
-        },
         "status": {
           "type": "integer",
           "format": "int32"
@@ -1887,47 +1573,22 @@
         "username": {
           "type": "string"
         },
-        "nickname": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
         "description": {
           "type": "string"
-        },
-        "home_path": {
-          "type": "string"
-        },
-        "role_ids": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
         },
         "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
-        },
-        "avatar": {
-          "type": "string"
-        },
-        "department_id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "position_id": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
         }
       },
-      "title": "UserInfo"
+      "title": "UserListData",
+      "required": [
+        "username",
+        "mobile",
+        "email"
+      ]
     },
     "UserListRequest": {
       "type": "object",
@@ -1945,29 +1606,11 @@
         "username": {
           "type": "string"
         },
-        "nickname": {
-          "type": "string"
-        },
         "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
-        },
-        "role_ids": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
-        },
-        "department_id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "position_id": {
-          "type": "integer",
-          "format": "int64"
         }
       },
       "title": "UserListRequest"
@@ -1982,7 +1625,7 @@
         "list": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/UserInfo"
+            "$ref": "#/definitions/UserListData"
           }
         }
       },

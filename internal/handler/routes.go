@@ -161,21 +161,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodGet,
-				Path:    "/user/perm",
-				Handler: user.GetUserPermCodeHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/profile",
-				Handler: user.GetUserProfileHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/profile",
-				Handler: user.UpdateUserProfileHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
 				Path:    "/user/refresh_token",
 				Handler: user.RefreshTokenHandler(serverCtx),
 			},
