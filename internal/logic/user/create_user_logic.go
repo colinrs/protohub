@@ -3,6 +3,10 @@ package user
 import (
 	"context"
 
+	"gorm.io/gorm"
+
+	"github.com/colinrs/protohub/internal/repository"
+
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/colinrs/protohub/internal/types"
 
@@ -11,15 +15,19 @@ import (
 
 type CreateUserLogic struct {
 	logx.Logger
-	ctx    context.Context
-	svcCtx *svc.ServiceContext
+	ctx            context.Context
+	svcCtx         *svc.ServiceContext
+	userRepository repository.RoleRepository
+	db             *gorm.DB
 }
 
 func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateUserLogic {
 	return &CreateUserLogic{
-		Logger: logx.WithContext(ctx),
-		ctx:    ctx,
-		svcCtx: svcCtx,
+		Logger:         logx.WithContext(ctx),
+		ctx:            ctx,
+		svcCtx:         svcCtx,
+		userRepository: repository.NewRoleRepository(ctx, svcCtx),
+		db:             svcCtx.DB.WithContext(ctx),
 	}
 }
 

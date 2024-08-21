@@ -11,6 +11,11 @@ type ChangePasswordRequest struct {
 	NewPassword string `json:"new_password" validate:"required,max=30"`
 }
 
+type CreateProjectRequest struct {
+	Name   string `json:"name" validate:"max=30"`
+	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
+}
+
 type CreateRoleRequest struct {
 	Name   string `json:"name" validate:"max=30"`
 	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
@@ -23,6 +28,10 @@ type CreateUserRequest struct {
 	Description string `json:"description,optional" validate:"omitempty,max=100"`
 	Mobile      string `json:"mobile" validate:"max=18"`
 	Email       string `json:"email" validate:"email,max=80"`
+}
+
+type DeleteProjectRequest struct {
+	IDsReq
 }
 
 type DeleteRoleRequest struct {
@@ -85,6 +94,36 @@ type FileUploadRequest struct {
 }
 
 type FileUploadResponse struct {
+}
+
+type GetProjectByIDRequest struct {
+	ID uint32 `form:"id"`
+}
+
+type GetProjectByIDResponse struct {
+	ID     uint32 `json:"id,omitempty"`
+	Status uint32 `json:"status,omitempty"`
+	Name   string `json:"name,omitempty"`
+	Remark string `json:"remark,omitempty"`
+	Sort   uint32 `json:"sort,omitempty"`
+}
+
+type GetProjectListData struct {
+	ID     uint32 `json:"id"`
+	Status uint32 `json:"status"`
+	Name   string `json:"name"`
+	Remark string `json:"remark"`
+	Sort   uint32 `json:"sort"`
+}
+
+type GetProjectListRequest struct {
+	PageLimit
+	Name string `form:"name,optional"`
+}
+
+type GetProjectListResponse struct {
+	Total int                   `json:"total"`
+	List  []*GetProjectListData `json:"list"`
 }
 
 type GetRoleByCodeRequest struct {
@@ -223,6 +262,14 @@ type ResetPasswordBySmsRequest struct {
 type RoleInfoSimple struct {
 	RoleName string `json:"roleName"`
 	Value    string `json:"value"`
+}
+
+type UpdateProjectRequest struct {
+	ID     uint32 `json:"id"`
+	Status uint32 `json:"status,omitempty" validate:"required,oneof=1 2"`
+	Name   string `json:"name" validate:"max=30"`
+	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
+	Sort   uint32 `json:"sort,optional"`
 }
 
 type UpdateRoleRequest struct {

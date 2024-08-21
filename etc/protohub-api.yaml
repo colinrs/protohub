@@ -19,3 +19,4 @@ Database:
   MaxOpenConn: 10
   ConnMaxLifeTime: 1800
 
+PasswdSecret: 'PasswdSecret'

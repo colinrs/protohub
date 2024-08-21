@@ -8,5 +8,6 @@ import (
 
 type Config struct {
 	rest.RestConf
-	DataBase *infra.DBConfig `json:"Database" yaml:"Database"`
+	DataBase     *infra.DBConfig `json:"Database" yaml:"Database"`
+	PasswdSecret string          `json:"PasswdSecret" yaml:"PasswdSecret"`
 }

@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	file "github.com/colinrs/protohub/internal/handler/file"
+	project "github.com/colinrs/protohub/internal/handler/project"
 	publicuser "github.com/colinrs/protohub/internal/handler/publicuser"
 	role "github.com/colinrs/protohub/internal/handler/role"
 	user "github.com/colinrs/protohub/internal/handler/user"
@@ -38,6 +39,37 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/api/v1/file"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/project",
+				Handler: project.GetProjectByCodeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/project/create",
+				Handler: project.CreateProjectHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodDelete,
+				Path:    "/project/delete",
+				Handler: project.DeleteProjectHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/project/list",
+				Handler: project.GetProjectListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/project/update",
+				Handler: project.UpdateProjectHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/api/v1"),
 	)
 
 	server.AddRoutes(

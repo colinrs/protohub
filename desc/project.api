@@ -1,0 +1,90 @@
+syntax = "v1"
+
+@server (
+	group:  project
+	prefix: /api/v1
+)
+service protohub-api {
+	// Create Project information | 创建项目
+	@handler createProject
+	post /project/create (CreateProjectRequest)
+
+	// Update Project information | 更新项目
+	@handler updateProject
+	put /project/update (UpdateProjectRequest)
+
+	// Delete Project information | 删除项目信息
+	@handler deleteProject
+	delete /project/delete (DeleteProjectRequest)
+
+	// Get Project list | 获取项目列表
+	@handler getProjectList
+	get /project/list (GetProjectListRequest) returns (GetProjectListResponse)
+
+	// Get Project by ID | 通过Code获取项目
+	@handler getProjectByCode
+	get /project (GetProjectByIDRequest) returns (GetProjectByIDResponse)
+}
+
+type CreateProjectRequest {
+	// Name | 项目名称
+	Name   string `json:"name" validate:"max=30"`
+	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
+}
+
+type UpdateProjectRequest {
+	ID uint32 `json:"id"`
+	// Status | 状态
+	Status uint32 `json:"status,omitempty" validate:"required,oneof=1 2"`
+	// Name | 项目名称
+	Name   string `json:"name" validate:"max=30"`
+	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
+	// Sort | 排序
+	Sort uint32 `json:"sort,optional"`
+}
+
+type DeleteProjectRequest {
+	IDsReq
+}
+
+type GetProjectListRequest {
+	PageLimit
+	// Name | 项目名称
+	Name string `form:"name,optional"`
+}
+
+type GetProjectListData {
+	ID uint32 `json:"id"`
+	// Status | 状态
+	Status uint32 `json:"status"`
+	// Name | 项目名称
+	Name string `json:"name"`
+	// Remark | 备注
+	Remark string `json:"remark"`
+	// Sort | 排序
+	Sort uint32 `json:"sort"`
+}
+
+type GetProjectListResponse {
+	Total int `json:"total"`
+	// The API list data | 项目列表数据
+	List []*GetProjectListData `json:"list"`
+}
+
+type GetProjectByIDRequest {
+	// Project code | 项目码
+	ID uint32 `form:"id"`
+}
+
+type GetProjectByIDResponse {
+	ID uint32 `json:"id,omitempty"`
+	// Status | 状态
+	Status uint32 `json:"status,omitempty"`
+	// Name | 项目名称
+	Name string `json:"name,omitempty"`
+	// Remark | 备注
+	Remark string `json:"remark,omitempty"`
+	// Sort | 排序
+	Sort uint32 `json:"sort,omitempty"`
+}
+
