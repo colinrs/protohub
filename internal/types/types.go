@@ -186,6 +186,14 @@ type IDsReq struct {
 	IDs []uint64 `json:"ids"`
 }
 
+type JoinProjectRequest struct {
+	ProjectID int64 `json:"project_id" validate:"required,numeric"`
+}
+
+type LeaveProjectRequest struct {
+	ProjectID int64 `json:"project_id" validate:"required,numeric"`
+}
+
 type LoginByEmailRequest struct {
 	Email   string `json:"email" validate:"required,email,max=100"`
 	Captcha string `json:"captcha,optional" validate:"omitempty,len=5"`
@@ -226,7 +234,7 @@ type RefreshTokenResponse struct {
 }
 
 type RegisterByEmailRequest struct {
-	Username string `json:"username" validate:"required,alphanum,max=20"`
+	Username string `json:"username" validate:"required,max=20"`
 	Password string `json:"password" validate:"required,max=30,min=6"`
 	Captcha  string `json:"captcha" validate:"required,len=5"`
 	Email    string `json:"email" validate:"required,email,max=100"`

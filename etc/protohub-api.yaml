@@ -19,4 +19,7 @@ Database:
   MaxOpenConn: 10
   ConnMaxLifeTime: 1800
 
+Redis:
+  Host: 127.0.0.1:6379
+
 PasswdSecret: 'PasswdSecret'

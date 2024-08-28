@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type userRepository interface {
+type UserRepository interface {
 	CreateUser(db *gorm.DB, req *models.UserTableModel) (*models.UserTableModel, error)
 	FindUser(db *gorm.DB, req *models.UserTableModel, offset, limit int) (*ListUserResponse, error)
 	DeleteUser(db *gorm.DB, ids []uint64) error
@@ -28,7 +28,7 @@ type userRepositoryImpl struct {
 	svcCtx *svc.ServiceContext
 }
 
-func NewuserRepository(ctx context.Context, svcCtx *svc.ServiceContext) userRepository {
+func NewUserRepository(ctx context.Context, svcCtx *svc.ServiceContext) UserRepository {
 	return &userRepositoryImpl{
 		ctx:    ctx,
 		Logger: logx.WithContext(ctx),

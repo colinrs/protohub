@@ -183,6 +183,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
+				Path:    "/user/join_project",
+				Handler: user.JoinProjectHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/leave_project",
+				Handler: user.LeaveProjectHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/user/list",
 				Handler: user.GetUserListHandler(serverCtx),
 			},

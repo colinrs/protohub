@@ -29,13 +29,12 @@ const (
 
 type UserTableModel struct {
 	gorm.Model
-	UserName    string `gorm:"column:user_name;type:varchar(32);default:not null"`
-	Password    string `gorm:"column:password;type:varchar(100);default:not null"`
-	Email       string `gorm:"column:email;type:varchar(100);default:not null"`
-	UserStatus  uint32 `gorm:"column:user_status;type:tinyint(1);default:not null"`
-	Description string `gorm:"column:description;type:varchar(1000);default:not null"`
-	Mobile      string `gorm:"column:mobile;type:varchar(30);default:not null"`
-	ProjectID   uint64 `gorm:"column:project_id;type:bigint(20);default:not null"`
+	UserName    string `gorm:"column:user_name;type:varchar(32);default:''"`
+	Password    string `gorm:"column:password;type:varchar(256);default:''"`
+	Email       string `gorm:"column:email;type:varchar(100);default:''"`
+	UserStatus  uint32 `gorm:"column:user_status;type:tinyint(1);default:1"`
+	Description string `gorm:"column:description;type:varchar(1000);default:''"`
+	Mobile      string `gorm:"column:mobile;type:varchar(30);default:''"`
 }
 
 func (UserTableModel) TableName() string {

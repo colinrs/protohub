@@ -24,4 +24,5 @@ var (
 	ErrTwicePasswordNotMatch = &Err{HTTPCode: http.StatusOK, Code: 20112, Msg: "两次密码输入不一致"}
 	ErrRegisterFailed        = &Err{HTTPCode: http.StatusOK, Code: 20113, Msg: "注册失败"}
 	ErrCreatedUser           = &Err{HTTPCode: http.StatusOK, Code: 20114, Msg: "用户创建失败"}
+	ErrDuplicateUser         = &Err{HTTPCode: http.StatusOK, Code: 20115, Msg: "用户已经注册"}
 )

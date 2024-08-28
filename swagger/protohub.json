@@ -774,6 +774,54 @@
         ]
       }
     },
+    "/api/v1/user/join_project": {
+      "post": {
+        "operationId": "joinProject",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/JoinProjectRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/leave_project": {
+      "post": {
+        "operationId": "leaveProject",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LeaveProjectRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
     "/api/v1/user/list": {
       "post": {
         "operationId": "getUserList",
@@ -1501,6 +1549,32 @@
       "title": "IDsReq",
       "required": [
         "ids"
+      ]
+    },
+    "JoinProjectRequest": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "JoinProjectRequest",
+      "required": [
+        "project_id"
+      ]
+    },
+    "LeaveProjectRequest": {
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "LeaveProjectRequest",
+      "required": [
+        "project_id"
       ]
     },
     "LoginByEmailRequest": {

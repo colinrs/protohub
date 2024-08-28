@@ -2,9 +2,9 @@ CREATE TABLE `user_table` (
                               `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 
                               `user_name` varchar(60) NOT NULL,
-                              `password` varchar(32) NOT NULL,
+                              `password` varchar(256) NOT NULL,
                               `email` varchar(100)  NOT NULL,
-                              `mobile` varchar(100)  NOT NULL,
+                              `mobile` varchar(100)  NOT NULL default '',
                               `user_status`  int(11) unsigned default 1,
                               `description` varchar(500)  default '',
                               `created_at` timestamp default CURRENT_TIMESTAMP,

@@ -14,7 +14,9 @@ var validate = validator.New()
 func Parse(r *http.Request, v any) error {
 	err := httpx.Parse(r, v)
 	if err != nil {
-		return err
+		resErr := code.ErrParam.Copy()
+		resErr.Msg = err.Error()
+		return resErr
 	}
 	err = validate.Struct(v)
 	if err != nil {

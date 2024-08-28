@@ -82,6 +82,12 @@ service protohub-api {
 	// Access token | 获取短期 token
 	@handler accessToken
 	get /user/access_token returns (AccessTokenResponse)
+
+	@handler joinProject
+	post /user/join_project (JoinProjectRequest)
+
+	@handler leaveProject
+	post /user/leave_project (LeaveProjectRequest)
 }
 
 type CreateUserRequest {
@@ -263,7 +269,7 @@ type RegisterRequest {
 
 type RegisterByEmailRequest {
 	// User Name | 用户名
-	Username string `json:"username" validate:"required,alphanum,max=20"`
+	Username string `json:"username" validate:"required,max=20"`
 	// Password | 密码
 	Password string `json:"password" validate:"required,max=30,min=6"`
 	// The Captcha which users input | 用户输入的验证码
@@ -318,5 +324,13 @@ type AccessTokenResponse {
 	// The token information | 令牌信息
 	Token     string `json:"token"`
 	ExpiredAt int64  `json:"expired_at"`
+}
+
+type JoinProjectRequest {
+	ProjectID int64 `json:"project_id" validate:"required,numeric"`
+}
+
+type LeaveProjectRequest {
+	ProjectID int64 `json:"project_id" validate:"required,numeric"`
 }
 
