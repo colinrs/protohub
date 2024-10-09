@@ -92,7 +92,7 @@ service protohub-api {
 
 type CreateUserRequest {
 	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
-	Status uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+	Status uint32 `json:"status,optional" validate:"omitempty,lt=3"`
 	// Username | 用户名
 	Username string `json:"username" validate:"omitempty,max=50"`
 	// Password | 密码

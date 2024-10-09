@@ -22,7 +22,7 @@ type CreateRoleRequest struct {
 }
 
 type CreateUserRequest struct {
-	Status      uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+	Status      uint32 `json:"status,optional" validate:"omitempty,lt=3"`
 	Username    string `json:"username" validate:"omitempty,max=50"`
 	Password    string `json:"password" validate:"min=6"`
 	Description string `json:"description,optional" validate:"omitempty,max=100"`

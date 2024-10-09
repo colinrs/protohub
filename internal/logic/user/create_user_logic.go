@@ -3,6 +3,10 @@ package user
 import (
 	"context"
 
+	"golang.org/x/crypto/bcrypt"
+
+	"github.com/colinrs/protohub/internal/models"
+
 	"gorm.io/gorm"
 
 	"github.com/colinrs/protohub/internal/repository"
@@ -17,7 +21,7 @@ type CreateUserLogic struct {
 	logx.Logger
 	ctx            context.Context
 	svcCtx         *svc.ServiceContext
-	userRepository repository.RoleRepository
+	userRepository repository.UserRepository
 	db             *gorm.DB
 }
 
@@ -26,13 +30,27 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 		Logger:         logx.WithContext(ctx),
 		ctx:            ctx,
 		svcCtx:         svcCtx,
-		userRepository: repository.NewRoleRepository(ctx, svcCtx),
+		userRepository: repository.NewUserRepository(ctx, svcCtx),
 		db:             svcCtx.DB.WithContext(ctx),
 	}
 }
 
 func (l *CreateUserLogic) CreateUser(req *types.CreateUserRequest) error {
-	// todo: add your logic here and delete this line
 
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	_, err = l.userRepository.CreateUser(l.db, &models.UserTableModel{
+		UserName:    req.Username,
+		Password:    string(hashedPassword),
+		Email:       req.Email,
+		UserStatus:  req.Status,
+		Description: req.Description,
+		Mobile:      req.Mobile,
+	})
+	if err != nil {
+		return err
+	}
 	return nil
 }
