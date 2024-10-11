@@ -49,15 +49,15 @@ service protohub-api {
 
 	// Update user information | 更新用户
 	@handler updateUser
-	post /user/update (UpdateUserRequest)
+	put /user/update (UpdateUserRequest)
 
 	// Delete user information | 删除用户信息
 	@handler deleteUser
-	post /user/delete (DeleteUsersByIDsRequest)
+	delete /user/delete (DeleteUsersByIDsRequest)
 
 	// Get user list | 获取用户列表
 	@handler getUserList
-	post /user/list (UserListRequest) returns (UserListResponse)
+	get /user/list (UserListRequest) returns (UserListResponse)
 
 	// Get User by ID | 通过ID获取用户
 	@handler getUserById
@@ -65,7 +65,7 @@ service protohub-api {
 
 	// Change Password | 修改密码
 	@handler changePassword
-	post /user/change_password (ChangePasswordRequest)
+	put /user/change_password (ChangePasswordRequest)
 
 	// Get user basic information | 获取用户基本信息
 	@handler getUserInfo
@@ -92,7 +92,7 @@ service protohub-api {
 
 type CreateUserRequest {
 	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
-	Status uint32 `json:"status,optional" validate:"omitempty,lt=3"`
+	Status uint32 `json:"status,options=1|2" validate:"omitempty,lt=3"`
 	// Username | 用户名
 	Username string `json:"username" validate:"omitempty,max=50"`
 	// Password | 密码
@@ -123,20 +123,22 @@ type UpdateUserRequest {
 type DeleteUsersByIDsRequest {
 	// Ids
 	// Required: true
-	Ids []string `json:"ids"`
+	Ids []uint64 `json:"ids"`
 }
 
 type UserListRequest {
-	PageLimit
+	Page     int `form:"page,optional,default=1"`
+	PageSize int `form:"page_size,optional,default=10"`
 	// User Name | 用户名
-	Username string `json:"username,optional" validate:"omitempty,alphanum,max=20"`
+	Username string `form:"username,optional" validate:"omitempty,alphanum,max=20"`
 	// User's mobile phone number | 用户的手机号码
-	Mobile string `json:"mobile,optional" validate:"omitempty,numeric,max=18"`
+	Mobile string `form:"mobile,optional" validate:"omitempty,numeric,max=18"`
 	// The user's email address | 用户的邮箱
-	Email string `json:"email,optional" validate:"omitempty,email,max=100"`
+	Email string `form:"email,optional" validate:"omitempty,email,max=100"`
 }
 
 type UserListData {
+	ID uint64 `json:"id"`
 	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
 	Status uint32 `json:"status,optional" validate:"omitempty,lt=20"`
 	// Username | 用户名

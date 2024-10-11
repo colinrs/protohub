@@ -44,11 +44,12 @@ type UpdateProjectRequest {
 }
 
 type DeleteProjectRequest {
-	IDsReq
+	IDs []uint64 `json:"ids"`
 }
 
 type GetProjectListRequest {
-	PageLimit
+	Page     int `form:"page,optional,default=1"`
+	PageSize int `form:"page_size,optional,default=10"`
 	// Name | 项目名称
 	Name string `form:"name,optional"`
 }

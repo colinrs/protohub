@@ -44,11 +44,12 @@ type UpdateRoleRequest {
 }
 
 type DeleteRoleRequest {
-	IDsReq
+	IDs []uint64 `json:"ids"`
 }
 
 type GetRoleListRequest {
-	PageLimit
+	Page     int `form:"page,optional,default=1"`
+	PageSize int `form:"page_size,optional,default=10"`
 	// Name | 角色名称
 	Name string `form:"name,optional"`
 	Code string `form:"code,optional"`

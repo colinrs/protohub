@@ -2,6 +2,11 @@ Name: protohub-api
 Host: 0.0.0.0
 Port: 8888
 
+Log:
+  Mode: console
+  Encoding: plain
+  Level: debug
+
 Auth:
   AccessSecret: "12121212122"
   AccessExpire: 69

@@ -162,7 +162,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.AccessTokenHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
+				Method:  http.MethodPut,
 				Path:    "/user/change_password",
 				Handler: user.ChangePasswordHandler(serverCtx),
 			},
@@ -172,7 +172,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.CreateUserHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
+				Method:  http.MethodDelete,
 				Path:    "/user/delete",
 				Handler: user.DeleteUserHandler(serverCtx),
 			},
@@ -192,7 +192,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.LeaveProjectHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
+				Method:  http.MethodGet,
 				Path:    "/user/list",
 				Handler: user.GetUserListHandler(serverCtx),
 			},
@@ -207,7 +207,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.RefreshTokenHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
+				Method:  http.MethodPut,
 				Path:    "/user/update",
 				Handler: user.UpdateUserHandler(serverCtx),
 			},

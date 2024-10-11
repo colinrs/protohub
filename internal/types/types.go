@@ -22,7 +22,7 @@ type CreateRoleRequest struct {
 }
 
 type CreateUserRequest struct {
-	Status      uint32 `json:"status,optional" validate:"omitempty,lt=3"`
+	Status      uint32 `json:"status,options=1|2" validate:"omitempty,lt=3"`
 	Username    string `json:"username" validate:"omitempty,max=50"`
 	Password    string `json:"password" validate:"min=6"`
 	Description string `json:"description,optional" validate:"omitempty,max=100"`
@@ -31,15 +31,15 @@ type CreateUserRequest struct {
 }
 
 type DeleteProjectRequest struct {
-	IDsReq
+	IDs []uint64 `json:"ids"`
 }
 
 type DeleteRoleRequest struct {
-	IDsReq
+	IDs []uint64 `json:"ids"`
 }
 
 type DeleteUsersByIDsRequest struct {
-	Ids []string `json:"ids"`
+	Ids []uint64 `json:"ids"`
 }
 
 type FileDetailRequest struct {
@@ -75,7 +75,8 @@ type FileListData struct {
 }
 
 type FileListRequest struct {
-	PageLimit
+	Page        int    `form:"page,optional,default=1"`
+	PageSize    int    `form:"page_size,optional,default=10"`
 	ProjectName string `form:"project_name"`
 	ServiceName string `form:"service_name"`
 }
@@ -117,8 +118,9 @@ type GetProjectListData struct {
 }
 
 type GetProjectListRequest struct {
-	PageLimit
-	Name string `form:"name,optional"`
+	Page     int    `form:"page,optional,default=1"`
+	PageSize int    `form:"page_size,optional,default=10"`
+	Name     string `form:"name,optional"`
 }
 
 type GetProjectListResponse struct {
@@ -149,9 +151,10 @@ type GetRoleListData struct {
 }
 
 type GetRoleListRequest struct {
-	PageLimit
-	Name string `form:"name,optional"`
-	Code string `form:"code,optional"`
+	Page     int    `form:"page,optional,default=1"`
+	PageSize int    `form:"page_size,optional,default=10"`
+	Name     string `form:"name,optional"`
+	Code     string `form:"code,optional"`
 }
 
 type GetRoleListResponse struct {
@@ -304,6 +307,7 @@ type UpdateUserRequest struct {
 }
 
 type UserListData struct {
+	ID          uint64 `json:"id"`
 	Status      uint32 `json:"status,optional" validate:"omitempty,lt=20"`
 	Username    string `json:"username" validate:"omitempty,max=50"`
 	Description string `json:"description,optional" validate:"omitempty,max=100"`
@@ -312,10 +316,11 @@ type UserListData struct {
 }
 
 type UserListRequest struct {
-	PageLimit
-	Username string `json:"username,optional" validate:"omitempty,alphanum,max=20"`
-	Mobile   string `json:"mobile,optional" validate:"omitempty,numeric,max=18"`
-	Email    string `json:"email,optional" validate:"omitempty,email,max=100"`
+	Page     int    `form:"page,optional,default=1"`
+	PageSize int    `form:"page_size,optional,default=10"`
+	Username string `form:"username,optional" validate:"omitempty,alphanum,max=20"`
+	Mobile   string `form:"mobile,optional" validate:"omitempty,numeric,max=18"`
+	Email    string `form:"email,optional" validate:"omitempty,email,max=100"`
 }
 
 type UserListResponse struct {

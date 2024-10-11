@@ -35,7 +35,8 @@ type FileDownloadRequest {
 type FileDownloadResponse {}
 
 type FileListRequest {
-	PageLimit
+	Page        int    `form:"page,optional,default=1"`
+	PageSize    int    `form:"page_size,optional,default=10"`
 	ProjectName string `form:"project_name"`
 	ServiceName string `form:"service_name"`
 }

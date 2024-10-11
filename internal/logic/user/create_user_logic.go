@@ -3,6 +3,8 @@ package user
 import (
 	"context"
 
+	"github.com/colinrs/protohub/pkg/code"
+
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/colinrs/protohub/internal/models"
@@ -37,6 +39,14 @@ func NewCreateUserLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Create
 
 func (l *CreateUserLogic) CreateUser(req *types.CreateUserRequest) error {
 
+	userList, err := l.userRepository.FindUser(l.db, &models.UserTableModel{
+		Email: req.Email}, 0, 1)
+	if err != nil {
+		return err
+	}
+	if userList.Total > 0 {
+		return code.ErrUserExistBefor
+	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err

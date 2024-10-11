@@ -16,13 +16,12 @@ func DeleteUserHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
-
 		l := user.NewDeleteUserLogic(r.Context(), svcCtx)
 		err := l.DeleteUser(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.Ok(w)
+			httpx.OkJsonCtx(r.Context(), w, nil)
 		}
 	}
 }
