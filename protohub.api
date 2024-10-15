@@ -1,6 +1,5 @@
 syntax = "v1"
 
-import "./desc/base.api"
 import "./desc/file.api"
 import "./desc/role.api"
 import "./desc/user.api"

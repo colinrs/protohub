@@ -5,6 +5,7 @@ import (
 
 	"github.com/colinrs/protohub/internal/logic/user"
 	"github.com/colinrs/protohub/internal/svc"
+
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 

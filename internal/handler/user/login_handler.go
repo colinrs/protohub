@@ -1,24 +1,24 @@
-package publicuser
+package user
 
 import (
 	"net/http"
 
-	"github.com/colinrs/protohub/internal/logic/publicuser"
+	"github.com/colinrs/protohub/internal/logic/user"
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/colinrs/protohub/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func LoginBySmsHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func LoginHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.LoginBySmsRequest
+		var req types.LoginRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := publicuser.NewLoginBySmsLogic(r.Context(), svcCtx)
-		resp, err := l.LoginBySms(&req)
+		l := user.NewLoginLogic(r.Context(), svcCtx)
+		resp, err := l.Login(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

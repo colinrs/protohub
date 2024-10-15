@@ -1,44 +1,6 @@
 syntax = "v1"
 
 @server (
-	prefix: /api/v1/public
-	group:  publicuser
-)
-service protohub-api {
-	// Log in | 登录
-	@handler login
-	post /user/login (LoginRequest) returns (LoginResponse)
-
-	// Log in by email | 邮箱登录
-	@handler loginByEmail
-	post /user/login_by_email (LoginByEmailRequest) returns (LoginResponse)
-
-	// Log in by SMS | 短信登录
-	@handler loginBySms
-	post /user/login_by_sms (LoginBySmsRequest) returns (LoginResponse)
-
-	// Register | 注册
-	@handler register
-	post /user/register (RegisterRequest)
-
-	// Register by Email | 邮箱注册
-	@handler registerByEmail
-	post /user/register_by_email (RegisterByEmailRequest)
-
-	// Register by SMS | 短信注册
-	@handler registerBySms
-	post /user/register_by_sms (RegisterBySmsRequest)
-
-	// Reset password by Email | 通过邮箱重置密码
-	@handler resetPasswordByEmail
-	post /user/reset_password_by_email (ResetPasswordByEmailRequest)
-
-	// Reset password by Sms | 通过短信重置密码
-	@handler resetPasswordBySms
-	post /user/reset_password_by_sms (ResetPasswordBySmsRequest)
-}
-
-@server (
 	group:  user
 	prefix: /api/v1
 )
@@ -67,9 +29,31 @@ service protohub-api {
 	@handler changePassword
 	put /user/change_password (ChangePasswordRequest)
 
-	// Get user basic information | 获取用户基本信息
-	@handler getUserInfo
-	get /user/info returns (GetUserInfoResponse)
+	@handler joinProject
+	post /user/join_project (JoinProjectRequest)
+
+	@handler leaveProject
+	post /user/leave_project (LeaveProjectRequest)
+
+	// Log in | 登录
+	@handler login
+	post /user/login (LoginRequest) returns (LoginResponse)
+
+	// Log in by email | 邮箱登录
+	@handler loginByEmail
+	post /user/login_by_email (LoginByEmailRequest) returns (LoginResponse)
+
+	// Register | 注册
+	@handler register
+	post /user/register (RegisterRequest)
+
+	// Register by Email | 邮箱注册
+	@handler registerByEmail
+	post /user/register_by_email (RegisterByEmailRequest)
+
+	// Reset password by Email | 通过邮箱重置密码
+	@handler resetPasswordByEmail
+	post /user/reset_password_by_email (ResetPasswordByEmailRequest)
 
 	// Log out | 退出登陆
 	@handler logout
@@ -82,12 +66,6 @@ service protohub-api {
 	// Access token | 获取短期 token
 	@handler accessToken
 	get /user/access_token returns (AccessTokenResponse)
-
-	@handler joinProject
-	post /user/join_project (JoinProjectRequest)
-
-	@handler leaveProject
-	post /user/leave_project (LeaveProjectRequest)
 }
 
 type CreateUserRequest {
@@ -163,29 +141,9 @@ type GetUserByIDRequest {
 }
 
 type GetUserByIDResponse {
-	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
-	Status uint32 `json:"status,optional" validate:"omitempty,lt=20"`
-	// Username | 用户名
-	Username string `json:"username" validate:"omitempty,max=50"`
-	// Description | 描述
-	Description string `json:"description,optional" validate:"omitempty,max=100"`
-	// Mobile | 手机号
-	Mobile string `json:"mobile" validate:"max=18"`
-	// Email | 邮箱
-	Email string `json:"email" validate:"email,max=80"`
-}
-
-type ChangePasswordRequest {
-	// User's old password | 用户旧密码
-	OldPassword string `json:"old_password" validate:"required,max=30"`
-	// User's new password | 用户新密码
-	NewPassword string `json:"new_password" validate:"required,max=30"`
-}
-
-type GetUserInfoResponse {
 	// The  data of user's basic information | 用户基本信息
 	// User's UUID | 用户的UUID
-	UserID uint64 `json:"user_id"`
+	ID uint64 `json:"ID"`
 	// User's name | 用户名
 	Username string `json:"username"`
 	// The user's avatar path | 用户的头像路径
@@ -194,12 +152,24 @@ type GetUserInfoResponse {
 	Description string `json:"desc"`
 	// User's Role Name | 用户的角色名称
 	RoleCode []string `json:"role_code"`
+	// RoleId | 角色ID
+	RoleIds []uint64 `json:"role_ids"`
 	// Mobile | 手机号
 	Mobile string `json:"mobile"`
 	// Email | 邮箱
 	Email string `json:"email"`
-	// RoleId | 角色ID
-	RoleIds []string `json:"role_ids"`
+	// 加入的项目
+	Projects   []string `json:"projects"`
+	ProjectIDs []uint64 `json:"project_ids"`
+	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
+	Status uint32 `json:"status,optional" validate:"omitempty,lt=20"`
+}
+
+type ChangePasswordRequest {
+	// User's old password | 用户旧密码
+	OldPassword string `json:"old_password" validate:"required,max=30"`
+	// User's new password | 用户新密码
+	NewPassword string `json:"new_password" validate:"required,max=30"`
 }
 
 // The log in information | 登陆返回的数据信息
@@ -248,14 +218,6 @@ type LoginByEmailRequest {
 	Captcha string `json:"captcha,optional" validate:"omitempty,len=5"`
 }
 
-// Log in by SMS request | 短信登录参数
-type LoginBySmsRequest {
-	// The user's mobile phone number | 用户的手机号码
-	PhoneNumber string `json:"phone_number"  validate:"required,numeric,max=20"`
-	// The Captcha which users input | 用户输入的验证码
-	Captcha string `json:"captcha,optional" validate:"omitempty,len=5"`
-}
-
 type RegisterRequest {
 	// User Name | 用户名
 	Username string `json:"user_name" validate:"required,alphanum,max=20"`
@@ -280,30 +242,11 @@ type RegisterByEmailRequest {
 	Email string `json:"email" validate:"required,email,max=100"`
 }
 
-// Register by SMS request | 短信注册参数
-type RegisterBySmsRequest {
-	// User Name | 用户名
-	Username string `json:"username" validate:"required,alphanum,max=20"`
-	// Password | 密码
-	Password string `json:"password" validate:"required,max=30,min=6"`
-	// The Captcha which users input | 用户输入的验证码
-	Captcha string `json:"captcha" validate:"required,len=5"`
-	// The user's mobile phone number | 用户的手机号码
-	PhoneNumber string `json:"phone_number"  validate:"required,numeric,max=20"`
-}
-
 // Reset password by email request | 通过邮箱重置密码请求
 type ResetPasswordByEmailRequest {
 	Email    string `json:"email" validate:"email"`
 	Captcha  string `json:"captcha"`
 	Password string `json:"password"`
-}
-
-// Reset password by SMS request | 通过短信重置密码请求
-type ResetPasswordBySmsRequest {
-	PhoneNumber string `json:"phone_number"`
-	Captcha     string `json:"captcha"`
-	Password    string `json:"password"`
 }
 
 type UpdateUserProfileRequest {

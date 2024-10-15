@@ -6,7 +6,6 @@ import (
 
 	file "github.com/colinrs/protohub/internal/handler/file"
 	project "github.com/colinrs/protohub/internal/handler/project"
-	publicuser "github.com/colinrs/protohub/internal/handler/publicuser"
 	role "github.com/colinrs/protohub/internal/handler/role"
 	user "github.com/colinrs/protohub/internal/handler/user"
 	"github.com/colinrs/protohub/internal/svc"
@@ -75,52 +74,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
-				Method:  http.MethodPost,
-				Path:    "/user/login",
-				Handler: publicuser.LoginHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/login_by_email",
-				Handler: publicuser.LoginByEmailHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/login_by_sms",
-				Handler: publicuser.LoginBySmsHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/register",
-				Handler: publicuser.RegisterHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/register_by_email",
-				Handler: publicuser.RegisterByEmailHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/register_by_sms",
-				Handler: publicuser.RegisterBySmsHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/reset_password_by_email",
-				Handler: publicuser.ResetPasswordByEmailHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/reset_password_by_sms",
-				Handler: publicuser.ResetPasswordBySmsHandler(serverCtx),
-			},
-		},
-		rest.WithPrefix("/api/v1/public"),
-	)
-
-	server.AddRoutes(
-		[]rest.Route{
-			{
 				Method:  http.MethodGet,
 				Path:    "/role",
 				Handler: role.GetRoleByCodeHandler(serverCtx),
@@ -177,11 +130,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.DeleteUserHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodGet,
-				Path:    "/user/info",
-				Handler: user.GetUserInfoHandler(serverCtx),
-			},
-			{
 				Method:  http.MethodPost,
 				Path:    "/user/join_project",
 				Handler: user.JoinProjectHandler(serverCtx),
@@ -197,6 +145,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.GetUserListHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodPost,
+				Path:    "/user/login",
+				Handler: user.LoginHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/login_by_email",
+				Handler: user.LoginByEmailHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodGet,
 				Path:    "/user/logout",
 				Handler: user.LogoutHandler(serverCtx),
@@ -205,6 +163,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/user/refresh_token",
 				Handler: user.RefreshTokenHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/register",
+				Handler: user.RegisterHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/register_by_email",
+				Handler: user.RegisterByEmailHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/user/reset_password_by_email",
+				Handler: user.ResetPasswordByEmailHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPut,

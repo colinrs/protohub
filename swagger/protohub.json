@@ -290,209 +290,6 @@
         ]
       }
     },
-    "/api/v1/public/user/login": {
-      "post": {
-        "operationId": "login",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/LoginResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/LoginRequest"
-            }
-          }
-        ],
-        "tags": [
-          "publicuser"
-        ]
-      }
-    },
-    "/api/v1/public/user/login_by_email": {
-      "post": {
-        "operationId": "loginByEmail",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/LoginResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " Log in by email request | 邮箱登录参数",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/LoginByEmailRequest"
-            }
-          }
-        ],
-        "tags": [
-          "publicuser"
-        ]
-      }
-    },
-    "/api/v1/public/user/login_by_sms": {
-      "post": {
-        "operationId": "loginBySms",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/LoginResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " Log in by SMS request | 短信登录参数",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/LoginBySmsRequest"
-            }
-          }
-        ],
-        "tags": [
-          "publicuser"
-        ]
-      }
-    },
-    "/api/v1/public/user/register": {
-      "post": {
-        "operationId": "register",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {}
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RegisterRequest"
-            }
-          }
-        ],
-        "tags": [
-          "publicuser"
-        ]
-      }
-    },
-    "/api/v1/public/user/register_by_email": {
-      "post": {
-        "operationId": "registerByEmail",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {}
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RegisterByEmailRequest"
-            }
-          }
-        ],
-        "tags": [
-          "publicuser"
-        ]
-      }
-    },
-    "/api/v1/public/user/register_by_sms": {
-      "post": {
-        "operationId": "registerBySms",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {}
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " Register by SMS request | 短信注册参数",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RegisterBySmsRequest"
-            }
-          }
-        ],
-        "tags": [
-          "publicuser"
-        ]
-      }
-    },
-    "/api/v1/public/user/reset_password_by_email": {
-      "post": {
-        "operationId": "resetPasswordByEmail",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {}
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " Reset password by email request | 通过邮箱重置密码请求",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ResetPasswordByEmailRequest"
-            }
-          }
-        ],
-        "tags": [
-          "publicuser"
-        ]
-      }
-    },
-    "/api/v1/public/user/reset_password_by_sms": {
-      "post": {
-        "operationId": "resetPasswordBySms",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {}
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " Reset password by SMS request | 通过短信重置密码请求",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ResetPasswordBySmsRequest"
-            }
-          }
-        ],
-        "tags": [
-          "publicuser"
-        ]
-      }
-    },
     "/api/v1/role": {
       "get": {
         "operationId": "getRoleByCode",
@@ -758,22 +555,6 @@
         ]
       }
     },
-    "/api/v1/user/info": {
-      "get": {
-        "operationId": "getUserInfo",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/GetUserInfoResponse"
-            }
-          }
-        },
-        "tags": [
-          "user"
-        ]
-      }
-    },
     "/api/v1/user/join_project": {
       "post": {
         "operationId": "joinProject",
@@ -877,6 +658,59 @@
         ]
       }
     },
+    "/api/v1/user/login": {
+      "post": {
+        "operationId": "login",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/login_by_email": {
+      "post": {
+        "operationId": "loginByEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " Log in by email request | 邮箱登录参数",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginByEmailRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
     "/api/v1/user/logout": {
       "get": {
         "operationId": "logout",
@@ -902,6 +736,79 @@
             }
           }
         },
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/register": {
+      "post": {
+        "operationId": "register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/register_by_email": {
+      "post": {
+        "operationId": "registerByEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterByEmailRequest"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
+    "/api/v1/user/reset_password_by_email": {
+      "post": {
+        "operationId": "resetPasswordByEmail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " Reset password by email request | 通过邮箱重置密码请求",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ResetPasswordByEmailRequest"
+            }
+          }
+        ],
         "tags": [
           "user"
         ]
@@ -1505,34 +1412,7 @@
     "GetUserByIDResponse": {
       "type": "object",
       "properties": {
-        "status": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "username": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "mobile": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        }
-      },
-      "title": "GetUserByIDResponse",
-      "required": [
-        "username",
-        "mobile",
-        "email"
-      ]
-    },
-    "GetUserInfoResponse": {
-      "type": "object",
-      "properties": {
-        "user_id": {
+        "ID": {
           "type": "integer",
           "format": "int64"
         },
@@ -1551,45 +1431,49 @@
             "type": "string"
           }
         },
+        "role_ids": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
         "mobile": {
           "type": "string"
         },
         "email": {
           "type": "string"
         },
-        "role_ids": {
+        "projects": {
           "type": "array",
           "items": {
             "type": "string"
           }
-        }
-      },
-      "title": "GetUserInfoResponse",
-      "required": [
-        "user_id",
-        "username",
-        "avatar",
-        "desc",
-        "role_code",
-        "mobile",
-        "email",
-        "role_ids"
-      ]
-    },
-    "IDsReq": {
-      "type": "object",
-      "properties": {
-        "ids": {
+        },
+        "project_ids": {
           "type": "array",
           "items": {
             "type": "integer",
             "format": "int64"
           }
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32"
         }
       },
-      "title": "IDsReq",
+      "title": "GetUserByIDResponse",
       "required": [
-        "ids"
+        "ID",
+        "username",
+        "avatar",
+        "desc",
+        "role_code",
+        "role_ids",
+        "mobile",
+        "email",
+        "projects",
+        "project_ids"
       ]
     },
     "JoinProjectRequest": {
@@ -1631,21 +1515,6 @@
       "title": "LoginByEmailRequest",
       "required": [
         "email"
-      ]
-    },
-    "LoginBySmsRequest": {
-      "type": "object",
-      "properties": {
-        "phone_number": {
-          "type": "string"
-        },
-        "captcha": {
-          "type": "string"
-        }
-      },
-      "title": "LoginBySmsRequest",
-      "required": [
-        "phone_number"
       ]
     },
     "LoginInfo": {
@@ -1714,22 +1583,6 @@
         "expire"
       ]
     },
-    "PageLimit": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int32",
-          "default": "1"
-        },
-        "page_size": {
-          "type": "integer",
-          "format": "int32",
-          "default": "10"
-        }
-      },
-      "title": "PageLimit"
-    },
     "RefreshTokenResponse": {
       "type": "object",
       "properties": {
@@ -1769,30 +1622,6 @@
         "password",
         "captcha",
         "email"
-      ]
-    },
-    "RegisterBySmsRequest": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "captcha": {
-          "type": "string"
-        },
-        "phone_number": {
-          "type": "string"
-        }
-      },
-      "title": "RegisterBySmsRequest",
-      "required": [
-        "username",
-        "password",
-        "captcha",
-        "phone_number"
       ]
     },
     "RegisterRequest": {
@@ -1839,26 +1668,6 @@
       "title": "ResetPasswordByEmailRequest",
       "required": [
         "email",
-        "captcha",
-        "password"
-      ]
-    },
-    "ResetPasswordBySmsRequest": {
-      "type": "object",
-      "properties": {
-        "phone_number": {
-          "type": "string"
-        },
-        "captcha": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      },
-      "title": "ResetPasswordBySmsRequest",
-      "required": [
-        "phone_number",
         "captcha",
         "password"
       ]

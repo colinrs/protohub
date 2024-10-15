@@ -1,9 +1,9 @@
-package publicuser
+package user
 
 import (
 	"net/http"
 
-	"github.com/colinrs/protohub/internal/logic/publicuser"
+	"github.com/colinrs/protohub/internal/logic/user"
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/colinrs/protohub/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -17,7 +17,7 @@ func RegisterHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := publicuser.NewRegisterLogic(r.Context(), svcCtx)
+		l := user.NewRegisterLogic(r.Context(), svcCtx)
 		err := l.Register(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)

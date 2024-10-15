@@ -167,26 +167,17 @@ type GetUserByIDRequest struct {
 }
 
 type GetUserByIDResponse struct {
-	Status      uint32 `json:"status,optional" validate:"omitempty,lt=20"`
-	Username    string `json:"username" validate:"omitempty,max=50"`
-	Description string `json:"description,optional" validate:"omitempty,max=100"`
-	Mobile      string `json:"mobile" validate:"max=18"`
-	Email       string `json:"email" validate:"email,max=80"`
-}
-
-type GetUserInfoResponse struct {
-	UserID      uint64   `json:"user_id"`
+	ID          uint64   `json:"ID"`
 	Username    string   `json:"username"`
 	Avatar      string   `json:"avatar"`
 	Description string   `json:"desc"`
 	RoleCode    []string `json:"role_code"`
+	RoleIds     []uint64 `json:"role_ids"`
 	Mobile      string   `json:"mobile"`
 	Email       string   `json:"email"`
-	RoleIds     []string `json:"role_ids"`
-}
-
-type IDsReq struct {
-	IDs []uint64 `json:"ids"`
+	Projects    []string `json:"projects"`
+	ProjectIDs  []uint64 `json:"project_ids"`
+	Status      uint32   `json:"status,optional" validate:"omitempty,lt=20"`
 }
 
 type JoinProjectRequest struct {
@@ -200,11 +191,6 @@ type LeaveProjectRequest struct {
 type LoginByEmailRequest struct {
 	Email   string `json:"email" validate:"required,email,max=100"`
 	Captcha string `json:"captcha,optional" validate:"omitempty,len=5"`
-}
-
-type LoginBySmsRequest struct {
-	PhoneNumber string `json:"phone_number"  validate:"required,numeric,max=20"`
-	Captcha     string `json:"captcha,optional" validate:"omitempty,len=5"`
 }
 
 type LoginInfo struct {
@@ -226,11 +212,6 @@ type LoginResponse struct {
 	Expire uint64 `json:"expire"`
 }
 
-type PageLimit struct {
-	Page     int `form:"page,optional,default=1"`
-	PageSize int `form:"page_size,optional,default=10"`
-}
-
 type RefreshTokenResponse struct {
 	Token     string `json:"token"`
 	ExpiredAt int64  `json:"expired_at"`
@@ -241,13 +222,6 @@ type RegisterByEmailRequest struct {
 	Password string `json:"password" validate:"required,max=30,min=6"`
 	Captcha  string `json:"captcha" validate:"required,len=5"`
 	Email    string `json:"email" validate:"required,email,max=100"`
-}
-
-type RegisterBySmsRequest struct {
-	Username    string `json:"username" validate:"required,alphanum,max=20"`
-	Password    string `json:"password" validate:"required,max=30,min=6"`
-	Captcha     string `json:"captcha" validate:"required,len=5"`
-	PhoneNumber string `json:"phone_number"  validate:"required,numeric,max=20"`
 }
 
 type RegisterRequest struct {
@@ -262,12 +236,6 @@ type ResetPasswordByEmailRequest struct {
 	Email    string `json:"email" validate:"email"`
 	Captcha  string `json:"captcha"`
 	Password string `json:"password"`
-}
-
-type ResetPasswordBySmsRequest struct {
-	PhoneNumber string `json:"phone_number"`
-	Captcha     string `json:"captcha"`
-	Password    string `json:"password"`
 }
 
 type RoleInfoSimple struct {

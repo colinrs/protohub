@@ -1,4 +1,4 @@
-package publicuser
+package user
 
 import (
 	"context"
@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type LoginLogic struct {
+type LoginByEmailLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic {
-	return &LoginLogic{
+func NewLoginByEmailLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginByEmailLogic {
+	return &LoginByEmailLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
+func (l *LoginByEmailLogic) LoginByEmail(req *types.LoginByEmailRequest) (resp *types.LoginResponse, err error) {
 	// todo: add your logic here and delete this line
 
 	return
