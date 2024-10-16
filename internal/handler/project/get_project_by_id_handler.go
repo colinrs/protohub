@@ -9,7 +9,7 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func GetProjectByCodeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func GetProjectByIdHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.GetProjectByIDRequest
 		if err := httpx.Parse(r, &req); err != nil {
@@ -17,8 +17,8 @@ func GetProjectByCodeHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := project.NewGetProjectByCodeLogic(r.Context(), svcCtx)
-		resp, err := l.GetProjectByCode(&req)
+		l := project.NewGetProjectByIdLogic(r.Context(), svcCtx)
+		resp, err := l.GetProjectById(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

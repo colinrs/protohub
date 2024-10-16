@@ -18,12 +18,20 @@ service protohub-api {
 	delete /project/delete (DeleteProjectRequest)
 
 	// Get Project list | 获取项目列表
+	@handler getUserProjectList
+	get /project/user_project_list (GetProjectListByUserRequest) returns (GetProjectListResponse)
+
+	// Get Project list | 获取项目列表
 	@handler getProjectList
 	get /project/list (GetProjectListRequest) returns (GetProjectListResponse)
 
 	// Get Project by ID | 通过Code获取项目
-	@handler getProjectByCode
+	@handler getProjectById
 	get /project (GetProjectByIDRequest) returns (GetProjectByIDResponse)
+
+	// Get Project User list | 获取项目用户列表
+	@handler getProjecUsertList
+	get /project/project_user_list (GetProjectUserListRequest) returns (GetProjectUserListResponse)
 }
 
 type CreateProjectRequest {
@@ -50,8 +58,12 @@ type DeleteProjectRequest {
 type GetProjectListRequest {
 	Page     int `form:"page,optional,default=1"`
 	PageSize int `form:"page_size,optional,default=10"`
-	// Name | 项目名称
-	Name string `form:"name,optional"`
+}
+
+type GetProjectListByUserRequest {
+	Page     int  `form:"page,optional,default=1"`
+	PageSize int  `form:"page_size,optional,default=10"`
+	UserID   uint `form:"user_id"`
 }
 
 type GetProjectListData {
@@ -87,5 +99,26 @@ type GetProjectByIDResponse {
 	Remark string `json:"remark,omitempty"`
 	// Sort | 排序
 	Sort uint32 `json:"sort,omitempty"`
+}
+
+type GetProjectUserListRequest {
+	Page      int  `form:"page,optional,default=1"`
+	PageSize  int  `form:"page_size,optional,default=10"`
+	ProjectID uint `form:"project_id"`
+}
+
+type GetProjectUserListData {
+	ID   uint32 `json:"id"`
+	Name string `json:"name"`
+	// User's Role Name | 用户的角色名称
+	RoleCode []string `json:"role_code"`
+	// RoleId | 角色ID
+	RoleIds []uint64 `json:"role_ids"`
+}
+
+type GetProjectUserListResponse {
+	Total int `json:"total"`
+	// The API list data | 项目列表数据
+	List []*GetProjectUserListData `json:"list"`
 }
 

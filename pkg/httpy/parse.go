@@ -26,3 +26,11 @@ func Parse(r *http.Request, v any) error {
 	}
 	return nil
 }
+
+func ResultCtx(r *http.Request, w http.ResponseWriter, v any, err error) {
+	if err != nil {
+		httpx.ErrorCtx(r.Context(), w, err)
+		return
+	}
+	httpx.OkJsonCtx(r.Context(), w, v)
+}

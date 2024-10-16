@@ -9,20 +9,20 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-func UpdateProjectHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func GetUserProjectListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.UpdateProjectRequest
+		var req types.GetProjectListByUserRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := project.NewUpdateProjectLogic(r.Context(), svcCtx)
-		err := l.UpdateProject(&req)
+		l := project.NewGetUserProjectListLogic(r.Context(), svcCtx)
+		resp, err := l.GetUserProjectList(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, nil)
+			httpx.OkJsonCtx(r.Context(), w, resp)
 		}
 	}
 }

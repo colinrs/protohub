@@ -109,6 +109,12 @@ type GetProjectByIDResponse struct {
 	Sort   uint32 `json:"sort,omitempty"`
 }
 
+type GetProjectListByUserRequest struct {
+	Page     int  `form:"page,optional,default=1"`
+	PageSize int  `form:"page_size,optional,default=10"`
+	UserID   uint `form:"user_id"`
+}
+
 type GetProjectListData struct {
 	ID     uint32 `json:"id"`
 	Status uint32 `json:"status"`
@@ -118,14 +124,31 @@ type GetProjectListData struct {
 }
 
 type GetProjectListRequest struct {
-	Page     int    `form:"page,optional,default=1"`
-	PageSize int    `form:"page_size,optional,default=10"`
-	Name     string `form:"name,optional"`
+	Page     int `form:"page,optional,default=1"`
+	PageSize int `form:"page_size,optional,default=10"`
 }
 
 type GetProjectListResponse struct {
 	Total int                   `json:"total"`
 	List  []*GetProjectListData `json:"list"`
+}
+
+type GetProjectUserListData struct {
+	ID       uint32   `json:"id"`
+	Name     string   `json:"name"`
+	RoleCode []string `json:"role_code"`
+	RoleIds  []uint64 `json:"role_ids"`
+}
+
+type GetProjectUserListRequest struct {
+	Page      int  `form:"page,optional,default=1"`
+	PageSize  int  `form:"page_size,optional,default=10"`
+	ProjectID uint `form:"project_id"`
+}
+
+type GetProjectUserListResponse struct {
+	Total int                       `json:"total"`
+	List  []*GetProjectUserListData `json:"list"`
 }
 
 type GetRoleByCodeRequest struct {

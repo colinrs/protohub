@@ -23,3 +23,8 @@ type UserLoginResponse struct {
 	Token     string
 	ExpiredAt int64
 }
+
+type ListProjectResponse struct {
+	Total int
+	List  []*models.Project
+}

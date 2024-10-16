@@ -12,7 +12,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetProjectListLogic struct {
+type GetProjectByIdLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
@@ -21,8 +21,8 @@ type GetProjectListLogic struct {
 	projectRepository repository.ProjectRepository
 }
 
-func NewGetProjectListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetProjectListLogic {
-	return &GetProjectListLogic{
+func NewGetProjectByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetProjectByIdLogic {
+	return &GetProjectByIdLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
@@ -32,8 +32,18 @@ func NewGetProjectListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 	}
 }
 
-func (l *GetProjectListLogic) GetProjectList(req *types.GetProjectListRequest) (resp *types.GetProjectListResponse, err error) {
-	// todo: add your logic here and delete this line
+func (l *GetProjectByIdLogic) GetProjectById(req *types.GetProjectByIDRequest) (resp *types.GetProjectByIDResponse, err error) {
 
-	return
+	pro, err := l.projectRepository.FindProjectByID(l.db, uint64(req.ID))
+	if err != nil {
+		return nil, err
+	}
+
+	resp = &types.GetProjectByIDResponse{
+		ID:     uint32(pro.ID),
+		Name:   pro.ProjectName,
+		Remark: pro.Remark,
+		Sort:   pro.Sort,
+	}
+	return resp, nil
 }

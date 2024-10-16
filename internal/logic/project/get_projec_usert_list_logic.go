@@ -9,21 +9,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetProjectByCodeLogic struct {
+type GetProjecUsertListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewGetProjectByCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetProjectByCodeLogic {
-	return &GetProjectByCodeLogic{
+func NewGetProjecUsertListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetProjecUsertListLogic {
+	return &GetProjecUsertListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *GetProjectByCodeLogic) GetProjectByCode(req *types.GetProjectByIDRequest) (resp *types.GetProjectByIDResponse, err error) {
+func (l *GetProjecUsertListLogic) GetProjecUsertList(req *types.GetProjectUserListRequest) (resp *types.GetProjectUserListResponse, err error) {
 	// todo: add your logic here and delete this line
 
 	return
