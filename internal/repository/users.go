@@ -12,6 +12,7 @@ import (
 
 type UserRepository interface {
 	CreateUser(db *gorm.DB, req *models.UserTableModel) (*models.UserTableModel, error)
+	FindUserByID(db *gorm.DB, id []uint) ([]*models.UserTableModel, error)
 	FindUser(db *gorm.DB, req *models.UserTableModel, offset, limit int) (*ListUserResponse, error)
 	DeleteUser(db *gorm.DB, ids []uint64) error
 	UpdateUser(db *gorm.DB, req *models.UserTableModel) error
@@ -91,4 +92,13 @@ func (r *userRepositoryImpl) UserLogin(db *gorm.DB, req *models.UserTableModel) 
 		return nil, err
 	}
 	return &UserLoginResponse{}, nil
+}
+
+func (r *userRepositoryImpl) FindUserByID(db *gorm.DB, id []uint) ([]*models.UserTableModel, error) {
+	var resp []*models.UserTableModel
+	err := db.Model(&models.UserTableModel{}).Where("id in ?", id).Find(&resp).Error
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
 }

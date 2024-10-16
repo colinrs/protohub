@@ -1392,26 +1392,20 @@
         "name": {
           "type": "string"
         },
-        "role_code": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "role_name": {
+          "type": "string"
         },
-        "role_ids": {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "int64"
-          }
+        "role_id": {
+          "type": "integer",
+          "format": "int64"
         }
       },
       "title": "GetProjectUserListData",
       "required": [
         "id",
         "name",
-        "role_code",
-        "role_ids"
+        "role_name",
+        "role_id"
       ]
     },
     "GetProjectUserListRequest": {

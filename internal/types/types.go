@@ -134,10 +134,10 @@ type GetProjectListResponse struct {
 }
 
 type GetProjectUserListData struct {
-	ID       uint32   `json:"id"`
-	Name     string   `json:"name"`
-	RoleCode []string `json:"role_code"`
-	RoleIds  []uint64 `json:"role_ids"`
+	ID       uint32 `json:"id"`
+	Name     string `json:"name"`
+	RoleName string `json:"role_name"`
+	RoleId   uint64 `json:"role_id"`
 }
 
 type GetProjectUserListRequest struct {

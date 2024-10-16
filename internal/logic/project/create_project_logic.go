@@ -3,6 +3,8 @@ package project
 import (
 	"context"
 
+	"github.com/colinrs/protohub/pkg/code"
+
 	"github.com/colinrs/protohub/internal/models"
 
 	"github.com/colinrs/protohub/internal/repository"
@@ -36,7 +38,14 @@ func NewCreateProjectLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cre
 }
 
 func (l *CreateProjectLogic) CreateProject(req *types.CreateProjectRequest) error {
-	_, err := l.projectRepository.CreateProject(l.db, &models.Project{
+	proj, err := l.projectRepository.FindProjectByQuery(l.db, &models.Project{ProjectName: req.Name})
+	if err != nil {
+		return err
+	}
+	if proj != nil {
+		return code.ErrDuplicateProject
+	}
+	_, err = l.projectRepository.CreateProject(l.db, &models.Project{
 		ProjectName:   req.Name,
 		Remark:        req.Remark,
 		ProjectStatus: models.ProjectStatusNormal,
@@ -44,5 +53,5 @@ func (l *CreateProjectLogic) CreateProject(req *types.CreateProjectRequest) erro
 	if err != nil {
 		return err
 	}
-	return err
+	return nil
 }

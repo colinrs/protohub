@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 
 	"github.com/colinrs/protohub/internal/models"
 	"github.com/colinrs/protohub/internal/svc"
@@ -13,9 +14,12 @@ import (
 type ProjectRepository interface {
 	CreateProject(db *gorm.DB, req *models.Project) (*models.Project, error)
 	FindProjectByID(db *gorm.DB, id uint64) (*models.Project, error)
-	FindProject(db *gorm.DB, req *models.Project, offset, limit int) (*ListProjectResponse, error)
+	FindProjectList(db *gorm.DB, req *models.Project, offset, limit int) (*ListProjectResponse, error)
 	DeleteProject(db *gorm.DB, ids []uint64) error
 	UpdateProject(db *gorm.DB, req *models.Project) error
+	FindProjectByQuery(db *gorm.DB, req *models.Project) (*models.Project, error)
+
+	ProjectUserList(db *gorm.DB, req *models.UserProjectTableModel) ([]uint, error)
 }
 
 type ProjectRepositoryImpl struct {
@@ -40,7 +44,7 @@ func (r *ProjectRepositoryImpl) CreateProject(db *gorm.DB, Project *models.Proje
 	return Project, nil
 }
 
-func (r *ProjectRepositoryImpl) FindProject(db *gorm.DB, req *models.Project, offset, limit int) (*ListProjectResponse, error) {
+func (r *ProjectRepositoryImpl) FindProjectList(db *gorm.DB, req *models.Project, offset, limit int) (*ListProjectResponse, error) {
 	resp := &ListProjectResponse{}
 
 	err := db.Model(&models.Project{}).Where(req).Offset(offset).Limit(limit).Find(&resp.List).Error
@@ -56,6 +60,17 @@ func (r *ProjectRepositoryImpl) FindProject(db *gorm.DB, req *models.Project, of
 	return resp, nil
 }
 
+func (r *ProjectRepositoryImpl) FindProjectByQuery(db *gorm.DB, req *models.Project) (*models.Project, error) {
+	err := db.Model(&models.Project{}).Where(req).First(req).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return req, nil
+}
+
 func (r *ProjectRepositoryImpl) DeleteProject(db *gorm.DB, ids []uint64) error {
 	return db.Delete(&models.Project{}, ids).Error
 }
@@ -67,6 +82,15 @@ func (r *ProjectRepositoryImpl) UpdateProject(db *gorm.DB, req *models.Project) 
 func (r *ProjectRepositoryImpl) FindProjectByID(db *gorm.DB, id uint64) (*models.Project, error) {
 	resp := &models.Project{}
 	err := db.Model(&models.Project{}).Where("id = ?", id).First(resp).Error
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (r *ProjectRepositoryImpl) ProjectUserList(db *gorm.DB, req *models.UserProjectTableModel) ([]uint, error) {
+	var resp []uint
+	err := db.Model(&models.UserProjectTableModel{}).Where(req).Pluck("user_id", &resp).Error
 	if err != nil {
 		return nil, err
 	}

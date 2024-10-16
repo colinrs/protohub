@@ -25,4 +25,5 @@ var (
 	ErrRegisterFailed        = &Err{HTTPCode: http.StatusOK, Code: 20113, Msg: "注册失败"}
 	ErrCreatedUser           = &Err{HTTPCode: http.StatusOK, Code: 20114, Msg: "用户创建失败"}
 	ErrDuplicateUser         = &Err{HTTPCode: http.StatusOK, Code: 20115, Msg: "用户已经注册"}
+	ErrDuplicateProject      = &Err{HTTPCode: http.StatusOK, Code: 20116, Msg: "项目已经存在"}
 )

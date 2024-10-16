@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"errors"
 
 	"github.com/colinrs/protohub/internal/models"
 	"github.com/colinrs/protohub/internal/svc"
@@ -15,6 +16,8 @@ type RoleRepository interface {
 	FindRole(db *gorm.DB, req *models.Role, offset, limit int) (*ListRoleResponse, error)
 	DeleteRole(db *gorm.DB, ids []uint64) error
 	UpdateRole(db *gorm.DB, req *models.Role) error
+	FindUserRoleList(db *gorm.DB, userIDs []uint, projectID uint) ([]*models.UserRolesTableModel, error)
+	FindRoleByQuery(db *gorm.DB, req *models.Role) (*models.Role, error)
 }
 
 type roleRepositoryImpl struct {
@@ -61,4 +64,32 @@ func (r *roleRepositoryImpl) DeleteRole(db *gorm.DB, ids []uint64) error {
 
 func (r *roleRepositoryImpl) UpdateRole(db *gorm.DB, req *models.Role) error {
 	return db.Model(&models.Role{}).Where("id = ?", req.ID).Updates(req).Error
+}
+
+func (r *roleRepositoryImpl) FindUserRoleList(db *gorm.DB, userIDs []uint, projectID uint) ([]*models.UserRolesTableModel, error) {
+	var list []*models.UserRolesTableModel
+	err := db.Model(&models.UserRolesTableModel{}).Where("project_id = ? and user_id in ?", projectID, userIDs).Find(&list).Error
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (r *roleRepositoryImpl) UserJoinRole(db *gorm.DB, req *models.UserRolesTableModel) error {
+	return db.Create(req).Error
+}
+
+func (r *roleRepositoryImpl) UserLeaveRole(db *gorm.DB, req *models.UserRolesTableModel) error {
+	return db.Delete(&models.UserRolesTableModel{}, req).Error
+}
+
+func (r *roleRepositoryImpl) FindRoleByQuery(db *gorm.DB, req *models.Role) (*models.Role, error) {
+	err := db.Model(&models.Role{}).Where(req).First(req).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	return req, nil
 }
