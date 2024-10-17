@@ -3,6 +3,8 @@ package project
 import (
 	"context"
 
+	"github.com/colinrs/protohub/pkg/utils"
+
 	"github.com/colinrs/protohub/internal/repository"
 	"gorm.io/gorm"
 
@@ -33,7 +35,22 @@ func NewGetProjectListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetProjectListLogic) GetProjectList(req *types.GetProjectListRequest) (resp *types.GetProjectListResponse, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+	offset, limit := utils.PageToOffsetLimit(req.Page, req.PageSize)
+	projectList, err := l.projectRepository.FindProjectList(l.db, nil, offset, limit)
+	if err != nil {
+		return nil, err
+	}
+	resp = &types.GetProjectListResponse{
+		List:  make([]*types.GetProjectListData, 0, len(projectList.List)),
+		Total: projectList.Total,
+	}
+	for _, v := range projectList.List {
+		resp.List = append(resp.List, &types.GetProjectListData{
+			ID:     v.ID,
+			Name:   v.ProjectName,
+			Remark: v.Remark,
+			Sort:   v.Sort,
+		})
+	}
+	return resp, nil
 }

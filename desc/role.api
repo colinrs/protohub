@@ -5,18 +5,6 @@ syntax = "v1"
 	prefix: /api/v1
 )
 service protohub-api {
-	// Create role information | 创建角色
-	@handler createRole
-	post /role/create (CreateRoleRequest)
-
-	// Update role information | 更新角色
-	@handler updateRole
-	put /role/update (UpdateRoleRequest)
-
-	// Delete role information | 删除角色信息
-	@handler deleteRole
-	delete /role/delete (DeleteRoleRequest)
-
 	// Get role list | 获取角色列表
 	@handler getRoleList
 	get /role/list (GetRoleListRequest) returns (GetRoleListResponse)
@@ -24,27 +12,6 @@ service protohub-api {
 	// Get Role by Code | 通过Code获取角色
 	@handler getRoleByCode
 	get /role (GetRoleByCodeRequest) returns (GetRoleByCodeResponse)
-}
-
-type CreateRoleRequest {
-	// Name | 角色名称
-	Name   string `json:"name" validate:"max=30"`
-	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
-}
-
-type UpdateRoleRequest {
-	ID uint `json:"id"`
-	// Status | 状态
-	Status uint32 `json:"status,omitempty" validate:"required,oneof=1 2"`
-	// Name | 角色名称
-	Name   string `json:"name" validate:"max=30"`
-	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
-	// Sort | 排序
-	Sort uint32 `json:"sort,optional"`
-}
-
-type DeleteRoleRequest {
-	IDs []uint64 `json:"ids"`
 }
 
 type GetRoleListRequest {

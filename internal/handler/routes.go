@@ -72,11 +72,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/project/update",
 				Handler: project.UpdateProjectHandler(serverCtx),
 			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/project/user_project_list",
-				Handler: project.GetUserProjectListHandler(serverCtx),
-			},
 		},
 		rest.WithPrefix("/api/v1"),
 	)
@@ -89,24 +84,9 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: role.GetRoleByCodeHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
-				Path:    "/role/create",
-				Handler: role.CreateRoleHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/role/delete",
-				Handler: role.DeleteRoleHandler(serverCtx),
-			},
-			{
 				Method:  http.MethodGet,
 				Path:    "/role/list",
 				Handler: role.GetRoleListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPut,
-				Path:    "/role/update",
-				Handler: role.UpdateRoleHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/v1"),
@@ -118,11 +98,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/user",
 				Handler: user.GetUserByIdHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/user/access_token",
-				Handler: user.AccessTokenHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPut,

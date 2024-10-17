@@ -34,7 +34,6 @@ func (l *GetProjectUserListLogic) GetProjectUserList(req *types.GetProjectUserLi
 	if err != nil {
 		return nil, err
 	}
-
 	return &types.GetProjectUserListResponse{
 		List:  users,
 		Total: len(users),

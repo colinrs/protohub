@@ -3,6 +3,8 @@ package user
 import (
 	"net/http"
 
+	"github.com/colinrs/protohub/pkg/httpy"
+
 	"github.com/colinrs/protohub/internal/logic/user"
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/colinrs/protohub/internal/types"
@@ -13,16 +15,12 @@ func GetUserListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.UserListRequest
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			httpy.ResultCtx(r, w, nil, err)
 			return
 		}
 
 		l := user.NewGetUserListLogic(r.Context(), svcCtx)
 		resp, err := l.GetUserList(&req)
-		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
-		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
-		}
+		httpy.ResultCtx(r, w, resp, err)
 	}
 }
