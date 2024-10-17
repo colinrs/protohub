@@ -48,7 +48,7 @@ func (l *GetRoleListLogic) GetRoleList(req *types.GetRoleListRequest) (resp *typ
 	var list []*types.GetRoleListData
 	for _, role := range roles.List {
 		list = append(list, &types.GetRoleListData{
-			ID:     uint32(role.ID),
+			ID:     role.ID,
 			Status: uint32(role.RoleStatus),
 			Name:   role.Name,
 			Code:   role.Code,

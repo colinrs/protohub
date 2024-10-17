@@ -52,7 +52,7 @@ func (l *GetUserListLogic) GetUserList(req *types.UserListRequest) (resp *types.
 	resp.List = make([]*types.UserListData, 0, len(userList.List))
 	for _, user := range userList.List {
 		resp.List = append(resp.List, &types.UserListData{
-			ID:       uint64(user.ID),
+			ID:       user.ID,
 			Username: user.UserName,
 			Email:    user.Email,
 			Mobile:   user.Mobile,

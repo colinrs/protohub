@@ -13,9 +13,9 @@ import (
 
 type ProjectRepository interface {
 	CreateProject(db *gorm.DB, req *models.Project) (*models.Project, error)
-	FindProjectByID(db *gorm.DB, id uint64) (*models.Project, error)
+	FindProjectByID(db *gorm.DB, id uint) (*models.Project, error)
 	FindProjectList(db *gorm.DB, req *models.Project, offset, limit int) (*ListProjectResponse, error)
-	DeleteProject(db *gorm.DB, ids []uint64) error
+	DeleteProject(db *gorm.DB, ids []uint) error
 	UpdateProject(db *gorm.DB, req *models.Project) error
 	FindProjectByQuery(db *gorm.DB, req *models.Project) (*models.Project, error)
 
@@ -71,7 +71,7 @@ func (r *ProjectRepositoryImpl) FindProjectByQuery(db *gorm.DB, req *models.Proj
 	return req, nil
 }
 
-func (r *ProjectRepositoryImpl) DeleteProject(db *gorm.DB, ids []uint64) error {
+func (r *ProjectRepositoryImpl) DeleteProject(db *gorm.DB, ids []uint) error {
 	return db.Delete(&models.Project{}, ids).Error
 }
 
@@ -79,7 +79,7 @@ func (r *ProjectRepositoryImpl) UpdateProject(db *gorm.DB, req *models.Project) 
 	return db.Model(&models.Project{}).Where("id = ?", req.ID).Updates(req).Error
 }
 
-func (r *ProjectRepositoryImpl) FindProjectByID(db *gorm.DB, id uint64) (*models.Project, error) {
+func (r *ProjectRepositoryImpl) FindProjectByID(db *gorm.DB, id uint) (*models.Project, error) {
 	resp := &models.Project{}
 	err := db.Model(&models.Project{}).Where("id = ?", id).First(resp).Error
 	if err != nil {

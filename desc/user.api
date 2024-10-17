@@ -84,7 +84,7 @@ type CreateUserRequest {
 }
 
 type UpdateUserRequest {
-	UserID uint64 `json:"user_id" validate:"omitempty,min=1"`
+	UserID uint `json:"user_id" validate:"omitempty,min=1"`
 	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
 	Status uint32 `json:"status,optional" validate:"omitempty,lt=20"`
 	// Username | 用户名
@@ -116,7 +116,7 @@ type UserListRequest {
 }
 
 type UserListData {
-	ID uint64 `json:"id"`
+	ID uint `json:"id"`
 	// Status |  Status 1: normal 2: ban | 状态 1 正常 2 禁用
 	Status uint32 `json:"status,optional" validate:"omitempty,lt=20"`
 	// Username | 用户名
@@ -143,9 +143,9 @@ type GetUserByIDRequest {
 type GetUserByIDResponse {
 	// The  data of user's basic information | 用户基本信息
 	// User's UUID | 用户的UUID
-	ID uint64 `json:"ID"`
+	ID uint `json:"id"`
 	// User's name | 用户名
-	Username string `json:"username"`
+	Username string `json:"user_name"`
 	// The user's avatar path | 用户的头像路径
 	Avatar string `json:"avatar"`
 	// The description of user | 用户的描述信息
@@ -203,7 +203,7 @@ type LoginRequest {
 // The log in response data | 登录返回数据
 type LoginResponse {
 	// User's UUID | 用户的UUID
-	UserId string `json:"user_id"`
+	UserId uint `json:"user_id"`
 	// Token for authorization | 验证身份的token
 	Token string `json:"token"`
 	// Expire timestamp | 过期时间戳
@@ -272,10 +272,10 @@ type AccessTokenResponse {
 }
 
 type JoinProjectRequest {
-	ProjectID int64 `json:"project_id" validate:"required,numeric"`
+	ProjectID uint `json:"project_id" validate:"required,numeric"`
 }
 
 type LeaveProjectRequest {
-	ProjectID int64 `json:"project_id" validate:"required,numeric"`
+	ProjectID uint `json:"project_id" validate:"required,numeric"`
 }
 

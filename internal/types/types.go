@@ -31,7 +31,7 @@ type CreateUserRequest struct {
 }
 
 type DeleteProjectRequest struct {
-	IDs []uint64 `json:"ids"`
+	IDs []uint `json:"ids"`
 }
 
 type DeleteRoleRequest struct {
@@ -43,7 +43,7 @@ type DeleteUsersByIDsRequest struct {
 }
 
 type FileDetailRequest struct {
-	FileID int `form:"file_id"`
+	FileID uint `form:"file_id"`
 }
 
 type FileDetailResponse struct {
@@ -51,7 +51,7 @@ type FileDetailResponse struct {
 	ServiceName string `json:"service_name"`
 	Branch      string `json:"branch"`
 	FileName    string `json:"file_name"`
-	FileID      int    `json:"file_id"`
+	FileID      uint   `json:"file_id"`
 	Content     string `json:"content"`
 	Creator     string `json:"creator"`
 	UpdateAt    string `json:"update_at"`
@@ -98,11 +98,11 @@ type FileUploadResponse struct {
 }
 
 type GetProjectByIDRequest struct {
-	ID uint32 `form:"id"`
+	ID uint `form:"id"`
 }
 
 type GetProjectByIDResponse struct {
-	ID     uint32 `json:"id,omitempty"`
+	ID     uint   `json:"id,omitempty"`
 	Status uint32 `json:"status,omitempty"`
 	Name   string `json:"name,omitempty"`
 	Remark string `json:"remark,omitempty"`
@@ -116,7 +116,7 @@ type GetProjectListByUserRequest struct {
 }
 
 type GetProjectListData struct {
-	ID     uint32 `json:"id"`
+	ID     uint   `json:"id"`
 	Status uint32 `json:"status"`
 	Name   string `json:"name"`
 	Remark string `json:"remark"`
@@ -134,10 +134,10 @@ type GetProjectListResponse struct {
 }
 
 type GetProjectUserListData struct {
-	ID       uint32 `json:"id"`
+	ID       uint   `json:"id"`
 	Name     string `json:"name"`
 	RoleName string `json:"role_name"`
-	RoleId   uint64 `json:"role_id"`
+	RoleId   uint   `json:"role_id"`
 }
 
 type GetProjectUserListRequest struct {
@@ -156,7 +156,7 @@ type GetRoleByCodeRequest struct {
 }
 
 type GetRoleByCodeResponse struct {
-	ID     uint32 `json:"id,omitempty"`
+	ID     uint   `json:"id,omitempty"`
 	Status uint32 `json:"status,omitempty"`
 	Name   string `json:"name,omitempty"`
 	Code   string `json:"code,omitempty"`
@@ -165,7 +165,7 @@ type GetRoleByCodeResponse struct {
 }
 
 type GetRoleListData struct {
-	ID     uint32 `json:"id"`
+	ID     uint   `json:"id"`
 	Status uint32 `json:"status"`
 	Name   string `json:"name"`
 	Code   string `json:"code"`
@@ -190,8 +190,8 @@ type GetUserByIDRequest struct {
 }
 
 type GetUserByIDResponse struct {
-	ID          uint64   `json:"ID"`
-	Username    string   `json:"username"`
+	ID          uint     `json:"id"`
+	Username    string   `json:"user_name"`
 	Avatar      string   `json:"avatar"`
 	Description string   `json:"desc"`
 	RoleCode    []string `json:"role_code"`
@@ -204,11 +204,11 @@ type GetUserByIDResponse struct {
 }
 
 type JoinProjectRequest struct {
-	ProjectID int64 `json:"project_id" validate:"required,numeric"`
+	ProjectID uint `json:"project_id" validate:"required,numeric"`
 }
 
 type LeaveProjectRequest struct {
-	ProjectID int64 `json:"project_id" validate:"required,numeric"`
+	ProjectID uint `json:"project_id" validate:"required,numeric"`
 }
 
 type LoginByEmailRequest struct {
@@ -230,7 +230,7 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	UserId string `json:"user_id"`
+	UserId uint   `json:"user_id"`
 	Token  string `json:"token"`
 	Expire uint64 `json:"expire"`
 }
@@ -267,7 +267,7 @@ type RoleInfoSimple struct {
 }
 
 type UpdateProjectRequest struct {
-	ID     uint32 `json:"id"`
+	ID     uint   `json:"id"`
 	Status uint32 `json:"status,omitempty" validate:"required,oneof=1 2"`
 	Name   string `json:"name" validate:"max=30"`
 	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
@@ -275,7 +275,7 @@ type UpdateProjectRequest struct {
 }
 
 type UpdateRoleRequest struct {
-	ID     uint32 `json:"id"`
+	ID     uint   `json:"id"`
 	Status uint32 `json:"status,omitempty" validate:"required,oneof=1 2"`
 	Name   string `json:"name" validate:"max=30"`
 	Remark string `json:"remark,optional" validate:"omitempty,max=200"`
@@ -289,7 +289,7 @@ type UpdateUserProfileRequest struct {
 }
 
 type UpdateUserRequest struct {
-	UserID      uint64 `json:"user_id" validate:"omitempty,min=1"`
+	UserID      uint   `json:"user_id" validate:"omitempty,min=1"`
 	Status      uint32 `json:"status,optional" validate:"omitempty,lt=20"`
 	Username    string `json:"username,optional" validate:"omitempty,max=50"`
 	Description string `json:"description,optional" validate:"omitempty,max=100"`
@@ -298,7 +298,7 @@ type UpdateUserRequest struct {
 }
 
 type UserListData struct {
-	ID          uint64 `json:"id"`
+	ID          uint   `json:"id"`
 	Status      uint32 `json:"status,optional" validate:"omitempty,lt=20"`
 	Username    string `json:"username" validate:"omitempty,max=50"`
 	Description string `json:"description,optional" validate:"omitempty,max=100"`

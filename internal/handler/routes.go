@@ -65,7 +65,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodGet,
 				Path:    "/project/project_user_list",
-				Handler: project.GetProjecUsertListHandler(serverCtx),
+				Handler: project.GetProjectUserListHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPut,

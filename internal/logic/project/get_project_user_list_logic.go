@@ -11,7 +11,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type GetProjecUsertListLogic struct {
+type GetProjectUserListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
@@ -19,8 +19,8 @@ type GetProjecUsertListLogic struct {
 	projectManage manage.ProjectManage
 }
 
-func NewGetProjecUsertListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetProjecUsertListLogic {
-	return &GetProjecUsertListLogic{
+func NewGetProjectUserListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetProjectUserListLogic {
+	return &GetProjectUserListLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
@@ -29,15 +29,14 @@ func NewGetProjecUsertListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 	}
 }
 
-func (l *GetProjecUsertListLogic) GetProjecUsertList(req *types.GetProjectUserListRequest) (resp *types.GetProjectUserListResponse, err error) {
-
+func (l *GetProjectUserListLogic) GetProjectUserList(req *types.GetProjectUserListRequest) (resp *types.GetProjectUserListResponse, err error) {
 	users, err := l.projectManage.GetProjectUserList(req.ProjectID)
 	if err != nil {
 		return nil, err
 	}
 
 	return &types.GetProjectUserListResponse{
-		Users: users,
+		List:  users,
+		Total: len(users),
 	}, nil
-	return
 }

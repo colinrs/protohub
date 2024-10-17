@@ -77,16 +77,30 @@ func (l *projectManageImpl) GetProjectUserList(projectID uint) ([]*types.GetProj
 	if err != nil {
 		return nil, err
 	}
+	roleCodes := make([]string, 0, len(userIDsRols))
+
+	for _, user := range userIDsRols {
+		roleCodes = append(roleCodes, user.RoleCode)
+	}
+
+	roles, err := l.roleRepository.FindRoleByCode(l.db, roleCodes)
+	if err != nil {
+		return nil, err
+	}
+	roleMap := make(map[string]*models.Role)
+	for _, role := range roles {
+		roleMap[role.Code] = role
+	}
 	resp := make([]*types.GetProjectUserListData, 0, len(userIDList))
 	for _, user := range userIDsRols {
 		resp = append(resp, &types.GetProjectUserListData{
-			ID:       uint32(user.UserID),
+			ID:       user.UserID,
 			Name:     userMap[user.UserID].UserName,
 			RoleName: user.RoleCode,
-			RoleId:   uint32(user.RoleId),
+			RoleId:   roleMap[user.RoleCode].ID,
 		})
 	}
-	return users, nil
+	return resp, nil
 }
 
 func (l *projectManageImpl) ProjectUserList(db *gorm.DB, req *models.UserProjectTableModel) ([]uint, error) {

@@ -18,6 +18,7 @@ type RoleRepository interface {
 	UpdateRole(db *gorm.DB, req *models.Role) error
 	FindUserRoleList(db *gorm.DB, userIDs []uint, projectID uint) ([]*models.UserRolesTableModel, error)
 	FindRoleByQuery(db *gorm.DB, req *models.Role) (*models.Role, error)
+	FindRoleByCode(db *gorm.DB, codes []string) ([]*models.Role, error)
 }
 
 type roleRepositoryImpl struct {
@@ -92,4 +93,13 @@ func (r *roleRepositoryImpl) FindRoleByQuery(db *gorm.DB, req *models.Role) (*mo
 		return nil, err
 	}
 	return req, nil
+}
+
+func (r *roleRepositoryImpl) FindRoleByCode(db *gorm.DB, codes []string) ([]*models.Role, error) {
+	var list []*models.Role
+	err := db.Model(&models.Role{}).Where("code in ?", codes).Find(&list).Error
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
 }

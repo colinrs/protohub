@@ -45,7 +45,7 @@ func (l *GetUserByIdLogic) GetUserById(req *types.GetUserByIDRequest) (resp *typ
 		return nil, code.ErrUserNotFound
 	}
 	resp = &types.GetUserByIDResponse{
-		ID:       uint64(userList.List[0].ID),
+		ID:       userList.List[0].ID,
 		Username: userList.List[0].UserName,
 		Email:    userList.List[0].Email,
 		Status:   userList.List[0].UserStatus,

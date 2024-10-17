@@ -30,7 +30,7 @@ service protohub-api {
 	get /project (GetProjectByIDRequest) returns (GetProjectByIDResponse)
 
 	// Get Project User list | 获取项目用户列表
-	@handler getProjecUsertList
+	@handler getProjectUserList
 	get /project/project_user_list (GetProjectUserListRequest) returns (GetProjectUserListResponse)
 }
 
@@ -41,7 +41,7 @@ type CreateProjectRequest {
 }
 
 type UpdateProjectRequest {
-	ID uint32 `json:"id"`
+	ID uint `json:"id"`
 	// Status | 状态
 	Status uint32 `json:"status,omitempty" validate:"required,oneof=1 2"`
 	// Name | 项目名称
@@ -52,7 +52,7 @@ type UpdateProjectRequest {
 }
 
 type DeleteProjectRequest {
-	IDs []uint64 `json:"ids"`
+	IDs []uint `json:"ids"`
 }
 
 type GetProjectListRequest {
@@ -67,7 +67,7 @@ type GetProjectListByUserRequest {
 }
 
 type GetProjectListData {
-	ID uint32 `json:"id"`
+	ID uint `json:"id"`
 	// Status | 状态
 	Status uint32 `json:"status"`
 	// Name | 项目名称
@@ -86,11 +86,11 @@ type GetProjectListResponse {
 
 type GetProjectByIDRequest {
 	// Project code | 项目码
-	ID uint32 `form:"id"`
+	ID uint `form:"id"`
 }
 
 type GetProjectByIDResponse {
-	ID uint32 `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Status | 状态
 	Status uint32 `json:"status,omitempty"`
 	// Name | 项目名称
@@ -108,12 +108,12 @@ type GetProjectUserListRequest {
 }
 
 type GetProjectUserListData {
-	ID   uint32 `json:"id"`
+	ID   uint   `json:"id"`
 	Name string `json:"name"`
 	// User's Role Name | 用户的角色名称
 	RoleName string `json:"role_name"`
 	// RoleId | 角色ID
-	RoleId uint64 `json:"role_id"`
+	RoleId uint `json:"role_id"`
 }
 
 type GetProjectUserListResponse {

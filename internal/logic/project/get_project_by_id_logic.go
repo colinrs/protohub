@@ -34,13 +34,13 @@ func NewGetProjectByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 
 func (l *GetProjectByIdLogic) GetProjectById(req *types.GetProjectByIDRequest) (resp *types.GetProjectByIDResponse, err error) {
 
-	pro, err := l.projectRepository.FindProjectByID(l.db, uint64(req.ID))
+	pro, err := l.projectRepository.FindProjectByID(l.db, req.ID)
 	if err != nil {
 		return nil, err
 	}
 
 	resp = &types.GetProjectByIDResponse{
-		ID:     uint32(pro.ID),
+		ID:     pro.ID,
 		Name:   pro.ProjectName,
 		Remark: pro.Remark,
 		Sort:   pro.Sort,

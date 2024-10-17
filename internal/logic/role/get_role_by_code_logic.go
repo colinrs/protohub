@@ -45,7 +45,7 @@ func (l *GetRoleByCodeLogic) GetRoleByCode(req *types.GetRoleByCodeRequest) (res
 		return nil, nil
 	}
 	return &types.GetRoleByCodeResponse{
-		ID:     uint32(roles.List[0].ID),
+		ID:     roles.List[0].ID,
 		Status: uint32(roles.List[0].RoleStatus),
 		Name:   roles.List[0].Name,
 		Code:   roles.List[0].Code,

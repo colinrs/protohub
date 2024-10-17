@@ -43,7 +43,7 @@ func (l *DetailLogic) Detail(req *types.FileDetailRequest) (resp *types.FileDeta
 		ServiceName: fileDetail.ServiceName,
 		Branch:      fileDetail.Branch,
 		FileName:    fileDetail.FileName,
-		FileID:      int(fileDetail.FileID),
+		FileID:      fileDetail.FileID,
 		Content:     fileContent.FileContent,
 		Creator:     fileDetail.Creator,
 		UpdateAt:    fileDetail.UpdatedAt.Format(utils.TimeLayout),

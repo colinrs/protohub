@@ -37,7 +37,7 @@ func NewUpdateRoleLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 func (l *UpdateRoleLogic) UpdateRole(req *types.UpdateRoleRequest) error {
 	return l.roleRepository.UpdateRole(l.db, &models.Role{
 		Model: gorm.Model{
-			ID: uint(req.ID),
+			ID: req.ID,
 		},
 		Name:       req.Name,
 		Remark:     req.Remark,

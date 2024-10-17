@@ -32,7 +32,7 @@
             "in": "query",
             "required": true,
             "type": "integer",
-            "format": "int32"
+            "format": "uint32"
           }
         ],
         "tags": [
@@ -164,7 +164,7 @@
             "in": "query",
             "required": true,
             "type": "integer",
-            "format": "int32"
+            "format": "uint32"
           }
         ],
         "tags": [
@@ -262,7 +262,7 @@
     },
     "/api/v1/project/project_user_list": {
       "get": {
-        "operationId": "getProjecUsertList",
+        "operationId": "getProjectUserList",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1027,8 +1027,7 @@
         "ids": {
           "type": "array",
           "items": {
-            "type": "integer",
-            "format": "int64"
+            "$ref": "#/definitions/uint"
           }
         }
       },
@@ -1074,7 +1073,7 @@
       "properties": {
         "file_id": {
           "type": "integer",
-          "format": "int32"
+          "format": "uint32"
         }
       },
       "title": "FileDetailRequest",
@@ -1099,7 +1098,7 @@
         },
         "file_id": {
           "type": "integer",
-          "format": "int32"
+          "format": "uint32"
         },
         "content": {
           "type": "string"
@@ -1260,7 +1259,7 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "uint32"
         }
       },
       "title": "GetProjectByIDRequest",
@@ -1273,7 +1272,7 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "uint32"
         },
         "status": {
           "type": "integer",
@@ -1320,7 +1319,7 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "uint32"
         },
         "status": {
           "type": "integer",
@@ -1387,7 +1386,7 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "uint32"
         },
         "name": {
           "type": "string"
@@ -1397,7 +1396,7 @@
         },
         "role_id": {
           "type": "integer",
-          "format": "int64"
+          "format": "uint32"
         }
       },
       "title": "GetProjectUserListData",
@@ -1468,7 +1467,7 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "uint32"
         },
         "status": {
           "type": "integer",
@@ -1495,7 +1494,7 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "uint32"
         },
         "status": {
           "type": "integer",
@@ -1583,11 +1582,11 @@
     "GetUserByIDResponse": {
       "type": "object",
       "properties": {
-        "ID": {
+        "id": {
           "type": "integer",
-          "format": "int64"
+          "format": "uint32"
         },
-        "username": {
+        "user_name": {
           "type": "string"
         },
         "avatar": {
@@ -1635,8 +1634,8 @@
       },
       "title": "GetUserByIDResponse",
       "required": [
-        "ID",
-        "username",
+        "id",
+        "user_name",
         "avatar",
         "desc",
         "role_code",
@@ -1652,7 +1651,7 @@
       "properties": {
         "project_id": {
           "type": "integer",
-          "format": "int64"
+          "format": "uint32"
         }
       },
       "title": "JoinProjectRequest",
@@ -1665,7 +1664,7 @@
       "properties": {
         "project_id": {
           "type": "integer",
-          "format": "int64"
+          "format": "uint32"
         }
       },
       "title": "LeaveProjectRequest",
@@ -1737,7 +1736,8 @@
       "type": "object",
       "properties": {
         "user_id": {
-          "type": "string"
+          "type": "integer",
+          "format": "uint32"
         },
         "token": {
           "type": "string"
@@ -1864,7 +1864,7 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "uint32"
         },
         "status": {
           "type": "integer",
@@ -1892,7 +1892,7 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int32"
+          "format": "uint32"
         },
         "status": {
           "type": "integer",
@@ -1940,7 +1940,7 @@
       "properties": {
         "user_id": {
           "type": "integer",
-          "format": "int64"
+          "format": "uint32"
         },
         "status": {
           "type": "integer",
@@ -1969,7 +1969,7 @@
       "properties": {
         "id": {
           "type": "integer",
-          "format": "int64"
+          "format": "uint32"
         },
         "status": {
           "type": "integer",

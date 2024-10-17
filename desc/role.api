@@ -33,7 +33,7 @@ type CreateRoleRequest {
 }
 
 type UpdateRoleRequest {
-	ID uint32 `json:"id"`
+	ID uint `json:"id"`
 	// Status | 状态
 	Status uint32 `json:"status,omitempty" validate:"required,oneof=1 2"`
 	// Name | 角色名称
@@ -56,7 +56,7 @@ type GetRoleListRequest {
 }
 
 type GetRoleListData {
-	ID uint32 `json:"id"`
+	ID uint `json:"id"`
 	// Status | 状态
 	Status uint32 `json:"status"`
 	// Name | 角色名称
@@ -81,7 +81,7 @@ type GetRoleByCodeRequest {
 }
 
 type GetRoleByCodeResponse {
-	ID uint32 `json:"id,omitempty"`
+	ID uint `json:"id,omitempty"`
 	// Status | 状态
 	Status uint32 `json:"status,omitempty"`
 	// Name | 角色名称

@@ -57,7 +57,7 @@ type FileListResponse {
 }
 
 type FileDetailRequest {
-	FileID int `form:"file_id"`
+	FileID uint `form:"file_id"`
 }
 
 type FileDetailResponse {
@@ -65,7 +65,7 @@ type FileDetailResponse {
 	ServiceName string `json:"service_name"`
 	Branch      string `json:"branch"`
 	FileName    string `json:"file_name"`
-	FileID      int    `json:"file_id"`
+	FileID      uint   `json:"file_id"`
 	Content     string `json:"content"`
 	creator     string `json:"creator"`
 	UpdateAt    string `json:"update_at"`
