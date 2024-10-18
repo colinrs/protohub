@@ -22,9 +22,12 @@ build:
 	mkdir -p bin
 	rm -rf bin/*
 	go build -o bin/protohub protohub.go
+
+lint:
+	golangci-lint run --timeout=10m
 # 默认目标
 all: format gen-go-api
 
 api: format gen-go-api
 
-.PHONY: format gen-go-api
+.PHONY: format gen-go-api lint

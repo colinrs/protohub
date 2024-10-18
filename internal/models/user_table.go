@@ -43,9 +43,9 @@ func (UserTableModel) TableName() string {
 
 type UserRolesTableModel struct {
 	gorm.Model
-	ProjectID uint   `gorm:"column:project_id;type:bigint(20);default:not null"`
-	UserID    uint   `gorm:"column:user_id;type:bigint(20);default:not null"`
-	RoleCode  string `gorm:"column:role_code;type:varchar(24);default:not null"`
+	ProjectID uint   `gorm:"column:project_id"`
+	UserID    uint   `gorm:"column:user_id"`
+	RoleCode  string `gorm:"column:role_code"`
 }
 
 func (UserRolesTableModel) TableName() string {
@@ -54,8 +54,8 @@ func (UserRolesTableModel) TableName() string {
 
 type UserProjectTableModel struct {
 	gorm.Model
-	UserID    uint `gorm:"column:user_id;type:bigint(20);default:not null"`
-	ProjectID uint `gorm:"column:project_id;type:bigint(20);default:not null"`
+	UserID    uint `gorm:"column:user_id"`
+	ProjectID uint `gorm:"column:project_id"`
 }
 
 func (UserProjectTableModel) TableName() string {
@@ -64,9 +64,9 @@ func (UserProjectTableModel) TableName() string {
 
 type UserTokenModel struct {
 	gorm.Model
-	UserID    uint   `gorm:"column:user_id;type:bigint(20);default:not null"`
-	Token     string `gorm:"column:token;type:varchar(100);default:not null"`
-	ExpiredAt int64  `gorm:"column:expired_at;type:bigint(20);default:not null"`
+	UserID    uint   `gorm:"column:user_id"`
+	Token     string `gorm:"column:token"`
+	ExpiredAt int64  `gorm:"column:expired_at"`
 }
 
 func (UserTokenModel) TableName() string {

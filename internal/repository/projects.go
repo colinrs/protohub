@@ -19,7 +19,7 @@ type ProjectRepository interface {
 	UpdateProject(db *gorm.DB, req *models.Project) error
 	FindProjectByQuery(db *gorm.DB, req *models.Project) (*models.Project, error)
 
-	ProjectUserList(db *gorm.DB, req *models.UserProjectTableModel) ([]uint, error)
+	ProjectUserList(db *gorm.DB, projectID uint) ([]uint, error)
 }
 
 type ProjectRepositoryImpl struct {
@@ -88,11 +88,15 @@ func (r *ProjectRepositoryImpl) FindProjectByID(db *gorm.DB, id uint) (*models.P
 	return resp, nil
 }
 
-func (r *ProjectRepositoryImpl) ProjectUserList(db *gorm.DB, req *models.UserProjectTableModel) ([]uint, error) {
-	var resp []uint
-	err := db.Model(&models.UserProjectTableModel{}).Where(req).Pluck("user_id", &resp).Error
+func (r *ProjectRepositoryImpl) ProjectUserList(db *gorm.DB, projectID uint) ([]uint, error) {
+	var resp []models.UserProjectTableModel
+	err := db.Model(&models.UserProjectTableModel{}).Where("project_id = ?", projectID).Find(&resp).Error
 	if err != nil {
 		return nil, err
 	}
-	return resp, nil
+	userID := make([]uint, 0, len(resp))
+	for _, v := range resp {
+		userID = append(userID, v.UserID)
+	}
+	return userID, nil
 }

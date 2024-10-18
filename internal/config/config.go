@@ -11,5 +11,7 @@ type Config struct {
 	rest.RestConf
 	DataBase     *infra.DBConfig `json:"Database" yaml:"Database"`
 	PasswdSecret string          `json:"PasswdSecret" yaml:"PasswdSecret"`
+	JwtSecret    string          `json:"JwtSecret" yaml:"JwtSecret"`
+	JwtExpired   int64           `json:"JwtExpired" yaml:"JwtExpired"`
 	Redis        redis.RedisConf `json:"Redis" yaml:"Redis"`
 }

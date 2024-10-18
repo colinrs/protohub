@@ -634,33 +634,6 @@
         ]
       }
     },
-    "/api/v1/user/login_by_email": {
-      "post": {
-        "operationId": "loginByEmail",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/LoginResponse"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " Log in by email request | 邮箱登录参数",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/LoginByEmailRequest"
-            }
-          }
-        ],
-        "tags": [
-          "user"
-        ]
-      }
-    },
     "/api/v1/user/logout": {
       "get": {
         "operationId": "logout",
@@ -686,79 +659,6 @@
             }
           }
         },
-        "tags": [
-          "user"
-        ]
-      }
-    },
-    "/api/v1/user/register": {
-      "post": {
-        "operationId": "register",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {}
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RegisterRequest"
-            }
-          }
-        ],
-        "tags": [
-          "user"
-        ]
-      }
-    },
-    "/api/v1/user/register_by_email": {
-      "post": {
-        "operationId": "registerByEmail",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {}
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/RegisterByEmailRequest"
-            }
-          }
-        ],
-        "tags": [
-          "user"
-        ]
-      }
-    },
-    "/api/v1/user/reset_password_by_email": {
-      "post": {
-        "operationId": "resetPasswordByEmail",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {}
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "description": " Reset password by email request | 通过邮箱重置密码请求",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ResetPasswordByEmailRequest"
-            }
-          }
-        ],
         "tags": [
           "user"
         ]
@@ -1446,6 +1346,10 @@
     "JoinProjectRequest": {
       "type": "object",
       "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "uint32"
+        },
         "project_id": {
           "type": "integer",
           "format": "uint32"
@@ -1453,12 +1357,17 @@
       },
       "title": "JoinProjectRequest",
       "required": [
+        "user_id",
         "project_id"
       ]
     },
     "LeaveProjectRequest": {
       "type": "object",
       "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "uint32"
+        },
         "project_id": {
           "type": "integer",
           "format": "uint32"
@@ -1466,22 +1375,8 @@
       },
       "title": "LeaveProjectRequest",
       "required": [
+        "user_id",
         "project_id"
-      ]
-    },
-    "LoginByEmailRequest": {
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string"
-        },
-        "captcha": {
-          "type": "string"
-        }
-      },
-      "title": "LoginByEmailRequest",
-      "required": [
-        "email"
       ]
     },
     "LoginInfo": {
@@ -1513,20 +1408,12 @@
         },
         "password": {
           "type": "string"
-        },
-        "captcha_id": {
-          "type": "string"
-        },
-        "captcha": {
-          "type": "string"
         }
       },
       "title": "LoginRequest",
       "required": [
         "username",
-        "password",
-        "captcha_id",
-        "captcha"
+        "password"
       ]
     },
     "LoginResponse": {
@@ -1539,7 +1426,7 @@
         "token": {
           "type": "string"
         },
-        "expire": {
+        "expire_at": {
           "type": "integer",
           "format": "int64"
         }
@@ -1548,7 +1435,7 @@
       "required": [
         "user_id",
         "token",
-        "expire"
+        "expire_at"
       ]
     },
     "RefreshTokenResponse": {
@@ -1557,7 +1444,7 @@
         "token": {
           "type": "string"
         },
-        "expired_at": {
+        "expire_at": {
           "type": "integer",
           "format": "int64"
         }
@@ -1565,79 +1452,7 @@
       "title": "RefreshTokenResponse",
       "required": [
         "token",
-        "expired_at"
-      ]
-    },
-    "RegisterByEmailRequest": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "captcha": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        }
-      },
-      "title": "RegisterByEmailRequest",
-      "required": [
-        "username",
-        "password",
-        "captcha",
-        "email"
-      ]
-    },
-    "RegisterRequest": {
-      "type": "object",
-      "properties": {
-        "user_name": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "captcha_id": {
-          "type": "string"
-        },
-        "captcha": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        }
-      },
-      "title": "RegisterRequest",
-      "required": [
-        "user_name",
-        "password",
-        "captcha_id",
-        "captcha",
-        "email"
-      ]
-    },
-    "ResetPasswordByEmailRequest": {
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string"
-        },
-        "captcha": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      },
-      "title": "ResetPasswordByEmailRequest",
-      "required": [
-        "email",
-        "captcha",
-        "password"
+        "expire_at"
       ]
     },
     "RoleInfoSimple": {

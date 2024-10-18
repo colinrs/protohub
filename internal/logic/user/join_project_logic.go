@@ -3,6 +3,8 @@ package user
 import (
 	"context"
 
+	"github.com/colinrs/protohub/internal/manage"
+
 	"github.com/colinrs/protohub/internal/svc"
 	"github.com/colinrs/protohub/internal/types"
 
@@ -13,6 +15,8 @@ type JoinProjectLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+
+	projectManage manage.ProjectManage
 }
 
 func NewJoinProjectLogic(ctx context.Context, svcCtx *svc.ServiceContext) *JoinProjectLogic {
@@ -20,11 +24,15 @@ func NewJoinProjectLogic(ctx context.Context, svcCtx *svc.ServiceContext) *JoinP
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
+
+		projectManage: manage.NewProjectManage(ctx, svcCtx),
 	}
 }
 
 func (l *JoinProjectLogic) JoinProject(req *types.JoinProjectRequest) error {
-	// todo: add your logic here and delete this line
-
+	err := l.projectManage.AddUserToProject(req.ProjectID, req.UserID)
+	if err != nil {
+		return err
+	}
 	return nil
 }

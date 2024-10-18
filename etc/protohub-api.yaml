@@ -8,8 +8,8 @@ Log:
   Level: debug
 
 Auth:
-  AccessSecret: "12121212122"
-  AccessExpire: 69
+  AccessSecret: "AccessSecretPassword"
+  AccessExpire: 86400
 
 DevServer:
   Enabled: true
@@ -28,3 +28,5 @@ Redis:
   Host: 127.0.0.1:6379
 
 PasswdSecret: 'PasswdSecret'
+JwtSecret: 'JwtSecret'
+JwtExpired: 86400

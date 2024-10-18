@@ -135,11 +135,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: user.LoginHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodPost,
-				Path:    "/user/login_by_email",
-				Handler: user.LoginByEmailHandler(serverCtx),
-			},
-			{
 				Method:  http.MethodGet,
 				Path:    "/user/logout",
 				Handler: user.LogoutHandler(serverCtx),
@@ -148,21 +143,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Method:  http.MethodGet,
 				Path:    "/user/refresh_token",
 				Handler: user.RefreshTokenHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/register",
-				Handler: user.RegisterHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/register_by_email",
-				Handler: user.RegisterByEmailHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/user/reset_password_by_email",
-				Handler: user.ResetPasswordByEmailHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPut,

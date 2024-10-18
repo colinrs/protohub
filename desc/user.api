@@ -39,22 +39,6 @@ service protohub-api {
 	@handler login
 	post /user/login (LoginRequest) returns (LoginResponse)
 
-	// Log in by email | 邮箱登录
-	@handler loginByEmail
-	post /user/login_by_email (LoginByEmailRequest) returns (LoginResponse)
-
-	// Register | 注册
-	@handler register
-	post /user/register (RegisterRequest)
-
-	// Register by Email | 邮箱注册
-	@handler registerByEmail
-	post /user/register_by_email (RegisterByEmailRequest)
-
-	// Reset password by Email | 通过邮箱重置密码
-	@handler resetPasswordByEmail
-	post /user/reset_password_by_email (ResetPasswordByEmailRequest)
-
 	// Log out | 退出登陆
 	@handler logout
 	get /user/logout
@@ -190,10 +174,6 @@ type LoginRequest {
 	Username string `json:"username" validate:"required,alphanum,max=20"`
 	// Password | 密码
 	Password string `json:"password" validate:"required,max=30,min=6"`
-	// Captcha ID which store in redis | 验证码编号, 存在redis中
-	CaptchaId string `json:"captcha_id"  validate:"required,len=20"`
-	// The Captcha which users input | 用户输入的验证码
-	Captcha string `json:"captcha" validate:"required,len=5"`
 }
 
 // The log in response data | 登录返回数据
@@ -203,46 +183,7 @@ type LoginResponse {
 	// Token for authorization | 验证身份的token
 	Token string `json:"token"`
 	// Expire timestamp | 过期时间戳
-	Expire uint64 `json:"expire"`
-}
-
-// Log in by email request | 邮箱登录参数
-type LoginByEmailRequest {
-	// The user's email address | 用户的邮箱
-	Email string `json:"email" validate:"required,email,max=100"`
-	// The Captcha which users input | 用户输入的验证码
-	Captcha string `json:"captcha,optional" validate:"omitempty,len=5"`
-}
-
-type RegisterRequest {
-	// User Name | 用户名
-	Username string `json:"user_name" validate:"required,alphanum,max=20"`
-	// Password | 密码
-	Password string `json:"password" validate:"required,max=30,min=6"`
-	// Captcha ID which store in redis | 验证码编号, 存在redis中
-	CaptchaId string `json:"captcha_id" validate:"required,len=20"`
-	// The Captcha which users input | 用户输入的验证码
-	Captcha string `json:"captcha" validate:"required,len=5"`
-	// The user's email address | 用户的邮箱
-	Email string `json:"email" validate:"required,email,max=100"`
-}
-
-type RegisterByEmailRequest {
-	// User Name | 用户名
-	Username string `json:"username" validate:"required,max=20"`
-	// Password | 密码
-	Password string `json:"password" validate:"required,max=30,min=6"`
-	// The Captcha which users input | 用户输入的验证码
-	Captcha string `json:"captcha" validate:"required,len=5"`
-	// The user's email address | 用户的邮箱
-	Email string `json:"email" validate:"required,email,max=100"`
-}
-
-// Reset password by email request | 通过邮箱重置密码请求
-type ResetPasswordByEmailRequest {
-	Email    string `json:"email" validate:"email"`
-	Captcha  string `json:"captcha"`
-	Password string `json:"password"`
+	ExpiredAt int64 `json:"expire_at"`
 }
 
 type UpdateUserProfileRequest {
@@ -258,14 +199,16 @@ type UpdateUserProfileRequest {
 type RefreshTokenResponse {
 	// The token information | 令牌信息
 	Token     string `json:"token"`
-	ExpiredAt int64  `json:"expired_at"`
+	ExpiredAt int64  `json:"expire_at"`
 }
 
 type JoinProjectRequest {
+	UserID    uint `json:"user_id" validate:"required,numeric"`
 	ProjectID uint `json:"project_id" validate:"required,numeric"`
 }
 
 type LeaveProjectRequest {
+	UserID    uint `json:"user_id" validate:"required,numeric"`
 	ProjectID uint `json:"project_id" validate:"required,numeric"`
 }
 

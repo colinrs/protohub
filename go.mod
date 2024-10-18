@@ -5,8 +5,9 @@ go 1.21
 require (
 	github.com/colinrs/pkgx v0.0.0-20240420115250-b7f594411e29
 	github.com/go-playground/validator/v10 v10.22.0
+	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/rs/xid v1.6.0
 	github.com/zeromicro/go-zero v1.6.6
-	golang.org/x/crypto v0.24.0
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.10
 )
@@ -24,7 +25,6 @@ require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.18.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
@@ -53,6 +53,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.19.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.0.0 // indirect
 	go.uber.org/automaxprocs v1.5.3 // indirect
+	golang.org/x/crypto v0.24.0 // indirect
 	golang.org/x/net v0.26.0 // indirect
 	golang.org/x/sys v0.21.0 // indirect
 	golang.org/x/text v0.16.0 // indirect

@@ -3,12 +3,12 @@ package manage
 import (
 	"context"
 
-	"github.com/colinrs/protohub/internal/types"
-
-	"github.com/colinrs/protohub/internal/svc"
-
 	"github.com/colinrs/protohub/internal/models"
 	"github.com/colinrs/protohub/internal/repository"
+	"github.com/colinrs/protohub/internal/svc"
+	"github.com/colinrs/protohub/internal/types"
+	"github.com/colinrs/protohub/pkg/code"
+
 	"github.com/zeromicro/go-zero/core/logx"
 	"gorm.io/gorm"
 )
@@ -21,6 +21,8 @@ type ProjectUserList struct {
 
 type ProjectManage interface {
 	GetProjectUserList(projectID uint) ([]*types.GetProjectUserListData, error)
+	AddUserToProject(projectID, userID uint) error
+	DeleteUserFromProject(projectID, userID uint) error
 }
 
 type projectManageImpl struct {
@@ -45,10 +47,7 @@ func NewProjectManage(ctx context.Context, svcCtx *svc.ServiceContext) ProjectMa
 
 func (l *projectManageImpl) GetProjectUserList(projectID uint) ([]*types.GetProjectUserListData, error) {
 
-	req := &models.UserProjectTableModel{
-		ProjectID: projectID,
-	}
-	userIDList, err := l.projectRepository.ProjectUserList(l.db, req)
+	userIDList, err := l.projectRepository.ProjectUserList(l.db, projectID)
 	if err != nil {
 		return nil, err
 	}
@@ -104,5 +103,44 @@ func (l *projectManageImpl) GetProjectUserList(projectID uint) ([]*types.GetProj
 }
 
 func (l *projectManageImpl) ProjectUserList(db *gorm.DB, req *models.UserProjectTableModel) ([]uint, error) {
-	return l.projectRepository.ProjectUserList(db, req)
+	return l.projectRepository.ProjectUserList(db, req.ProjectID)
+}
+
+func (l *projectManageImpl) AddUserToProject(projectID, userID uint) error {
+	if projectID == 0 || userID == 0 {
+		return code.ErrParam
+	}
+	userList, err := l.userRepository.FindUserByID(l.db, []uint{userID})
+	if err != nil {
+		return err
+	}
+	if len(userList) == 0 {
+		return code.ErrUserNotFound
+	}
+	project, err := l.projectRepository.FindProjectByID(l.db, projectID)
+	if err != nil {
+		return err
+	}
+	if project == nil {
+		return code.ErrProjectNotExist
+	}
+	err = l.userRepository.UserJoinProject(l.db, &models.UserProjectTableModel{
+		ProjectID: projectID,
+		UserID:    userID,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (l *projectManageImpl) DeleteUserFromProject(projectID, userID uint) error {
+	err := l.userRepository.UserLeaveProject(l.db, &models.UserProjectTableModel{
+		ProjectID: projectID,
+		UserID:    userID,
+	})
+	if err != nil {
+		return err
+	}
+	return nil
 }

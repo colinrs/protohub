@@ -20,7 +20,7 @@ type UserRepository interface {
 	UserLeaveProject(db *gorm.DB, req *models.UserProjectTableModel) error
 	UserJoinRole(db *gorm.DB, req *models.UserRolesTableModel) error
 	UserLeaveRole(db *gorm.DB, req *models.UserRolesTableModel) error
-	UserLogin(db *gorm.DB, req *models.UserTableModel) (*UserLoginResponse, error)
+	UserLogin(db *gorm.DB, req *models.UserTableModel) (*models.UserTableModel, error)
 }
 
 type userRepositoryImpl struct {
@@ -70,7 +70,7 @@ func (r *userRepositoryImpl) UpdateUser(db *gorm.DB, req *models.UserTableModel)
 }
 
 func (r *userRepositoryImpl) UserJoinProject(db *gorm.DB, req *models.UserProjectTableModel) error {
-	return db.Create(req).Error
+	return db.FirstOrCreate(req).Error
 }
 
 func (r *userRepositoryImpl) UserLeaveProject(db *gorm.DB, req *models.UserProjectTableModel) error {
@@ -85,13 +85,13 @@ func (r *userRepositoryImpl) UserLeaveRole(db *gorm.DB, req *models.UserRolesTab
 	return db.Delete(&models.UserRolesTableModel{}, req).Error
 }
 
-func (r *userRepositoryImpl) UserLogin(db *gorm.DB, req *models.UserTableModel) (*UserLoginResponse, error) {
-	var user models.UserTableModel
-	err := db.Where(req).First(&user).Error
+func (r *userRepositoryImpl) UserLogin(db *gorm.DB, req *models.UserTableModel) (*models.UserTableModel, error) {
+	var user *models.UserTableModel
+	err := db.Where(req).First(user).Error
 	if err != nil {
 		return nil, err
 	}
-	return &UserLoginResponse{}, nil
+	return user, nil
 }
 
 func (r *userRepositoryImpl) FindUserByID(db *gorm.DB, id []uint) ([]*models.UserTableModel, error) {

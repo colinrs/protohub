@@ -184,16 +184,13 @@ type GetUserByIDResponse struct {
 }
 
 type JoinProjectRequest struct {
+	UserID    uint `json:"user_id" validate:"required,numeric"`
 	ProjectID uint `json:"project_id" validate:"required,numeric"`
 }
 
 type LeaveProjectRequest struct {
+	UserID    uint `json:"user_id" validate:"required,numeric"`
 	ProjectID uint `json:"project_id" validate:"required,numeric"`
-}
-
-type LoginByEmailRequest struct {
-	Email   string `json:"email" validate:"required,email,max=100"`
-	Captcha string `json:"captcha,optional" validate:"omitempty,len=5"`
 }
 
 type LoginInfo struct {
@@ -203,42 +200,19 @@ type LoginInfo struct {
 }
 
 type LoginRequest struct {
-	Username  string `json:"username" validate:"required,alphanum,max=20"`
-	Password  string `json:"password" validate:"required,max=30,min=6"`
-	CaptchaId string `json:"captcha_id"  validate:"required,len=20"`
-	Captcha   string `json:"captcha" validate:"required,len=5"`
+	Username string `json:"username" validate:"required,alphanum,max=20"`
+	Password string `json:"password" validate:"required,max=30,min=6"`
 }
 
 type LoginResponse struct {
-	UserId uint   `json:"user_id"`
-	Token  string `json:"token"`
-	Expire uint64 `json:"expire"`
+	UserId    uint   `json:"user_id"`
+	Token     string `json:"token"`
+	ExpiredAt int64  `json:"expire_at"`
 }
 
 type RefreshTokenResponse struct {
 	Token     string `json:"token"`
-	ExpiredAt int64  `json:"expired_at"`
-}
-
-type RegisterByEmailRequest struct {
-	Username string `json:"username" validate:"required,max=20"`
-	Password string `json:"password" validate:"required,max=30,min=6"`
-	Captcha  string `json:"captcha" validate:"required,len=5"`
-	Email    string `json:"email" validate:"required,email,max=100"`
-}
-
-type RegisterRequest struct {
-	Username  string `json:"user_name" validate:"required,alphanum,max=20"`
-	Password  string `json:"password" validate:"required,max=30,min=6"`
-	CaptchaId string `json:"captcha_id" validate:"required,len=20"`
-	Captcha   string `json:"captcha" validate:"required,len=5"`
-	Email     string `json:"email" validate:"required,email,max=100"`
-}
-
-type ResetPasswordByEmailRequest struct {
-	Email    string `json:"email" validate:"email"`
-	Captcha  string `json:"captcha"`
-	Password string `json:"password"`
+	ExpiredAt int64  `json:"expire_at"`
 }
 
 type RoleInfoSimple struct {
