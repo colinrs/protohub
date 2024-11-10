@@ -264,3 +264,22 @@ type UserListResponse struct {
 	Total int             `json:"total"`
 	List  []*UserListData `json:"list"`
 }
+
+type UserProjectListData struct {
+	ID     uint   `json:"id"`
+	Status uint32 `json:"status"`
+	Name   string `json:"name"`
+	Remark string `json:"remark"`
+	Sort   uint32 `json:"sort"`
+}
+
+type UserProjectListRequest struct {
+	Page     int  `form:"page,optional,default=1"`
+	PageSize int  `form:"page_size,optional,default=10"`
+	UserID   uint `json:"user_id" validate:"required,numeric"`
+}
+
+type UserProjectListResponse struct {
+	Total int                    `json:"total"`
+	List  []*UserProjectListData `json:"list"`
+}

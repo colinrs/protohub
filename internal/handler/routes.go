@@ -141,6 +141,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodGet,
+				Path:    "/user/project/list",
+				Handler: user.GetUserProjectListHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
 				Path:    "/user/refresh_token",
 				Handler: user.RefreshTokenHandler(serverCtx),
 			},

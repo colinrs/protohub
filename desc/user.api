@@ -46,6 +46,10 @@ service protohub-api {
 	// Refresh token | 获取刷新 token
 	@handler refreshToken
 	get /user/refresh_token returns (RefreshTokenResponse)
+
+	// Get user list | 获取用户列表
+	@handler getUserProjectList
+	get /user/project/list (UserProjectListRequest) returns (UserListResponse)
 }
 
 type CreateUserRequest {
@@ -210,5 +214,29 @@ type JoinProjectRequest {
 type LeaveProjectRequest {
 	UserID    uint `json:"user_id" validate:"required,numeric"`
 	ProjectID uint `json:"project_id" validate:"required,numeric"`
+}
+
+type UserProjectListRequest {
+	Page     int  `form:"page,optional,default=1"`
+	PageSize int  `form:"page_size,optional,default=10"`
+	UserID   uint `json:"user_id" validate:"required,numeric"`
+}
+
+type UserProjectListData {
+	ID uint `json:"id"`
+	// Status | 状态
+	Status uint32 `json:"status"`
+	// Name | 项目名称
+	Name string `json:"name"`
+	// Remark | 备注
+	Remark string `json:"remark"`
+	// Sort | 排序
+	Sort uint32 `json:"sort"`
+}
+
+type UserProjectListResponse {
+	Total int `json:"total"`
+	// User project list data | User项目列表数据
+	List []*UserProjectListData `json:"list"`
 }
 

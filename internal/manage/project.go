@@ -23,6 +23,7 @@ type ProjectManage interface {
 	GetProjectUserList(projectID uint) ([]*types.GetProjectUserListData, error)
 	AddUserToProject(projectID, userID uint) error
 	DeleteUserFromProject(projectID, userID uint) error
+	GetUserProject(userID uint) ([]*types.UserProjectListData, int, error)
 }
 
 type projectManageImpl struct {
@@ -143,4 +144,44 @@ func (l *projectManageImpl) DeleteUserFromProject(projectID, userID uint) error 
 		return err
 	}
 	return nil
+}
+
+func (l *projectManageImpl) GetUserProject(userID uint) ([]*types.UserProjectListData, int, error) {
+	user, err := l.userRepository.FindUserByID(l.db, []uint{userID})
+	if err != nil {
+		return nil, 0, err
+	}
+	if len(user) == 0 {
+		return nil, 0, code.ErrUserNotFound
+	}
+	userProjectTableModel, total, err := l.userRepository.UserProjectList(l.db, userID, 0, 0)
+	if err != nil {
+		return nil, 0, err
+	}
+	projectIDs := make([]uint, 0, len(userProjectTableModel))
+	for _, userProject := range userProjectTableModel {
+		projectIDs = append(projectIDs, userProject.ProjectID)
+	}
+	projects, err := l.projectRepository.FindProjectsByID(l.db, projectIDs)
+	if err != nil {
+		return nil, 0, err
+	}
+	projectMap := make(map[uint]*models.Project)
+	for _, project := range projects {
+		projectMap[project.ID] = project
+	}
+	resp := make([]*types.UserProjectListData, 0, len(userProjectTableModel))
+	for _, userProject := range userProjectTableModel {
+		projectInfo, ok := projectMap[userProject.ProjectID]
+		if !ok {
+			continue
+		}
+		resp = append(resp, &types.UserProjectListData{
+			ID:     userProject.ProjectID,
+			Name:   projectInfo.ProjectName,
+			Remark: projectInfo.Remark,
+			Status: projectInfo.ProjectStatus,
+		})
+	}
+	return resp, total, nil
 }

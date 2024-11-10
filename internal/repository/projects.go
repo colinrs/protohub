@@ -14,6 +14,8 @@ import (
 type ProjectRepository interface {
 	CreateProject(db *gorm.DB, req *models.Project) (*models.Project, error)
 	FindProjectByID(db *gorm.DB, id uint) (*models.Project, error)
+	FindProjectsByID(db *gorm.DB, id []uint) ([]*models.Project, error)
+
 	FindProjectList(db *gorm.DB, req *models.Project, offset, limit int) (*ListProjectResponse, error)
 	DeleteProject(db *gorm.DB, ids []uint) error
 	UpdateProject(db *gorm.DB, req *models.Project) error
@@ -82,6 +84,16 @@ func (r *ProjectRepositoryImpl) UpdateProject(db *gorm.DB, req *models.Project) 
 func (r *ProjectRepositoryImpl) FindProjectByID(db *gorm.DB, id uint) (*models.Project, error) {
 	resp := &models.Project{}
 	err := db.Model(&models.Project{}).Where("id = ?", id).First(resp).Error
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
+
+func (r *ProjectRepositoryImpl) FindProjectsByID(db *gorm.DB, id []uint) ([]*models.Project, error) {
+	var resp []*models.Project
+	err := db.Model(&models.Project{}).Where("project_status = ? and id in ?", models.ProjectStatusNormal,
+		id).Find(&resp).Error
 	if err != nil {
 		return nil, err
 	}

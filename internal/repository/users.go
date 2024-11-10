@@ -17,6 +17,7 @@ type UserRepository interface {
 	DeleteUser(db *gorm.DB, ids []uint64) error
 	UpdateUser(db *gorm.DB, req *models.UserTableModel) error
 	UserJoinProject(db *gorm.DB, req *models.UserProjectTableModel) error
+	UserProjectList(db *gorm.DB, userID uint, offset, limit int) ([]*models.UserProjectTableModel, int, error)
 	UserLeaveProject(db *gorm.DB, req *models.UserProjectTableModel) error
 	UserJoinRole(db *gorm.DB, req *models.UserRolesTableModel) error
 	UserLeaveRole(db *gorm.DB, req *models.UserRolesTableModel) error
@@ -101,4 +102,21 @@ func (r *userRepositoryImpl) FindUserByID(db *gorm.DB, id []uint) ([]*models.Use
 		return nil, err
 	}
 	return resp, nil
+}
+
+func (r *userRepositoryImpl) UserProjectList(db *gorm.DB, userID uint, offset, limit int) ([]*models.UserProjectTableModel, int, error) {
+	var resp []*models.UserProjectTableModel
+	var totol int64
+
+	err := db.Model(&models.UserProjectTableModel{}).Where("user_id = ?", userID).Count(&totol).Error
+	if err != nil {
+		return nil, 0, err
+	}
+
+	err = db.Model(&models.UserProjectTableModel{}).Where("user_id = ?", userID).
+		Offset(offset).Limit(limit).Find(&resp).Error
+	if err != nil {
+		return nil, 0, err
+	}
+	return resp, int(totol), nil
 }
