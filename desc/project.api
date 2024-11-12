@@ -102,8 +102,6 @@ type GetProjectUserListData {
 	Name string `json:"name"`
 	// User's Role Name | 用户的角色名称
 	RoleName string `json:"role_name"`
-	// RoleId | 角色ID
-	RoleId uint `json:"role_id"`
 }
 
 type GetProjectUserListResponse {

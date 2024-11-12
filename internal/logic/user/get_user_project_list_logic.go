@@ -3,6 +3,8 @@ package user
 import (
 	"context"
 
+	"github.com/colinrs/protohub/pkg/utils"
+
 	"github.com/colinrs/protohub/internal/manage"
 
 	"gorm.io/gorm"
@@ -34,7 +36,8 @@ func NewGetUserProjectListLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *GetUserProjectListLogic) GetUserProjectList(req *types.UserProjectListRequest) (resp *types.UserProjectListResponse, err error) {
-	userProjectListData, total, err := l.projectManage.GetUserProject(req.UserID)
+	offset, limit := utils.PageToOffsetLimit(req.Page, req.PageSize)
+	userProjectListData, total, err := l.projectManage.GetUserProject(req.UserID, offset, limit)
 	if err != nil {
 		return nil, err
 	}

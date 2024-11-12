@@ -117,7 +117,6 @@ type GetProjectUserListData struct {
 	ID       uint   `json:"id"`
 	Name     string `json:"name"`
 	RoleName string `json:"role_name"`
-	RoleId   uint   `json:"role_id"`
 }
 
 type GetProjectUserListRequest struct {
@@ -276,7 +275,7 @@ type UserProjectListData struct {
 type UserProjectListRequest struct {
 	Page     int  `form:"page,optional,default=1"`
 	PageSize int  `form:"page_size,optional,default=10"`
-	UserID   uint `json:"user_id" validate:"required,numeric"`
+	UserID   uint `form:"user_id" validate:"required,numeric"`
 }
 
 type UserProjectListResponse struct {

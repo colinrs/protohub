@@ -3,6 +3,8 @@ package manage
 import (
 	"context"
 
+	"github.com/colinrs/protohub/internal/config"
+
 	"github.com/colinrs/protohub/internal/models"
 	"github.com/colinrs/protohub/internal/repository"
 	"github.com/colinrs/protohub/internal/svc"
@@ -23,7 +25,7 @@ type ProjectManage interface {
 	GetProjectUserList(projectID uint) ([]*types.GetProjectUserListData, error)
 	AddUserToProject(projectID, userID uint) error
 	DeleteUserFromProject(projectID, userID uint) error
-	GetUserProject(userID uint) ([]*types.UserProjectListData, int, error)
+	GetUserProject(userID uint, offset, limit int) ([]*types.UserProjectListData, int, error)
 }
 
 type projectManageImpl struct {
@@ -52,11 +54,9 @@ func (l *projectManageImpl) GetProjectUserList(projectID uint) ([]*types.GetProj
 	if err != nil {
 		return nil, err
 	}
-
 	if len(userIDList) == 0 {
 		return nil, nil
 	}
-
 	users, err := l.userRepository.FindUserByID(l.db, userIDList)
 	if err != nil {
 		return nil, err
@@ -65,7 +65,6 @@ func (l *projectManageImpl) GetProjectUserList(projectID uint) ([]*types.GetProj
 	for _, user := range users {
 		userIDList = append(userIDList, user.ID)
 	}
-
 	if len(userIDList) == 0 {
 		return nil, nil
 	}
@@ -78,11 +77,9 @@ func (l *projectManageImpl) GetProjectUserList(projectID uint) ([]*types.GetProj
 		return nil, err
 	}
 	roleCodes := make([]string, 0, len(userIDsRols))
-
 	for _, user := range userIDsRols {
 		roleCodes = append(roleCodes, user.RoleCode)
 	}
-
 	roles, err := l.roleRepository.FindRoleByCode(l.db, roleCodes)
 	if err != nil {
 		return nil, err
@@ -91,16 +88,31 @@ func (l *projectManageImpl) GetProjectUserList(projectID uint) ([]*types.GetProj
 	for _, role := range roles {
 		roleMap[role.Code] = role
 	}
-	resp := make([]*types.GetProjectUserListData, 0, len(userIDList))
+	userRolesInfoMap := make(map[uint]*UserRolesInfo)
 	for _, user := range userIDsRols {
+		userRolesInfoMap[user.UserID] = &UserRolesInfo{
+			Name: userMap[user.UserID].UserName,
+		}
+	}
+	resp := make([]*types.GetProjectUserListData, 0, len(userIDList))
+	for _, user := range users {
+		userRolesInfo, ok := userRolesInfoMap[user.ID]
+		if !ok {
+			userRolesInfo = &UserRolesInfo{
+				Name: config.DefaultRole,
+			}
+		}
 		resp = append(resp, &types.GetProjectUserListData{
-			ID:       user.UserID,
-			Name:     userMap[user.UserID].UserName,
-			RoleName: user.RoleCode,
-			RoleId:   roleMap[user.RoleCode].ID,
+			ID:       user.ID,
+			Name:     userMap[user.ID].UserName,
+			RoleName: userRolesInfo.Name,
 		})
 	}
 	return resp, nil
+}
+
+type UserRolesInfo struct {
+	Name string
 }
 
 func (l *projectManageImpl) ProjectUserList(db *gorm.DB, req *models.UserProjectTableModel) ([]uint, error) {
@@ -146,7 +158,7 @@ func (l *projectManageImpl) DeleteUserFromProject(projectID, userID uint) error 
 	return nil
 }
 
-func (l *projectManageImpl) GetUserProject(userID uint) ([]*types.UserProjectListData, int, error) {
+func (l *projectManageImpl) GetUserProject(userID uint, offset, limit int) ([]*types.UserProjectListData, int, error) {
 	user, err := l.userRepository.FindUserByID(l.db, []uint{userID})
 	if err != nil {
 		return nil, 0, err
@@ -154,7 +166,7 @@ func (l *projectManageImpl) GetUserProject(userID uint) ([]*types.UserProjectLis
 	if len(user) == 0 {
 		return nil, 0, code.ErrUserNotFound
 	}
-	userProjectTableModel, total, err := l.userRepository.UserProjectList(l.db, userID, 0, 0)
+	userProjectTableModel, total, err := l.userRepository.UserProjectList(l.db, userID, offset, limit)
 	if err != nil {
 		return nil, 0, err
 	}

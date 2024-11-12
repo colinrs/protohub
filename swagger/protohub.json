@@ -1134,18 +1134,13 @@
         },
         "role_name": {
           "type": "string"
-        },
-        "role_id": {
-          "type": "integer",
-          "format": "uint32"
         }
       },
       "title": "GetProjectUserListData",
       "required": [
         "id",
         "name",
-        "role_name",
-        "role_id"
+        "role_name"
       ]
     },
     "GetProjectUserListRequest": {

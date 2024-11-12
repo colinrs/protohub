@@ -88,7 +88,7 @@ func (r *userRepositoryImpl) UserLeaveRole(db *gorm.DB, req *models.UserRolesTab
 
 func (r *userRepositoryImpl) UserLogin(db *gorm.DB, req *models.UserTableModel) (*models.UserTableModel, error) {
 	var user *models.UserTableModel
-	err := db.Where(req).First(user).Error
+	err := db.Where(req).First(&user).Error
 	if err != nil {
 		return nil, err
 	}
